@@ -1,9 +1,14 @@
-import React from 'react'
+import React from 'react';
+import Summary from '../components/Home/Summary';
+import Reviews from '../components/Home/Reviews';
 
 const Home = () => {
   return (
-    <div>Home</div>
-  )
-}
+    <div>
+      <Summary />
+      {/* <Reviews /> */}
+    </div>
+  );
+};
 
-export default Home
+export default Home;
