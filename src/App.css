@@ -1,11 +1,9 @@
-
 .App {
-    /* background: linear-gradient(to right, #e2687e, #e5c5c8) !important; */
-    /* background: radial-gradient(circle, #9e1b32, #e5c5c8) !important; */
-    background: #E0E0E0;
-    background-size: cover;
-  }
-  
+  /* background: linear-gradient(to right, #e2687e, #e5c5c8) !important; */
+  /* background: radial-gradient(circle, #9e1b32, #e5c5c8) !important; */
+  /* background: #E0E0E0;n */
+  background-size: cover;
+}
 
 *,
 *::before,

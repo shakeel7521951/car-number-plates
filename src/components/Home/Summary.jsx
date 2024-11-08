@@ -1,5 +1,5 @@
 import React from 'react';
-import image from '../../assets\/summaryImg.png';
+import image from '../../assets/summaryImg.png';
 
 const Summary = () => {
   return (
@@ -10,12 +10,12 @@ const Summary = () => {
         {/* Text Section */}
         <div className='w-full lg:w-1/2 flex flex-col items-center text-center lg:items-start lg:text-left gap-4'>
           {/* Main Heading */}
-          <div className="text-[#111213] text-3xl sm:text-5xl lg:text-6xl font-normal font-['Katibeh']">
+          <div className="text-white text-3xl sm:text-5xl lg:text-6xl font-normal font-['Katibeh']">
             QATAR plates services at your fingertips
           </div>
 
           {/* Description Text */}
-          <div className="text-black  sm:text-lg lg:text-xl font-light font-['Inter']">
+          <div className='text-white  sm:text-lg lg:text-xl font-light font-inter'>
             Welcome to our innovative online platform, where buying and selling
             exclusive car numbers is made simple and convenient. Whether you're
             looking for a unique number plate to make a statement or need a
@@ -29,12 +29,12 @@ const Summary = () => {
           </div>
         </div>
 
-        <div className='flex flex-col items-center gap-4 lg:gap-0 lg:items-end relative'>
-          <div className='w-full max-w-[250px] sm:max-w-[351px] h-[80px] sm:h-[136px] bg-[#9aaea3]/50 rounded-[50px] sm:rounded-[70px] backdrop-blur-[15px] flex flex-col items-center justify-center p-4 sm:p-4 absolute -top-12'>
-            <div className="text-black text-lg sm:text-xl font-bold font-['Inter']">
+        <div className='flex mt-12 flex-col items-center gap-4 lg:gap-0 lg:items-end relative'>
+          <div className='w-max  bg-[#9aaea3]/50 rounded-[50px] sm:rounded-[70px] backdrop-blur-[15px] flex flex-col items-center justify-center p-4 sm:p-4 absolute -top-12'>
+            <div className='text-white text-lg sm:text-xl font-bold font-inter'>
               Best Quality Number plates
             </div>
-            <div className="text-black text-sm sm:text-base font-medium font-['Inter']">
+            <div className='text-white text-sm sm:text-base font-medium font-inter'>
               With 99% of happy Clients
             </div>
           </div>
@@ -48,8 +48,8 @@ const Summary = () => {
         </div>
       </div>
       <div className='w-full flex items-center justify-center mt-4'>
-        <div className='w-[150px] sm:w-[190px] h-[50px] sm:h-[62px] bg-[#1de678] rounded-[15px] flex items-center justify-center cursor-pointer  '>
-          <button className="text-neutral-950 text-xl sm:text-2xl font-normal font-['Inter']">
+        <div className='px-6 py-2 bg-[#1de678] rounded-[15px] flex items-center justify-center cursor-pointer  '>
+          <button className='text-neutral-950 font-bold  font-inter'>
             Join Now
           </button>
         </div>

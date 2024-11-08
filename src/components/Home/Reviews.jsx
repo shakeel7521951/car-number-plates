@@ -38,18 +38,18 @@ const Reviews = () => {
   ];
 
   return (
-    <div className='flex flex-col items-center gap-8 px-2 sm:px-8 bg-gray-900 font-inter mt-12'>
-      <h2 className="text-white text-4xl font-semibold font-['Inter'] text-center">
+    <div className='flex flex-col items-center gap-8 px-2 sm:px-8  font-inter mt-12'>
+      <h2 className='text-white text-4xl font-semibold font-inter text-center'>
         What our customers think about us
       </h2>
       <div className='grid gap-8 sm:grid-cols-2 lg:grid-cols-3 w-full max-w-[1582px] my-4'>
         {reviewsData.map((testimonial) => (
           <div
             key={testimonial.id}
-            className='bg-white rounded-[20px] shadow p-6 flex flex-col items-center text-center'
+            className='text-white border border-white shadow-2xl rounded-[20px]  p-6 flex flex-col items-center text-center'
           >
             {/* Five Stars */}
-            <div className='my-4 text-yellow-500 flex text-4xl gap-2'>
+            <div className='my-4 text-yellow-500 flex text-3xl gap-2'>
               {[...Array(5)].map((_, index) => (
                 <FaStar key={index} />
               ))}
@@ -63,11 +63,9 @@ const Reviews = () => {
             />
 
             {/* Customer Name */}
-            <div className='text-black text-xl font-semibold '>
-              {testimonial.name}
-            </div>
+            <div className=' text-xl font-semibold '>{testimonial.name}</div>
 
-            <div className="text-black text-sm font-normal font-['Inter'] flex items-center justify-between gap-2">
+            <div className=' text-sm font-normal font-inter flex items-center justify-between gap-2'>
               {testimonial.handle}{' '}
               <span>
                 <GoDotFill size='8px' />
@@ -79,7 +77,7 @@ const Reviews = () => {
               <img src={google} alt='Google' />
             </div>
             {/* Customer Quote */}
-            <div className="text-black text-xl font-normal font-['Inter'] max-w-[420px]">
+            <div className='  sm:text-lg lg:text-xl font-light font-inter max-w-[420px]'>
               {testimonial.quote}
             </div>
           </div>
