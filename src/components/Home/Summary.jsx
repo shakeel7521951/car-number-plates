@@ -4,7 +4,7 @@ import image from '../../assest/qatar.png';
 const Summary = () => {
   return (
     <main>
-      <div className='w-full max-w-[1582px] h-auto  px-2 rounded-[25px] shadow  sm:px-8 flex flex-col lg:flex-row items-center gap-6 mx-auto mt-12'>
+      <div className='w-full max-w-[1582px] h-auto  px-2 rounded-[25px] shadow-xl  sm:px-8 flex flex-col lg:flex-row items-center gap-6 mx-auto mt-12'>
         {/* Image Section */}
 
         {/* Text Section */}
