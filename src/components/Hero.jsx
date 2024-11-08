@@ -3,6 +3,7 @@ import hero1 from "../assets/jorge-simmons-valenzuela-6Cl4r7FAEMA-unsplash.jpg";
 import hero2 from "../assets/matt-antonioli-T_ZdgxzPS5k-unsplash.jpg";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
+
 import {
   Navigation,
   Pagination,
