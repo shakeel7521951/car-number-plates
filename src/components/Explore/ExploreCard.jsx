@@ -1,9 +1,10 @@
 import { FaCartPlus, FaClock, FaEye, FaHeart } from 'react-icons/fa';
 import plate from '../../assets/plateName.png';
 import person from '../../assets/person1.jpeg';
+
 const ExploreCard = () => {
   return (
-    <main className='bg-[#020617] shadow-2xl border-white border px-4 rounded-md text-white'>
+    <main className='bg-[#050C2B] shadow-2xl border-white border px-4 rounded-md text-white'>
       {/* Statting div */}
       <div className='flex items-center justify-between mt-4 '>
         <h1 className='text-lg font-semibold'>Plate Number</h1>

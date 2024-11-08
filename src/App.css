@@ -42,3 +42,8 @@
     transform: scale(0.4);
   }
 }
+
+.car_background{
+  background: url("./assets/car_background.png");
+  border-radius: 20px;
+}
