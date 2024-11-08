@@ -1,9 +1,9 @@
 import { FaStar } from 'react-icons/fa';
 import React from 'react';
-import person1 from '../../assest/person1.jpeg';
-import person2 from '../../assest/person2.jpg';
-import person3 from '../../assest/person3.jpeg';
-import google from '../../assest/googleImg.png';
+import person1 from '../../assets/person1.jpeg';
+import person2 from '../../assets/person2.jpg';
+import person3 from '../../assets/person3.jpeg';
+import google from '../../assets/googleImg.png';
 import { GoDotFill } from 'react-icons/go';
 
 const Reviews = () => {
@@ -38,7 +38,7 @@ const Reviews = () => {
   ];
 
   return (
-    <div className='flex flex-col items-center gap-8 px-2 sm:px-8 bg-[#470207] font-inter mt-12'>
+    <div className='flex flex-col items-center gap-8 px-2 sm:px-8 bg-gray-900 font-inter mt-12'>
       <h2 className="text-white text-4xl font-semibold font-['Inter'] text-center">
         What our customers think about us
       </h2>
