@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 import Navbar from './components/Navbar';
 import Home from './Pages/Home';
+import Explore from './Pages/Explore';
 import Normal from './Pages/Normal';
 import Silver from './Pages/Silver';
 import Golden from './Pages/Golden';
@@ -12,15 +13,16 @@ import Footer from './components/Footer';
 
 // Import your components
 
-
 function App() {
   return (
-    <div className="App">
+    <div className='App'>
       <Router>
         <Navbar />
         <Routes>
           <Route path='/' element={<Home />} />
+          <Route path='/explore' element={<Explore />} />
           <Route path='/normal' element={<Normal />} />
+
           <Route path='/silver' element={<Silver />} />
           <Route path='/golden' element={<Golden />} />
           <Route path='/login' element={<Login />} />

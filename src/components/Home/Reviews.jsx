@@ -1,82 +1,84 @@
 import { FaStar } from 'react-icons/fa';
 import React from 'react';
-import testimonial from '../../assest/testimonial.png';
+import person1 from '../../assets/person1.jpeg';
+import person2 from '../../assets/person2.jpg';
+import person3 from '../../assets/person3.jpeg';
+import google from '../../assets/googleImg.png';
+import { GoDotFill } from 'react-icons/go';
 
 const Reviews = () => {
   const reviewsData = [
     {
       id: 1,
-      name: 'Haroon Rasheed',
-      handle: '@haroon.me',
+      name: 'John Doe',
+      handle: '@johndoe',
       daysAgo: '3 Days Ago',
-      profileImage: testimonial,
+      profileImage: person1, // You can replace this with the actual image source
       quote:
         '"An impressive demo that highlights key features with clarity and ease of use. Definitely sparked interest in the full product."',
-      ratingImage: <FaStar className='text-yellow-500' />,
     },
     {
       id: 2,
-      name: 'Haroon Rasheed',
-      handle: '@haroon.me',
-      daysAgo: '3 Days Ago',
-      profileImage: testimonial,
+      name: 'Jane Smith',
+      handle: '@janesmith',
+      daysAgo: '2 Days Ago',
+      profileImage: person2,
       quote:
-        '"An impressive demo that highlights key features with clarity and ease of use. Definitely sparked interest in the full product."',
-      ratingImage: <FaStar className='text-yellow-500' />,
+        '"This product has really helped streamline my workflow. Highly recommend it to anyone looking for efficiency!"',
     },
     {
       id: 3,
-      name: 'Haroon Rasheed',
-      handle: '@haroon.me',
-      daysAgo: '3 Days Ago',
-      profileImage: testimonial,
+      name: 'Michael Johnson',
+      handle: '@michaeljohnson',
+      daysAgo: '1 Day Ago',
+      profileImage: person3,
       quote:
-        '"An impressive demo that highlights key features with clarity and ease of use. Definitely sparked interest in the full product."',
-      ratingImage: <FaStar className='text-yellow-500' />,
+        '"Great user interface and intuitive features. Can’t wait to see more updates!"',
     },
   ];
+
   return (
-    <div className='flex flex-col items-center gap-8 p-6'>
-      <h2 className="text-black text-4xl font-semibold font-['Inter'] text-center">
+    <div className='flex flex-col items-center gap-8 px-2 sm:px-8 bg-gray-900 font-inter mt-12'>
+      <h2 className="text-white text-4xl font-semibold font-['Inter'] text-center">
         What our customers think about us
       </h2>
-      <div className='grid gap-8 lg:grid-cols-3 w-full max-w-[1582px]'>
+      <div className='grid gap-8 sm:grid-cols-2 lg:grid-cols-3 w-full max-w-[1582px] my-4'>
         {reviewsData.map((testimonial) => (
           <div
             key={testimonial.id}
             className='bg-white rounded-[20px] shadow p-6 flex flex-col items-center text-center'
           >
+            {/* Five Stars */}
+            <div className='my-4 text-yellow-500 flex text-4xl gap-2'>
+              {[...Array(5)].map((_, index) => (
+                <FaStar key={index} />
+              ))}
+            </div>
+
             {/* Profile Picture */}
             <img
-              className='w-[92px] h-[92px] rounded-full mb-4'
+              className='w-[92px] h-[92px] rounded-full mb-4 object-cover'
               src={testimonial.profileImage}
               alt={`${testimonial.name}'s profile`}
             />
+
             {/* Customer Name */}
-            <div className="text-black text-xl font-semibold font-['Inter']">
+            <div className='text-black text-xl font-semibold '>
               {testimonial.name}
             </div>
-            {/* Customer Handle */}
-            <div className="text-black text-sm font-normal font-['Inter']">
-              {testimonial.handle}
+
+            <div className="text-black text-sm font-normal font-['Inter'] flex items-center justify-between gap-2">
+              {testimonial.handle}{' '}
+              <span>
+                <GoDotFill size='8px' />
+              </span>{' '}
+              <span> {testimonial.daysAgo}</span>
             </div>
-            {/* Days Ago */}
-            <div className="text-black text-sm font-normal font-['Inter']">
-              {testimonial.daysAgo}
+
+            <div className='my-6'>
+              <img src={google} alt='Google' />
             </div>
-            {/* Rating Image */}
-            <div className='my-4'>
-              {typeof testimonial.ratingImage === 'string' ? (
-                <img
-                  className='w-[62px] h-[62px]'
-                  src={testimonial.ratingImage}
-                  alt='Rating'
-                />
-              ) : (
-                testimonial.ratingImage
-              )}
-            </div>
-            {/* Testimonial Quote */}
+            {/* Customer Quote */}
             <div className="text-black text-xl font-normal font-['Inter'] max-w-[420px]">
               {testimonial.quote}
             </div>
