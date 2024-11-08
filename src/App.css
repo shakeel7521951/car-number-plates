@@ -1,0 +1,38 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+:root {
+  --swiper-theme-color: #000;
+  --swiper-navigation-color: #000;
+  --swiper-navigation-size: 104px;
+  --swiper-navigation-size: 108px;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  color: var(--swiper-navigation-color, var(--swiper-theme-color));
+  background-color: #fff;
+  border-radius: 50%;
+  opacity: 0.8;
+  width: 30px;
+  height: 30px;
+  font-size: 4px;
+  transform: scale(0.6);
+  padding: 30px;
+}
+
+.swiper-button-next:after,
+.swiper-button-prev:after {
+  font-size: var(--swiper-navigation-size);
+}
+
+@media (max-width: 768px) {
+  .swiper-button-next,
+  .swiper-button-prev {
+    transform: scale(0.4);
+
+  }
+}
