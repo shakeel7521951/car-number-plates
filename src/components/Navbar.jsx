@@ -3,38 +3,58 @@ import { IoIosSearch } from 'react-icons/io';
 import { FaAngleDown, FaBars, FaTimes, FaPlus } from 'react-icons/fa';
 import logo from '../assets/logo.png';
 import { Link } from 'react-router-dom';
+import Login from './UserComponent/Login';
 
 const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <nav className='p-2'>
+    <nav className='p-2 relative'>
       <div className='flex items-center justify-between'>
         <div className='text-white text-xl font-bold'>
           <Link to='/'>
-            <img src={logo} alt='Company logo' className='w-16 h-16 md:w-20 md:h-20' />
+            <img
+              src={logo}
+              alt='Company logo'
+              className='w-16 h-16 md:w-20 md:h-20'
+            />
           </Link>
         </div>
 
         {/* Mobile Menu Icon */}
         <div className='md:hidden'>
-          <button onClick={() => setIsMobileMenuOpen(true)} className='text-white text-2xl'>
+          <button
+            onClick={() => setIsMobileMenuOpen(true)}
+            className='text-white text-2xl'
+          >
             <FaBars />
           </button>
         </div>
 
         <div className='hidden md:flex space-x-12 text-white font-semibold text-lg pt-3'>
-          <Link to='/normal' className='border-b-2 border-transparent hover:border-blue-500 transition-all'>
+          <Link
+            to='/normal'
+            className='border-b-2 border-transparent hover:border-blue-500 transition-all'
+          >
             Normal
           </Link>
-          <Link to='/silver' className='border-b-2 border-transparent hover:border-blue-500 transition-all'>
+          <Link
+            to='/silver'
+            className='border-b-2 border-transparent hover:border-blue-500 transition-all'
+          >
             Silver
           </Link>
-          <Link to='/gold' className='border-b-2 border-transparent hover:border-blue-500 transition-all'>
+          <Link
+            to='/gold'
+            className='border-b-2 border-transparent hover:border-blue-500 transition-all'
+          >
             Gold
           </Link>
-          <Link to='/vip' className='border-b-2 border-transparent hover:border-blue-500 transition-all'>
+          <Link
+            to='/vip'
+            className='border-b-2 border-transparent hover:border-blue-500 transition-all'
+          >
             VIP
           </Link>
 
@@ -51,13 +71,22 @@ const Navbar = () => {
             {/* Dropdown Menu */}
             {isDropdownOpen && (
               <div className='absolute text-white bg-[#050C2B] font-bold z-10 border border-gray-700 rounded-lg mt-2 w-40'>
-                <Link to='#' className='block px-4 py-2 text-sm hover:bg-gray-700 hover:text-white'>
+                <Link
+                  to='#'
+                  className='block px-4 py-2 text-sm hover:bg-gray-700 hover:text-white'
+                >
                   Category 1
                 </Link>
-                <Link to='#' className='block px-4 py-2 text-sm hover:bg-gray-700 hover:text-white'>
+                <Link
+                  to='#'
+                  className='block px-4 py-2 text-sm hover:bg-gray-700 hover:text-white'
+                >
                   Category 2
                 </Link>
-                <Link to='#' className='block px-4 py-2 text-sm hover:bg-gray-700 hover:text-white'>
+                <Link
+                  to='#'
+                  className='block px-4 py-2 text-sm hover:bg-gray-700 hover:text-white'
+                >
                   Category 3
                 </Link>
               </div>
@@ -96,29 +125,48 @@ const Navbar = () => {
 
       {/* Mobile Menu Drawer */}
       {isMobileMenuOpen && (
-        <div className='fixed inset-0 bg-black bg-opacity-50 z-20' onClick={() => setIsMobileMenuOpen(false)}>
+        <div
+          className='fixed inset-0 bg-black bg-opacity-50 z-20'
+          onClick={() => setIsMobileMenuOpen(false)}
+        >
           <div
             className='fixed right-0 top-0 h-full bg-[#050C2B] w-2/5 max-w-xs z-30 p-5 flex flex-col text-lg'
             onClick={(e) => e.stopPropagation()}
           >
-            <button onClick={() => setIsMobileMenuOpen(false)} className='self-end text-white text-2xl'>
+            <button
+              onClick={() => setIsMobileMenuOpen(false)}
+              className='self-end text-white text-2xl'
+            >
               <FaTimes />
             </button>
-            <Link to='/normal' className='mt-5 text-white font-semibold border-b border-gray-200 pb-2'>
+            <Link
+              to='/normal'
+              className='mt-5 text-white font-semibold border-b border-gray-200 pb-2'
+            >
               Normal
             </Link>
-            <Link to='/silver' className='mt-5 text-white font-semibold border-b border-gray-200 pb-2'>
+            <Link
+              to='/silver'
+              className='mt-5 text-white font-semibold border-b border-gray-200 pb-2'
+            >
               Silver
             </Link>
-            <Link to='gold' className='mt-5 text-white font-semibold border-b border-gray-200 pb-2'>
+            <Link
+              to='gold'
+              className='mt-5 text-white font-semibold border-b border-gray-200 pb-2'
+            >
               Gold
             </Link>
-            <Link to='/vip' className='mt-5 text-white font-semibold border-b border-gray-200 pb-2'>
+            <Link
+              to='/vip'
+              className='mt-5 text-white font-semibold border-b border-gray-200 pb-2'
+            >
               VIP
             </Link>
           </div>
         </div>
       )}
+      <Login />
     </nav>
   );
 };

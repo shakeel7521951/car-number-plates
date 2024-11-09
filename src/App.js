@@ -7,10 +7,10 @@ import Explore from './Pages/Explore';
 import Normal from './Pages/Normal';
 import Silver from './Pages/Silver';
 import Golden from './Pages/Golden';
-import Login from './Pages/Login';
-import Signup from './Pages/Signup';
 import Footer from './components/Footer';
 import Vip from './Pages/Vip';
+import UpdatePassword from './Pages/UpdatePassword';
+import ForgotPassword from './Pages/ForgotPassword';
 
 // Import your components
 
@@ -27,8 +27,8 @@ function App() {
           <Route path='/silver' element={<Silver />} />
           <Route path='/gold' element={<Golden />} />
           <Route path='/vip' element={<Vip />} />
-          <Route path='/login' element={<Login />} />
-          <Route path='/signup' element={<Signup />} />
+          <Route path='/update-password' element={<UpdatePassword />} />
+          <Route path='/forgot-password' element={<ForgotPassword />} />
         </Routes>
         <Footer />
       </Router>
