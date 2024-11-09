@@ -4,10 +4,13 @@ import { FaAngleDown, FaBars, FaTimes, FaPlus } from 'react-icons/fa';
 import logo from '../assets/logo.png';
 import { Link } from 'react-router-dom';
 import Login from './UserComponent/Login';
+import Register from './UserComponent/Register';
 
 const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isPopUpOpen, setIsPopUpOpen] = useState(false);
+  const [IsRegisterOpen, setIsRegisterOpen] = useState(false);
 
   return (
     <nav className='p-2 relative'>
@@ -117,7 +120,10 @@ const Navbar = () => {
         </div>
 
         <div className='hidden md:flex ml-4'>
-          <button className='bg-[#D4FF00] hover:bg-[#dfff3d] text-black px-4 py-1 rounded-lg'>
+          <button
+            className='bg-[#D4FF00] hover:bg-[#dfff3d] text-black px-4 py-1 rounded-lg'
+            onClick={() => setIsPopUpOpen(true)}
+          >
             Sign In
           </button>
         </div>
@@ -166,7 +172,18 @@ const Navbar = () => {
           </div>
         </div>
       )}
-      {/* <Login /> */}
+      {isPopUpOpen && (
+        <Login
+          setIsPopUpOpen={setIsPopUpOpen}
+          setIsRegisterOpen={setIsRegisterOpen}
+        />
+      )}
+      {IsRegisterOpen && (
+        <Register
+          setIsRegisterOpen={setIsRegisterOpen}
+          setIsPopUpOpen={setIsPopUpOpen}
+        />
+      )}
     </nav>
   );
 };
