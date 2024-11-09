@@ -89,7 +89,7 @@ const Footer = () => {
             <h3 className='text-lg font-bold  mb-4'>Promotion & Discount</h3>
             <ul>
               <li>
-                <a href='#' className='hover:text-[#3b3939] transition-all '>
+                <a href='#' className='hover:text-[#dad6d6] transition-all '>
                   Sign Up for Deals
                 </a>
               </li>
@@ -104,7 +104,7 @@ const Footer = () => {
                 </a>
               </li>
               <li>
-                <a href='#' className='hover:text-[#343333] transition-all '>
+                <a href='#' className='hover:text-[#dad6d6] transition-all '>
                   Seasonal Offers
                 </a>
               </li>

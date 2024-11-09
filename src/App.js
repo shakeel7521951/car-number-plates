@@ -10,6 +10,7 @@ import Golden from './Pages/Golden';
 import Login from './Pages/Login';
 import Signup from './Pages/Signup';
 import Footer from './components/Footer';
+import Vip from './Pages/Vip';
 
 // Import your components
 
@@ -24,7 +25,8 @@ function App() {
           <Route path='/normal' element={<Normal />} />
 
           <Route path='/silver' element={<Silver />} />
-          <Route path='/golden' element={<Golden />} />
+          <Route path='/gold' element={<Golden />} />
+          <Route path='/vip' element={<Vip />} />
           <Route path='/login' element={<Login />} />
           <Route path='/signup' element={<Signup />} />
         </Routes>

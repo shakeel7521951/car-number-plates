@@ -30,7 +30,7 @@ function Hero() {
   ];
   return (
     <Swiper
-      className='custom-swiper w-full'
+      className='custom-swiper w-full mt-4'
       modules={[Navigation, Pagination, Scrollbar, A11y, EffectFade, Autoplay]}
       spaceBetween={50}
       slidesPerView={1}
@@ -43,9 +43,9 @@ function Hero() {
       // pagination={{ clickable: true }}
       // scrollbar={{ draggable: false }}
     >
-      {hero_data.map((elem) => {
+      {hero_data.map((elem,index) => {
         return (
-          <SwiperSlide>
+          <SwiperSlide key={index}>
             <div
               className=' hidden md:flex flex-col '
               style={{
