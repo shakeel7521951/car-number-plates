@@ -1,7 +1,9 @@
 import { FaCartPlus, FaClock, FaEye, FaHeart } from 'react-icons/fa';
 import plateImg from '../../assets/plateName.png';
+import { Link } from 'react-router-dom';
 
 const ExploreCard = ({
+  id = 1,
   views = 324,
   like = 44,
   plateNumber = 124234,
@@ -11,7 +13,7 @@ const ExploreCard = ({
   image = plateImg,
 }) => {
   return (
-    <main className='bg-[#020617] shadow-2xl border-white border px-4 rounded-md text-white' >
+    <main className='bg-[#020617] shadow-2xl border-white border px-4 rounded-md text-white'>
       {/* Starting div */}
       <div className='flex items-center justify-between mt-4'>
         <h1 className='text-lg font-semibold'>Plate Number</h1>
@@ -28,7 +30,9 @@ const ExploreCard = ({
       </div>
       {/* Image for the number plate */}
       <div className='my-6'>
-        <img src={image} alt='NumberPlate' className='w-full' />
+        <Link to={`/single-card/${id}`}>
+          <img src={image} alt='NumberPlate' className='w-full' />
+        </Link>
       </div>
       <h1 className='text-lg font-semibold'>Private Plate {plateNumber}</h1>
       {/* Profile Div */}
