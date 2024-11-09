@@ -11,6 +11,8 @@ import Footer from './components/Footer';
 import Vip from './Pages/Vip';
 import UpdatePassword from './Pages/UpdatePassword';
 import ForgotPassword from './Pages/ForgotPassword';
+import PlateDetailPage from './Pages/PlateDetailPage';
+import Chat from './Pages/Chat';
 
 // Import your components
 
@@ -27,6 +29,8 @@ function App() {
           <Route path='/silver' element={<Silver />} />
           <Route path='/gold' element={<Golden />} />
           <Route path='/vip' element={<Vip />} />
+          <Route path='/single-card/:id' element={<PlateDetailPage />} />
+          <Route path='/message' element={<Chat />} />
           <Route path='/update-password' element={<UpdatePassword />} />
           <Route path='/forgot-password' element={<ForgotPassword />} />
         </Routes>
