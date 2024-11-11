@@ -102,3 +102,60 @@ export const data = [
     image: plateImg,
   },
 ];
+
+export const menuLinks = [
+  { path: '/normal', label: 'Normal' },
+  { path: '/silver', label: 'Silver' },
+  { path: '/gold', label: 'Gold' },
+  { path: '/vip', label: 'VIP' },
+  { path: '/message', label: 'Messages' },
+];
+
+export const categoryLinks = [
+  { path: '#', label: 'Category 1' },
+  { path: '#', label: 'Category 2' },
+  { path: '#', label: 'Category 3' },
+];
+
+export const LinkingData = [
+  {
+    id: '23',
+    views: 235,
+    like: 45,
+    plateNumber: 198500,
+    price: 72500,
+    image: 'path/to/your/image.jpg',
+  },
+  {
+    id: '41',
+    views: 198,
+    like: 32,
+    plateNumber: 214233,
+    price: 56300,
+    image: 'path/to/your/image.jpg',
+  },
+  {
+    id: '87',
+    views: 300,
+    like: 17,
+    plateNumber: 123456,
+    price: 85200,
+    image: 'path/to/your/image.jpg',
+  },
+  {
+    id: '56',
+    views: 190,
+    like: 21,
+    plateNumber: 111222,
+    price: 35000,
+    image: 'path/to/your/image.jpg',
+  },
+  {
+    id: '12',
+    views: 254,
+    like: 41,
+    plateNumber: 234567,
+    price: 64000,
+    image: 'path/to/your/image.jpg',
+  },
+];

@@ -9,12 +9,12 @@ import { CiBellOn, CiHeart } from 'react-icons/ci';
 import person from '../../assets/person1.jpeg';
 import MessageBox from './MessageBox'; // Import the MessageBox component
 import ProfileMenu from './ProfileMenu';
+import { categoryLinks, menuLinks } from '../../StaticData/data';
 
 const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isPopUpOpen, setIsPopUpOpen] = useState(false);
-  const [IsRegisterOpen, setIsRegisterOpen] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
 
   // Refs for detecting outside clicks
@@ -28,20 +28,6 @@ const Navbar = () => {
   const toggleProfileMenu = () => {
     setIsProfileMenuOpen(!isProfileMenuOpen);
   };
-
-  const menuLinks = [
-    { path: '/normal', label: 'Normal' },
-    { path: '/silver', label: 'Silver' },
-    { path: '/gold', label: 'Gold' },
-    { path: '/vip', label: 'VIP' },
-    { path: '/message', label: 'Messages' },
-  ];
-
-  const categoryLinks = [
-    { path: '#', label: 'Category 1' },
-    { path: '#', label: 'Category 2' },
-    { path: '#', label: 'Category 3' },
-  ];
 
   // Close all menus if clicked outside
   const handleClickOutside = (e) => {

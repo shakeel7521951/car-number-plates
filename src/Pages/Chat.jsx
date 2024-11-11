@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { IoMenu } from 'react-icons/io5';
 import car1 from '../assets/CarForgot.png';
 
 function Chat() {
+  const [selectedChat, setSelectedChat] = useState(null);
+
   const chatData = [
     {
       id: 1,
@@ -37,10 +39,20 @@ function Chat() {
     },
   ];
 
+  const replies = {
+    1: 'Hello Haroon! Thanks for reaching out.',
+    2: "Sure, Sara. Let's discuss the details.",
+
+    3: "Yes, John. I'm available.",
+    4: "Thank you, Anna! I'll check it out.",
+    5: 'Noted, Michael. Thanks for letting me know.',
+    6: "You're welcome, Emily!",
+  };
+
   return (
     <div className='flex flex-col md:flex-row justify-center gap-3 p-2'>
       {/* Sidebar */}
-      <div className='w-full md:w-[23%]'>
+      <div className='w-full md:w-[23%] overflow-y-auto'>
         <p className='text-white text-lg font-medium mb-2'>Messages</p>
         <input
           type='text'
@@ -51,7 +63,10 @@ function Chat() {
           {chatData.map((chat) => (
             <div
               key={chat.id}
-              className='flex justify-between items-center hover:bg-[#c0da8f] rounded-xl py-3 px-1'
+              onClick={() => setSelectedChat(chat.id)}
+              className={`flex justify-between items-center hover:bg-[#c0da8f] rounded-xl py-3 px-1 cursor-pointer ${
+                selectedChat === chat.id ? 'bg-[#c0da8f]' : ''
+              }`}
             >
               <div className='flex gap-2 items-center'>
                 <img
@@ -73,12 +88,18 @@ function Chat() {
       {/* Chat Box */}
       <div className='w-full md:w-[73%]'>
         <div className='flex justify-between items-center px-2 mt-5 mb-3 md:mt-10 md:mb-5'>
-          <p className='text-white text-lg font-medium'>Haroon Rasheed</p>
+          <p className='text-white text-lg font-medium'>
+            {selectedChat
+              ? chatData.find((chat) => chat.id === selectedChat).name
+              : 'Select a chat'}
+          </p>
           <div className='h-[30px] w-[30px] rounded-full bg-[#4e4547] flex justify-center items-center text-white'>
             <IoMenu />
           </div>
         </div>
-        <div className='h-[80vh] w-full bg-white rounded-xl'></div>
+        <div className='h-[80vh] w-full bg-white rounded-xl p-4'>
+          <p>{selectedChat ? replies[selectedChat] : 'No message selected.'}</p>
+        </div>
       </div>
     </div>
   );
