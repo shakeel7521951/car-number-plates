@@ -1,25 +1,31 @@
 import React, { useState } from 'react';
 import { IoIosSearch } from 'react-icons/io';
 import { FaAngleDown, FaBars, FaTimes, FaPlus } from 'react-icons/fa';
-import logo from '../assets/logo.png';
+import logo from '../../assets/logo.png';
 import { Link } from 'react-router-dom';
-import Login from './UserComponent/Login';
-import Register from './UserComponent/Register';
+import Login from '../UserComponent/Login';
+import Register from '../UserComponent/Register';
 import { CiBellOn, CiHeart } from 'react-icons/ci';
-import person from '../assets/person1.jpeg';
+import person from '../../assets/person1.jpeg';
 import MessageBox from './MessageBox'; // Import the MessageBox component
+import ProfileMenu from './ProfileMenu';
 
 const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isPopUpOpen, setIsPopUpOpen] = useState(false);
   const [IsRegisterOpen, setIsRegisterOpen] = useState(false);
+  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
 
+  const toggleProfileMenu = () => {
+    setIsProfileMenuOpen(!isProfileMenuOpen);
+  };
   const menuLinks = [
     { path: '/normal', label: 'Normal' },
     { path: '/silver', label: 'Silver' },
     { path: '/gold', label: 'Gold' },
     { path: '/vip', label: 'VIP' },
+    { path: '/message', label: 'Messages' },
   ];
 
   const categoryLinks = [
@@ -42,7 +48,24 @@ const Navbar = () => {
         </div>
 
         {/* Mobile Menu Icon */}
-        <div className='md:hidden'>
+        <div className='md:hidden flex gap-4'>
+          <main>
+            <div
+              className='w-10 h-10 rounded-full cursor-pointer'
+              onClick={toggleProfileMenu}
+            >
+              <img
+                src={person}
+                alt='Person'
+                className='object-cover w-full h-full rounded-full'
+              />
+            </div>
+            {isProfileMenuOpen && (
+              <main className='absolute top-16 right-10 bg-white rounded-lg shadow-lg w-56 p-4 z-30'>
+                <ProfileMenu onClose={() => setIsProfileMenuOpen(false)} />
+              </main>
+            )}
+          </main>
           <button
             onClick={() => setIsMobileMenuOpen(true)}
             className='text-white text-2xl'
@@ -121,15 +144,23 @@ const Navbar = () => {
         <div className='flex gap-4'>
           <CiHeart size='40px' />
           <CiBellOn size='40px' />
-          <MessageBox /> {/* Replace with MessageBox component */}
+          <MessageBox />
           <main>
-            <div className='w-10 h-10 rounded-full'>
+            <div
+              className='w-10 h-10 rounded-full cursor-pointer'
+              onClick={toggleProfileMenu}
+            >
               <img
                 src={person}
                 alt='Person'
                 className='object-cover w-full h-full rounded-full'
               />
             </div>
+            {isProfileMenuOpen && (
+              <main className='absolute top-32 right-10 bg-white rounded-lg shadow-lg w-56 p-4 z-30'>
+                <ProfileMenu onClose={() => setIsProfileMenuOpen(false)} />
+              </main>
+            )}
           </main>
         </div>
       </div>
