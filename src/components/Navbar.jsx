@@ -5,6 +5,9 @@ import logo from '../assets/logo.png';
 import { Link } from 'react-router-dom';
 import Login from './UserComponent/Login';
 import Register from './UserComponent/Register';
+import { CiBellOn, CiHeart } from 'react-icons/ci';
+import person from '../assets/person1.jpeg';
+import MessageBox from './MessageBox'; // Import the MessageBox component
 
 const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -12,9 +15,22 @@ const Navbar = () => {
   const [isPopUpOpen, setIsPopUpOpen] = useState(false);
   const [IsRegisterOpen, setIsRegisterOpen] = useState(false);
 
+  const menuLinks = [
+    { path: '/normal', label: 'Normal' },
+    { path: '/silver', label: 'Silver' },
+    { path: '/gold', label: 'Gold' },
+    { path: '/vip', label: 'VIP' },
+  ];
+
+  const categoryLinks = [
+    { path: '#', label: 'Category 1' },
+    { path: '#', label: 'Category 2' },
+    { path: '#', label: 'Category 3' },
+  ];
+
   return (
     <nav className='p-2 relative'>
-      <div className='flex items-center justify-between'>
+      <div className='flex items-center justify-between md:justify-between'>
         <div className='text-white text-xl font-bold'>
           <Link to='/'>
             <img
@@ -35,33 +51,18 @@ const Navbar = () => {
           </button>
         </div>
 
+        {/* Desktop Menu Links */}
         <div className='hidden md:flex space-x-12 text-white font-semibold text-lg pt-3'>
-          <Link
-            to='/normal'
-            className='border-b-2 border-transparent hover:border-blue-500 transition-all'
-          >
-            Normal
-          </Link>
-          <Link
-            to='/silver'
-            className='border-b-2 border-transparent hover:border-blue-500 transition-all'
-          >
-            Silver
-          </Link>
-          <Link
-            to='/gold'
-            className='border-b-2 border-transparent hover:border-blue-500 transition-all'
-          >
-            Gold
-          </Link>
-          <Link
-            to='/vip'
-            className='border-b-2 border-transparent hover:border-blue-500 transition-all'
-          >
-            VIP
-          </Link>
+          {menuLinks.map((link, index) => (
+            <Link
+              key={index}
+              to={link.path}
+              className='border-b-2 border-transparent hover:border-blue-500 transition-all'
+            >
+              {link.label}
+            </Link>
+          ))}
 
-          {/* Categories Dropdown */}
           <div className='relative'>
             <button
               className='flex items-center space-x-2 border-b-2 border-transparent hover:border-blue-500 transition-all focus:outline-none'
@@ -70,38 +71,44 @@ const Navbar = () => {
               <span>Categories</span>
               <FaAngleDown />
             </button>
-
-            {/* Dropdown Menu */}
             {isDropdownOpen && (
               <div className='absolute text-white bg-[#050C2B] font-bold z-10 border border-gray-700 rounded-lg mt-2 w-40'>
-                <Link
-                  to='#'
-                  className='block px-4 py-2 text-sm hover:bg-gray-700 hover:text-white'
-                >
-                  Category 1
-                </Link>
-                <Link
-                  to='#'
-                  className='block px-4 py-2 text-sm hover:bg-gray-700 hover:text-white'
-                >
-                  Category 2
-                </Link>
-                <Link
-                  to='#'
-                  className='block px-4 py-2 text-sm hover:bg-gray-700 hover:text-white'
-                >
-                  Category 3
-                </Link>
+                {categoryLinks.map((category, index) => (
+                  <Link
+                    key={index}
+                    to={category.path}
+                    className='block px-4 py-2 text-sm hover:bg-gray-700 hover:text-white'
+                  >
+                    {category.label}
+                  </Link>
+                ))}
               </div>
             )}
           </div>
         </div>
 
-        <div className='hidden md:flex w-36'>{/* Additional Buttons */}</div>
+        {/* Sign In and Post Buttons */}
+        <main className='hidden md:flex'>
+          <div className='hidden md:flex ml-3 justify-center items-center border-2 border-[#9FA2A0] rounded-md'>
+            <button className='bg-transparent w-20 text-white font-bold px-4 py-1 rounded flex items-center justify-center relative'>
+              <FaPlus className='absolute left-2 font-bold text-white' />
+              Post
+            </button>
+          </div>
+          <div className='hidden md:flex ml-4'>
+            <button
+              className='bg-[#D4FF00] hover:bg-[#dfff3d] text-black px-4 py-1 rounded-lg'
+              onClick={() => setIsPopUpOpen(true)}
+            >
+              Sign In
+            </button>
+          </div>
+        </main>
       </div>
 
-      <div className='flex ms-6'>
-        <div className='flex justify-center m-0 w-[100%] md:w-[80%] mx-5'>
+      {/* Search and Icons */}
+      <div className='hidden md:flex ms-6 mr-4'>
+        <div className='flex justify-end m-0 w-[100%] md:w-[80%] mx-5'>
           <div className='w-full md:w-2/4 flex items-center relative md:ms-24 border border-black rounded-xl'>
             <input
               type='text'
@@ -111,67 +118,54 @@ const Navbar = () => {
             <IoIosSearch className='absolute right-2 text-2xl' />
           </div>
         </div>
-
-        <div className='hidden md:flex ml-3 justify-center items-center border-2 border-[#9FA2A0] rounded-md'>
-          <button className='bg-transparent w-20 text-white font-bold px-4 py-1 rounded flex items-center justify-center relative'>
-            <FaPlus className='absolute left-2 font-bold' text-white />
-            Post
-          </button>
-        </div>
-
-        <div className='hidden md:flex ml-4'>
-          <button
-            className='bg-[#D4FF00] hover:bg-[#dfff3d] text-black px-4 py-1 rounded-lg'
-            onClick={() => setIsPopUpOpen(true)}
-          >
-            Sign In
-          </button>
+        <div className='flex gap-4'>
+          <CiHeart size='40px' />
+          <CiBellOn size='40px' />
+          <MessageBox /> {/* Replace with MessageBox component */}
+          <main>
+            <div className='w-10 h-10 rounded-full'>
+              <img
+                src={person}
+                alt='Person'
+                className='object-cover w-full h-full rounded-full'
+              />
+            </div>
+          </main>
         </div>
       </div>
 
-      {/* Mobile Menu Drawer */}
-      {isMobileMenuOpen && (
-        <div
-          className='fixed inset-0 bg-black bg-opacity-50 z-20'
-          onClick={() => setIsMobileMenuOpen(false)}
-        >
+      {/* Mobile Sidebar */}
+      <div className='md:hidden'>
+        {isMobileMenuOpen && (
           <div
-            className='fixed right-0 top-0 h-full bg-[#050C2B] w-2/5 max-w-xs z-30 p-5 flex flex-col text-lg'
-            onClick={(e) => e.stopPropagation()}
+            className='fixed inset-0 bg-black bg-opacity-50 z-20'
+            onClick={() => setIsMobileMenuOpen(false)}
+          ></div>
+        )}
+        <div
+          className={`fixed top-0 right-0 h-full bg-[#050C2B] w-2/5 max-w-xs z-30 p-5 transform transition-transform duration-300 ${
+            isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
+          }`}
+        >
+          <button
+            onClick={() => setIsMobileMenuOpen(false)}
+            className='self-end text-white text-2xl mb-6'
           >
-            <button
-              onClick={() => setIsMobileMenuOpen(false)}
-              className='self-end text-white text-2xl'
-            >
-              <FaTimes />
-            </button>
+            <FaTimes />
+          </button>
+          {menuLinks.map((link, index) => (
             <Link
-              to='/normal'
-              className='mt-5 text-white font-semibold border-b border-gray-200 pb-2'
+              key={index}
+              to={link.path}
+              className='block mt-5 text-white font-semibold border-b border-gray-200 pb-2'
             >
-              Normal
+              {link.label}
             </Link>
-            <Link
-              to='/silver'
-              className='mt-5 text-white font-semibold border-b border-gray-200 pb-2'
-            >
-              Silver
-            </Link>
-            <Link
-              to='gold'
-              className='mt-5 text-white font-semibold border-b border-gray-200 pb-2'
-            >
-              Gold
-            </Link>
-            <Link
-              to='/vip'
-              className='mt-5 text-white font-semibold border-b border-gray-200 pb-2'
-            >
-              VIP
-            </Link>
-          </div>
+          ))}
         </div>
-      )}
+      </div>
+
+      {/* Sign In and Register Popups */}
       {isPopUpOpen && (
         <Login
           setIsPopUpOpen={setIsPopUpOpen}

@@ -13,7 +13,7 @@ const ExploreCard = ({
   image = plateImg,
 }) => {
   return (
-    <main className='bg-[#020617] shadow-2xl border-white border px-4 rounded-md text-white'>
+    <main className='bg-[#020617] shadow-2xl border-[#EFF312]  border-2 px-4 rounded-md text-white'>
       {/* Starting div */}
       <div className='flex items-center justify-between mt-4'>
         <h1 className='text-lg font-semibold'>Plate Number</h1>

@@ -46,7 +46,7 @@ const Reviews = () => {
         {reviewsData.map((testimonial) => (
           <div
             key={testimonial.id}
-            className='text-white border border-white shadow-2xl rounded-[20px]  p-6 flex flex-col items-center text-center'
+            className='text-white border-2 border-[#FFEA01B2] shadow-2xl rounded-[20px]  p-6 flex flex-col items-center text-center'
           >
             {/* Five Stars */}
             <div className='my-4 text-yellow-500 flex text-3xl gap-2'>
