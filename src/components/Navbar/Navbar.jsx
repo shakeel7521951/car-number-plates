@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { IoIosSearch } from 'react-icons/io';
 import { FaAngleDown, FaBars, FaTimes, FaPlus } from 'react-icons/fa';
 import logo from '../../assets/logo.png';
@@ -17,9 +17,18 @@ const Navbar = () => {
   const [IsRegisterOpen, setIsRegisterOpen] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
 
+  // Refs for detecting outside clicks
+  const dropdownRef = useRef(null);
+  const mobileMenuRef = useRef(null);
+  const profileMenuRef = useRef(null);
+  const profileButtonRef = useRef(null);
+  const mobileMenuButtonRef = useRef(null);
+  const signInButtonRef = useRef(null);
+
   const toggleProfileMenu = () => {
     setIsProfileMenuOpen(!isProfileMenuOpen);
   };
+
   const menuLinks = [
     { path: '/normal', label: 'Normal' },
     { path: '/silver', label: 'Silver' },
@@ -33,6 +42,48 @@ const Navbar = () => {
     { path: '#', label: 'Category 2' },
     { path: '#', label: 'Category 3' },
   ];
+
+  // Close all menus if clicked outside
+  const handleClickOutside = (e) => {
+    // Close dropdown if clicked outside
+    if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+      setIsDropdownOpen(false);
+    }
+
+    // Close mobile menu if clicked outside
+    if (
+      mobileMenuRef.current &&
+      !mobileMenuRef.current.contains(e.target) &&
+      !mobileMenuButtonRef.current.contains(e.target)
+    ) {
+      setIsMobileMenuOpen(false);
+    }
+
+    // Close profile menu if clicked outside
+    if (
+      profileMenuRef.current &&
+      !profileMenuRef.current.contains(e.target) &&
+      !profileButtonRef.current.contains(e.target)
+    ) {
+      setIsProfileMenuOpen(false);
+    }
+
+    // Close sign in popup if clicked outside
+    if (
+      signInButtonRef.current &&
+      !signInButtonRef.current.contains(e.target)
+    ) {
+      setIsPopUpOpen(false);
+    }
+  };
+
+  // Add event listener for outside clicks
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   return (
     <nav className='p-2 relative'>
@@ -51,6 +102,7 @@ const Navbar = () => {
         <div className='md:hidden flex gap-4'>
           <main>
             <div
+              ref={profileButtonRef}
               className='w-10 h-10 rounded-full cursor-pointer'
               onClick={toggleProfileMenu}
             >
@@ -61,12 +113,16 @@ const Navbar = () => {
               />
             </div>
             {isProfileMenuOpen && (
-              <main className='absolute top-16 right-10 bg-white rounded-lg shadow-lg w-56 p-4 z-30'>
+              <main
+                ref={profileMenuRef}
+                className='absolute top-16 right-10 bg-white rounded-lg shadow-lg w-56 p-4 z-30'
+              >
                 <ProfileMenu onClose={() => setIsProfileMenuOpen(false)} />
               </main>
             )}
           </main>
           <button
+            ref={mobileMenuButtonRef}
             onClick={() => setIsMobileMenuOpen(true)}
             className='text-white text-2xl'
           >
@@ -86,7 +142,7 @@ const Navbar = () => {
             </Link>
           ))}
 
-          <div className='relative'>
+          <div className='relative' ref={dropdownRef}>
             <button
               className='flex items-center space-x-2 border-b-2 border-transparent hover:border-blue-500 transition-all focus:outline-none'
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
@@ -120,6 +176,7 @@ const Navbar = () => {
           </div>
           <div className='hidden md:flex ml-4'>
             <button
+              ref={signInButtonRef}
               className='bg-[#D4FF00] hover:bg-[#dfff3d] text-black px-4 py-1 rounded-lg'
               onClick={() => setIsPopUpOpen(true)}
             >
@@ -147,6 +204,7 @@ const Navbar = () => {
           <MessageBox />
           <main>
             <div
+              ref={profileButtonRef}
               className='w-10 h-10 rounded-full cursor-pointer'
               onClick={toggleProfileMenu}
             >
@@ -157,7 +215,10 @@ const Navbar = () => {
               />
             </div>
             {isProfileMenuOpen && (
-              <main className='absolute top-32 right-10 bg-white rounded-lg shadow-lg w-56 p-4 z-30'>
+              <main
+                ref={profileMenuRef}
+                className='absolute top-32 right-10 bg-white rounded-lg shadow-lg w-56 p-4 z-30'
+              >
                 <ProfileMenu onClose={() => setIsProfileMenuOpen(false)} />
               </main>
             )}
@@ -174,41 +235,14 @@ const Navbar = () => {
           ></div>
         )}
         <div
-          className={`fixed top-0 right-0 h-full bg-[#050C2B] w-2/5 max-w-xs z-30 p-5 transform transition-transform duration-300 ${
+          ref={mobileMenuRef}
+          className={`fixed top-0 right-0 w-64 h-full bg-white z-30 transform ${
             isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
-          }`}
+          } transition-all`}
         >
-          <button
-            onClick={() => setIsMobileMenuOpen(false)}
-            className='self-end text-white text-2xl mb-6'
-          >
-            <FaTimes />
-          </button>
-          {menuLinks.map((link, index) => (
-            <Link
-              key={index}
-              to={link.path}
-              className='block mt-5 text-white font-semibold border-b border-gray-200 pb-2'
-            >
-              {link.label}
-            </Link>
-          ))}
+          {/* Mobile Menu Content */}
         </div>
       </div>
-
-      {/* Sign In and Register Popups */}
-      {isPopUpOpen && (
-        <Login
-          setIsPopUpOpen={setIsPopUpOpen}
-          setIsRegisterOpen={setIsRegisterOpen}
-        />
-      )}
-      {IsRegisterOpen && (
-        <Register
-          setIsRegisterOpen={setIsRegisterOpen}
-          setIsPopUpOpen={setIsPopUpOpen}
-        />
-      )}
     </nav>
   );
 };

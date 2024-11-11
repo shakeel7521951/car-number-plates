@@ -41,7 +41,7 @@ const ProfileMenu = ({ onClose }) => {
         </li>
         <li className='my-2'>
           <Link
-            to='/my-listings'
+            to='/listing'
             onClick={onClose}
             className='text-gray-700 hover:text-blue-500'
           >

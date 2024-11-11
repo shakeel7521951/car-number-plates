@@ -13,6 +13,7 @@ import UpdatePassword from './Pages/UpdatePassword';
 import ForgotPassword from './Pages/ForgotPassword';
 import PlateDetailPage from './Pages/PlateDetailPage';
 import Chat from './Pages/Chat';
+import MyListing from './Pages/MyListing';
 
 // Import your components
 
@@ -32,6 +33,7 @@ function App() {
           <Route path='/single-card/:id' element={<PlateDetailPage />} />
           <Route path='/message' element={<Chat />} />
           <Route path='/update-password' element={<UpdatePassword />} />
+          <Route path='/listing' element={<MyListing />} />
           <Route path='/forgot-password' element={<ForgotPassword />} />
         </Routes>
         <Footer />

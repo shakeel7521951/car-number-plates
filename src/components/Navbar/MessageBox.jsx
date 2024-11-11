@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import person from '../../assets/person1.jpeg';
 import { IoMdMail } from 'react-icons/io';
 import { Link } from 'react-router-dom';
@@ -6,6 +6,8 @@ import { Link } from 'react-router-dom';
 const MessageBox = () => {
   const [isMessageDialogOpen, setIsMessageDialogOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+
+  const messageBoxRef = useRef(null);
 
   const messages = [
     { id: 1, name: 'John Doe', message: 'Hey! How are you?', avatar: person },
@@ -29,8 +31,22 @@ const MessageBox = () => {
       msg.message.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  // Close message box if clicked outside
+  const handleClickOutside = (e) => {
+    if (messageBoxRef.current && !messageBoxRef.current.contains(e.target)) {
+      setIsMessageDialogOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   return (
-    <div className='relative'>
+    <div className='relative' ref={messageBoxRef}>
       {/* Message Icon with Notification Badge */}
       <div className='relative'>
         <IoMdMail
