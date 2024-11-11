@@ -12,36 +12,40 @@ const MyListing = () => {
           <CiCirclePlus size='40px' className='text-black' />
         </button>
       </div>
-      <main className='border bottom-1 border-black p-4 flex  justify-between '>
-        <div className='flex gap-4'>
-          <div className='w-32 sm:w-40 '>
-            <img
-              src={plateName}
-              alt='some'
-              className='w-full h-full object-cover'
-            />
+      <div className='flex flex-col gap-4 mt-12'>
+        <main className='border bottom-1 border-black p-4 flex flex-col sm:flex-row  justify-between '>
+          <div className='flex gap-4'>
+            <div className='w-32 sm:w-40 '>
+              <img
+                src={plateName}
+                alt='some'
+                className='w-full h-full object-cover'
+              />
+            </div>
+            <div className='flex flex-col'>
+              <h1>Private Plate</h1>
+              <h1>50000 Q.T</h1>
+              <h1 className='flex items-center  gap-2'>
+                <FaEye />
+                <span>108 views</span>
+              </h1>
+            </div>
           </div>
-          <div className='flex flex-col'>
-            <h1>Private Plate</h1>
-            <h1>50000 Q.T</h1>
-            <h1 className='flex items-center  gap-2'>
-              <FaEye />
-              <span>108 views</span>
-            </h1>
-          </div>
-        </div>
-        <div className='flex flex-col items-end justify-between'>
-          <button>
-            <BsThreeDots />
-          </button>
-          <div>
-            <button className='p-2 border border-1 border-black'>
-              Mark as Sold
+          <div className='flex flex-col items-end justify-between'>
+            <button>
+              <BsThreeDots />
             </button>
-            <button>Hwllo</button>
+            <div className='flex gap-4'>
+              <button className='p-2 border border-1 border-black rounded'>
+                Mark as Sold
+              </button>
+              <button className='p-2 bg-black text-white rounded'>
+                Republish
+              </button>{' '}
+            </div>
           </div>
-        </div>
-      </main>
+        </main>
+      </div>
     </main>
   );
 };

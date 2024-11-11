@@ -1,54 +1,83 @@
+// App.js
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { RouterProvider, createBrowserRouter, Outlet } from 'react-router-dom';
 import './App.css';
 import Navbar from './components/Navbar/Navbar';
+import Footer from './components/Footer';
 import Home from './Pages/Home';
 import Explore from './Pages/Explore';
 import Normal from './Pages/Normal';
 import Silver from './Pages/Silver';
 import Golden from './Pages/Golden';
-import Footer from './components/Footer';
 import Vip from './Pages/Vip';
 import UpdatePassword from './Pages/UpdatePassword';
 import ForgotPassword from './Pages/ForgotPassword';
 import PlateDetailPage from './Pages/PlateDetailPage';
 import Chat from './Pages/Chat';
 import MyListing from './Pages/MyListing';
-import Dashboard from './Pages/Dashboard/Dashboard.jsx';
-import DashboardOrder from './Pages/Dashboard/DashboardOrder.jsx';
-import DashboardProduct from './Pages/Dashboard/DashboardProduct.jsx';
-import DashboardUser from './Pages/Dashboard/DashboardUser.jsx';
-import DashboardPayment from './Pages/Dashboard/DashboardPayment.jsx';
-import DashboardShipment from './Pages/Dashboard/DashboardShipment.jsx';
-// Import your components
+import DashboardOrder from './Pages/Dashboard/DashboardOrder';
+import DashboardProduct from './Pages/Dashboard/DashboardProduct';
+import DashboardUser from './Pages/Dashboard/DashboardUser';
+import DashboardPayment from './Pages/Dashboard/DashboardPayment';
+import DashboardShipment from './Pages/Dashboard/DashboardShipment';
+import DashboardSidebar from './Pages/Dashboard/DashboardSidebar';
+import Dashboard from './Pages/Dashboard/Dashboard';
+
+// Layout for pages with Navbar and Footer
+const MainLayout = () => (
+  <>
+    <Navbar />
+    <Outlet />
+    <Footer />
+  </>
+);
+
+// Dashboard layout with Sidebar only
+const DashboardLayout = () => (
+  <div style={{ display: 'flex' }}>
+    <DashboardSidebar />
+    <div style={{ flex: 1, padding: '20px' }}>
+      <Outlet />
+    </div>
+  </div>
+);
+
+// Define routes using createBrowserRouter
+const router = createBrowserRouter([
+  {
+    element: <MainLayout />,
+    children: [
+      { path: '/', element: <Home /> },
+      { path: '/explore', element: <Explore /> },
+      { path: '/normal', element: <Normal /> },
+      { path: '/silver', element: <Silver /> },
+      { path: '/gold', element: <Golden /> },
+      { path: '/vip', element: <Vip /> },
+      { path: '/single-card/:id', element: <PlateDetailPage /> },
+      { path: '/message', element: <Chat /> },
+      { path: '/update-password', element: <UpdatePassword /> },
+      { path: '/listing', element: <MyListing /> },
+      { path: '/forgot-password', element: <ForgotPassword /> },
+    ],
+  },
+  {
+    path: '/dashboard',
+    element: <DashboardLayout />, // For dashboard routes with Sidebar only
+    children: [
+      { index: true, element: <Dashboard /> },
+      { path: 'orders', element: <DashboardOrder /> },
+      { path: 'product', element: <DashboardProduct /> },
+      { path: 'user', element: <DashboardUser /> },
+      { path: 'payment', element: <DashboardPayment /> },
+      { path: 'shipment', element: <DashboardShipment /> },
+    ],
+  },
+]);
 
 function App() {
   return (
     <div className='App'>
-      <Router>
-        <Navbar />
-        <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='/explore' element={<Explore />} />
-          <Route path='/normal' element={<Normal />} />
-
-          <Route path='/silver' element={<Silver />} />
-          <Route path='/gold' element={<Golden />} />
-          <Route path='/vip' element={<Vip />} />
-          <Route path='/single-card/:id' element={<PlateDetailPage />} />
-          <Route path='/message' element={<Chat />} />
-          <Route path='/update-password' element={<UpdatePassword />} />
-          <Route path='/listing' element={<MyListing />} />
-          <Route path='/forgot-password' element={<ForgotPassword />} />
-          <Route path='/dashboard' element={<Dashboard />} />
-          <Route path='/dashboard/orders' element={<DashboardOrder />} />
-          <Route path='/dashboard/product' element={<DashboardProduct />} />
-          <Route path='/dashboard/user' element={<DashboardUser />} />
-          <Route path='/dashboard/payment' element={<DashboardPayment />} />
-          <Route path='/dashboard/shipment' element={<DashboardShipment />} />
-        </Routes>
-        <Footer />
-      </Router>
+      <RouterProvider router={router} />
     </div>
   );
 }
