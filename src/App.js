@@ -10,6 +10,7 @@ import Normal from './Pages/Normal';
 import Silver from './Pages/Silver';
 import Golden from './Pages/Golden';
 import Vip from './Pages/Vip';
+import SellerDashboard from './Pages/SellerDashboard';
 import UpdatePassword from './Pages/UpdatePassword';
 import ForgotPassword from './Pages/ForgotPassword';
 import PlateDetailPage from './Pages/PlateDetailPage';
@@ -58,6 +59,7 @@ const router = createBrowserRouter([
       { path: '/update-password', element: <UpdatePassword /> },
       { path: '/listing', element: <MyListing /> },
       { path: '/forgot-password', element: <ForgotPassword /> },
+      { path: '/seller-dashboard', element: <SellerDashboard /> },
     ],
   },
   {
