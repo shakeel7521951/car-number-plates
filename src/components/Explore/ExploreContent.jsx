@@ -33,16 +33,23 @@ const ExploreContent = () => {
 
   return (
     <main>
-      <div className='relative'>
-        <img src={Rectangle_50} alt='Rectangle' className='rounded' />
-        <div className='absolute top-[30%] left-12'>
-          <h1 className='text-white font-bold text-4xl'>Welcome, Shakeel</h1>
-          <p className='text-white mt-3 text-xl'>
-            Buy & Sell Your Number <br /> Plates
-          </p>
-          <button className='border p-2 rounded-xl bg-transparent mt-3 text-white'>
-            Get Started
-          </button>
+      <div className='relative aspect-video md:aspect-auto rounded overflow-hidden'>
+        <img
+          src={Rectangle_50}
+          alt='Rectangle'
+          className='rounded h-full w-full object-cover'
+        />
+        <div className='absolute inset-0 bg-black bg-opacity-40 flex  justify-between p-4 md:px-12 md:py-8'>
+          <div className='text-white space-y-3'>
+            <h1 className='text-3xl md:text-5xl font-bold'>Welcome, Lusail</h1>
+            <p className='text-lg md:text-2xl'>Buy & Sell Your Number Plates</p>
+            <button className='border border-white py-2 px-4 rounded-lg bg-transparent mt-3 hover:bg-white hover:text-black transition'>
+              Get Started
+            </button>
+          </div>
+          <div className='text-white  md:text-2xl text-center font-bold italic hidden lg:block mt-4'>
+            "Lusail Numbers - Your gateway to unique car plate number in Qatar"
+          </div>
         </div>
       </div>
       <h1 className=' font-bold text-black my-4 text-4xl '>

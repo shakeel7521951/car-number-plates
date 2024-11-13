@@ -33,25 +33,35 @@ const Normal = () => {
 
   return (
     <main className='px-2 sm:px-6 mt-12'>
-      <div className='relative '>
-        <img src={normal} alt='Rectangle' className='rounded ' />
-        <div className='absolute top-0 sm:top-[20%] left-8   sm:left-12'>
-          <h1 className='text-white font-bold text-xl sm:text-4xl'>
-            Normal Number Plates
-          </h1>
-          <p className='text-white mt-3 sm:text-3xl font-semibold'>
-            Qatar 8873 <br /> Best Price
-          </p>
-          <div className=' flex items-center gap-4 font-semibold '>
-            <button className='border p-2 rounded-xl bg-white sm:mt-3'>
-              Contact Us
-            </button>
-            <button className='border p-2 rounded-xl bg-white sm:mt-3'>
-              Book Now
-            </button>
+      <div className='relative aspect-video md:aspect-auto rounded overflow-hidden'>
+        <img
+          src={normal}
+          alt='Rectangle'
+          className='rounded h-full w-full object-cover'
+        />
+        <div className='absolute inset-0 bg-black bg-opacity-40 flex items-center justify-between p-4 md:px-12 md:py-8'>
+          <div>
+            <h1 className='text-white font-bold text-xl sm:text-4xl'>
+              Normal Number Plates
+            </h1>
+            <p className='text-white mt-3 sm:text-3xl font-semibold'>
+              Qatar 8873 <br /> Best Price
+            </p>
+            <div className=' flex items-center gap-4 font-semibold '>
+              <button className='border p-2 rounded-xl bg-white sm:mt-3'>
+                Contact Us
+              </button>
+              <button className='border p-2 rounded-xl bg-white sm:mt-3'>
+                Book Now
+              </button>
+            </div>
+          </div>
+          <div className='text-white  md:text-2xl text-center font-bold italic hidden lg:block mt-4'>
+            "Browse and Discover Exclusive plate Numbers"
           </div>
         </div>
       </div>
+
       <h1 className=' font-bold text-black my-4 text-4xl '>Normal Plates</h1>
       <p className='text-white my-4'>Number Of plates: {data.length}</p>
 
