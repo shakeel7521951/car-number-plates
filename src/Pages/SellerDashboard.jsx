@@ -1,6 +1,7 @@
 import React from 'react';
 import PieChartComponent from '../components/RechartsCharts/PieChartComponent';
 import SellerBarChart from '../components/RechartsCharts/SellerBarChart';
+import SellerDataCards from '../components/SellerDashboard/SellerDataCards';
 export const generatePieData = (total, filled, colorFilled, colorRemaining) => {
   return [
     { name: 'Filled', value: filled, fill: colorFilled },
@@ -74,6 +75,9 @@ const SellerDashboard = () => {
         </h1>
         <SellerBarChart />
       </div>
+      <main>
+        <SellerDataCards />
+      </main>
     </>
   );
 };

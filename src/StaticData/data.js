@@ -124,7 +124,6 @@ export const LinkingData = [
     like: 45,
     plateNumber: 198500,
     price: 72500,
-    image: 'path/to/your/image.jpg',
   },
   {
     id: '41',
@@ -132,7 +131,6 @@ export const LinkingData = [
     like: 32,
     plateNumber: 214233,
     price: 56300,
-    image: 'path/to/your/image.jpg',
   },
   {
     id: '87',
@@ -140,7 +138,6 @@ export const LinkingData = [
     like: 17,
     plateNumber: 123456,
     price: 85200,
-    image: 'path/to/your/image.jpg',
   },
   {
     id: '56',
@@ -148,7 +145,6 @@ export const LinkingData = [
     like: 21,
     plateNumber: 111222,
     price: 35000,
-    image: 'path/to/your/image.jpg',
   },
   {
     id: '12',
@@ -156,6 +152,92 @@ export const LinkingData = [
     like: 41,
     plateNumber: 234567,
     price: 64000,
-    image: 'path/to/your/image.jpg',
+  },
+];
+
+export const sellerData = [
+  {
+    id: '1',
+    date: '2024-11-13', // 1 day ago from 2024-11-13
+    plateNumber: 234567,
+    price: 64000,
+    status: 'pending',
+  },
+  {
+    id: '2',
+    date: '2024-11-11', // 2 days ago
+    plateNumber: 345678,
+    price: 72000,
+    status: 'success',
+  },
+  {
+    id: '3',
+    date: '2024-11-10', // 3 days ago
+    plateNumber: 456789,
+    price: 81000,
+    status: 'pending',
+  },
+  {
+    id: '4',
+    date: '2024-11-09', // 4 days ago
+    plateNumber: 567890,
+    price: 90000,
+    status: 'success',
+  },
+  {
+    id: '5',
+    date: '2024-11-08', // 5 days ago
+    plateNumber: 678901,
+    price: 76000,
+    status: 'success',
+  },
+  {
+    id: '6',
+    date: '2024-11-07', // 6 days ago
+    plateNumber: 789012,
+    price: 68000,
+    status: 'pending',
+  },
+  {
+    id: '7',
+    date: '2024-11-06', // 7 days ago
+    plateNumber: 890123,
+    price: 85000,
+    status: 'success',
+  },
+  {
+    id: '8',
+    date: '2024-11-05', // 8 days ago
+    plateNumber: 901234,
+    price: 74000,
+    status: 'success',
+  },
+  {
+    id: '9',
+    date: '2024-11-04', // 9 days ago
+    plateNumber: 123456,
+    price: 93000,
+    status: 'pending',
+  },
+  {
+    id: '10',
+    date: '2024-11-03', // 10 days ago
+    plateNumber: 234567,
+    price: 81000,
+    status: 'success',
+  },
+  {
+    id: '11',
+    date: '2024-11-02', // 11 days ago
+    plateNumber: 345678,
+    price: 78000,
+    status: 'success',
+  },
+  {
+    id: '12',
+    date: '2024-11-01', // 12 days ago
+    plateNumber: 456789,
+    price: 89000,
+    status: 'pending',
   },
 ];

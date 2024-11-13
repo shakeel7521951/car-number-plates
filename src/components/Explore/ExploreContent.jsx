@@ -48,7 +48,7 @@ const ExploreContent = () => {
       <h1 className=' font-bold text-black my-4 text-4xl '>
         Explore More Now{' '}
       </h1>
-      <p className='text-white my-4'>Plates Numbers: {data.length}</p>
+      <p className='text-black my-4'>Plates Numbers: {data.length}</p>
 
       <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-between gap-4 max-w-[1500px] mx-auto'>
         {currentData.map((plate) => (
