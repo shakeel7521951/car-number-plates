@@ -14,8 +14,6 @@ import { categoryLinks, menuLinks } from '../../StaticData/data';
 const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isPopUpOpen, setIsPopUpOpen] = useState(false);
-  const [IsRegisterOpen, setIsRegisterOpen] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
 
   const toggleProfileMenu = () => {
@@ -148,12 +146,12 @@ const Navbar = () => {
             </button>
           </div>
           <div className='hidden md:flex ml-4'>
-            <button
+            <Link
+              to={'/login'}
               className='bg-[#D4FF00] hover:bg-[#dfff3d] text-black px-4 py-1 rounded-lg'
-              onClick={() => setIsPopUpOpen(true)}
             >
               Sign In
-            </button>
+            </Link>
           </div>
         </main>
       </div>
@@ -229,20 +227,6 @@ const Navbar = () => {
           ))}
         </div>
       </div>
-
-      {/* Sign In and Register Popups */}
-      {isPopUpOpen && (
-        <Login
-          setIsPopUpOpen={setIsPopUpOpen}
-          setIsRegisterOpen={setIsRegisterOpen}
-        />
-      )}
-      {IsRegisterOpen && (
-        <Register
-          setIsRegisterOpen={setIsRegisterOpen}
-          setIsPopUpOpen={setIsPopUpOpen}
-        />
-      )}
     </nav>
   );
 };

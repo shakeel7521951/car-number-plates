@@ -5,14 +5,12 @@ import PieChartComponent from '../../components/RechartsCharts/PieChartComponent
 import { generatePieData } from '../SellerDashboard';
 
 function Dashboard() {
-  // Array of order data
   const orders = [
-    { id: 1, title: 'Total Order', count: 1925 },
-    { id: 2, title: 'Total Sales', count: 450 },
-    { id: 3, title: 'Revenue', count: 1480 },
-    { id: 4, title: 'Total Visitor', count: 72 },
+    { id: 1, title: 'Total Order', count: 1925, startColor: '#432ab1' },
+    { id: 2, title: 'Total Sales', count: 450, startColor: '#e70000' },
+    { id: 3, title: 'Revenue', count: 1480, startColor: '#d3b144' },
+    { id: 4, title: 'Total Visitor', count: 72, startColor: '#053d26' },
   ];
-
   return (
     <>
       <p className='text-lg font-medium'>Dashboard</p>
@@ -25,7 +23,7 @@ function Dashboard() {
             className='h-[50vh] sm:w-[45%] md:w-[30%] lg:w-[20%] bg-gradient-to-t from-[white] via-[#c3e88a]-500 to-[#c3e88a] border border-[#bbfd16] rounded-xl'
           >
             <PieChartComponent
-              data={generatePieData(500, 150, '#534543', '#ccc')}
+              data={generatePieData(500, 150, order.startColor, '#d9d9d9')}
               title={order.title}
             />
           </div>

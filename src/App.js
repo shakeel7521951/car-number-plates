@@ -23,6 +23,8 @@ import DashboardPayment from './Pages/Dashboard/DashboardPayment';
 import DashboardShipment from './Pages/Dashboard/DashboardShipment';
 import DashboardSidebar from './Pages/Dashboard/DashboardSidebar';
 import Dashboard from './Pages/Dashboard/Dashboard';
+import Login from './components/UserComponent/Login';
+import Register from './components/UserComponent/Register';
 
 // Layout for pages with Navbar and Footer
 const MainLayout = () => (
@@ -73,6 +75,14 @@ const router = createBrowserRouter([
       { path: 'payment', element: <DashboardPayment /> },
       { path: 'shipment', element: <DashboardShipment /> },
     ],
+  },
+  {
+    path: '/login',
+    element: <Login />,
+  },
+  {
+    path: '/register',
+    element: <Register />,
   },
 ]);
 
