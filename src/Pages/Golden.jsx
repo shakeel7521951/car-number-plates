@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import ExploreCard from '../components/Explore/ExploreCard';
 import { data } from '../StaticData/data';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
-import normal from '../assets/CarNormal.png';
+import normal from '../assets/gold.jpg';
 const Gold = () => {
   const itemsPerPage = 6;
   const [currentPage, setCurrentPage] = useState(1);
@@ -36,7 +36,7 @@ const Gold = () => {
         <img
           src={normal}
           alt='Rectangle'
-          className='rounded h-full w-full object-cover'
+          className='rounded h-full sm:h-[90vh] w-full object-cover'
         />
         <div className='absolute inset-0 bg-black bg-opacity-40 flex items-center justify-between p-4 md:px-12 md:py-8'>
           <div>
@@ -47,11 +47,11 @@ const Gold = () => {
               Qatar 8873 <br /> Best Price
             </p>
             <div className=' flex items-center gap-4 font-semibold '>
-              <button className='border p-2 rounded-xl bg-white sm:mt-3'>
-                Contact Us
+              <button className='px-4 py-1 sm:py-3 animated-button rounded-xl bg-white sm:mt-3'>
+                <span className='button-content text-lg'>Contact Us</span>
               </button>
-              <button className='border p-2 rounded-xl bg-white sm:mt-3'>
-                Book Now
+              <button className='px-4 py-1 sm:py-3 animated-button rounded-xl bg-white sm:mt-3'>
+                <span className='button-content text-lg'>Book Now</span>
               </button>
             </div>
           </div>

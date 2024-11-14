@@ -30,15 +30,7 @@ const ProfileMenu = ({ onClose }) => {
             Dashboard
           </Link>
         </li>
-        <li className='my-2'>
-          <Link
-            to='/add-listing'
-            onClick={onClose}
-            className='text-gray-700 hover:text-blue-500'
-          >
-            Add Listing
-          </Link>
-        </li>
+
         <li className='my-2'>
           <Link
             to='/listing'

@@ -111,12 +111,6 @@ export const menuLinks = [
   { path: '/message', label: 'Messages' },
 ];
 
-export const categoryLinks = [
-  { path: '#', label: 'Category 1' },
-  { path: '#', label: 'Category 2' },
-  { path: '#', label: 'Category 3' },
-];
-
 export const LinkingData = [
   {
     id: '23',

@@ -48,8 +48,8 @@ const Summary = () => {
         </div>
       </div>
       <div className='w-full flex items-center justify-center pr-8  sm:justify-end  mt-4 '>
-        <div className='px-6 py-2 bg-[#FFEA01B2]  rounded-[15px] flex items-center justify-center cursor-pointer  '>
-          <button className='text-neutral-950   font-inter'>Join Now</button>
+        <div className=' bg-[#FFEA01B2]  rounded-[15px] flex items-center justify-center cursor-pointer animated-button px-8 py-3'>
+          <button className='button-content text-xl'>Join Now</button>
         </div>
       </div>
     </main>

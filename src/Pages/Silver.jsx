@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import ExploreCard from '../components/Explore/ExploreCard';
 import { data } from '../StaticData/data';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
-import normal from '../assets/CarNormal.png';
+import normal from '../assets/silver.jpg';
 const Silver = () => {
   const itemsPerPage = 6;
   const [currentPage, setCurrentPage] = useState(1);
@@ -46,12 +46,12 @@ const Silver = () => {
             <p className='text-white mt-3 sm:text-3xl font-semibold'>
               Qatar 8873 <br /> Best Price
             </p>
-            <div className=' flex items-center gap-4 font-semibold '>
-              <button className='border p-2 rounded-xl bg-white sm:mt-3'>
-                Contact Us
+            <div className=' flex items-center gap-4 font-semibold mt-6'>
+              <button className='px-4 py-1 sm:py-3 animated-button rounded-xl bg-white sm:mt-3'>
+                <span className='button-content sm:text-lg'>Contact Us</span>
               </button>
-              <button className='border p-2 rounded-xl bg-white sm:mt-3'>
-                Book Now
+              <button className='px-4 py-1 sm:py-3 animated-button rounded-xl bg-white sm:mt-3'>
+                <span className='button-content sm:text-lg'>Book Now</span>
               </button>
             </div>
           </div>
@@ -62,7 +62,7 @@ const Silver = () => {
       </div>
 
       <h1 className=' font-bold text-black my-4 text-4xl '>Silver Plates</h1>
-      <p className='text-white my-4'>Number Of plates: {data.length}</p>
+      <p className='text-black my-4'>Number Of plates: {data.length}</p>
 
       <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-between gap-4 max-w-[1500px] mx-auto'>
         {currentData.map((plate) => (

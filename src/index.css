@@ -7,3 +7,40 @@
 body {
   background-color: #caba99;
 }
+
+/* Add this to your styles.css */
+.animated-button {
+  position: relative;
+  overflow: hidden;
+  /* font-size: 0.875rem; Adjust for responsive sizing */
+  font-weight: 600;
+  /* background-color: white; */
+  color: black;
+  /* padding: 0.75rem; */
+  border-radius: 0.5rem;
+  transition: color 0.2s ease;
+}
+
+.animated-button:hover {
+  color: white;
+}
+
+.animated-button .button-content {
+  position: relative;
+  z-index: 10;
+}
+
+.animated-button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, #570006, #020617);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease-out;
+  z-index: 0;
+}
+
+.animated-button:hover::before {
+  transform: scaleX(1);
+}

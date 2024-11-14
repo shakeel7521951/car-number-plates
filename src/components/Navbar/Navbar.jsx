@@ -1,18 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { IoIosSearch } from 'react-icons/io';
-import { FaAngleDown, FaBars, FaTimes, FaPlus } from 'react-icons/fa';
+import { FaBars, FaTimes, FaPlus } from 'react-icons/fa';
 import logo from '../../assets/logo.png';
 import { Link } from 'react-router-dom';
-import Login from '../UserComponent/Login';
-import Register from '../UserComponent/Register';
+
 import { CiBellOn, CiHeart } from 'react-icons/ci';
 import person from '../../assets/person1.jpeg';
 import MessageBox from './MessageBox';
 import ProfileMenu from './ProfileMenu';
-import { categoryLinks, menuLinks } from '../../StaticData/data';
+import { menuLinks } from '../../StaticData/data';
 
 const Navbar = () => {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  // const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
 
@@ -20,17 +19,13 @@ const Navbar = () => {
     setIsProfileMenuOpen(!isProfileMenuOpen);
   };
 
-  const dropdownRef = useRef(null);
+  // const dropdownRef = useRef(null);
   const mobileMenuRef = useRef(null);
   const profileMenuRef = useRef(null);
   const profileButtonRef = useRef(null);
   const mobileMenuButtonRef = useRef(null);
 
   const handleClickOutside = (e) => {
-    if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
-      setIsDropdownOpen(false);
-    }
-
     if (
       mobileMenuRef.current &&
       !mobileMenuRef.current.contains(e.target) &&
@@ -58,13 +53,9 @@ const Navbar = () => {
   return (
     <nav className='p-2 relative'>
       <div className='flex items-center justify-between md:justify-between'>
-        <div className='text-white text-xl font-bold'>
+        <div className=' w-32 h-24'>
           <Link to='/'>
-            <img
-              src={logo}
-              alt='Company logo'
-              className='w-16 h-16 md:w-20 md:h-20'
-            />
+            <img src={logo} alt='Company logo' className='w-full h-full ' />
           </Link>
         </div>
 
@@ -111,44 +102,21 @@ const Navbar = () => {
               {link.label}
             </Link>
           ))}
-
-          <div className='relative'>
-            <button
-              className='flex items-center space-x-2 border-b-2 border-transparent hover:border-blue-500 transition-all focus:outline-none'
-              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              ref={dropdownRef}
-            >
-              <span>Categories</span>
-              <FaAngleDown />
-            </button>
-            {isDropdownOpen && (
-              <div className='absolute text-white bg-[#050C2B] font-bold z-10 border border-gray-700 rounded-lg mt-2 w-40'>
-                {categoryLinks.map((category, index) => (
-                  <Link
-                    key={index}
-                    to={category.path}
-                    className='block px-4 py-2 text-sm hover:bg-gray-700 hover:text-white'
-                  >
-                    {category.label}
-                  </Link>
-                ))}
-              </div>
-            )}
-          </div>
         </div>
 
         {/* Sign In and Post Buttons */}
         <main className='hidden md:flex'>
           <div className='hidden md:flex ml-3 justify-center items-center border-2 border-[#9FA2A0] rounded-md'>
-            <button className='bg-transparent w-20 text-white font-bold px-4 py-1 rounded flex items-center justify-center relative'>
-              <FaPlus className='absolute left-2 font-bold text-white' />
+            {/*  if seller then the button should show */}
+            <button className='bg-transparent  text-white font-bold w-max px-4 py-1 rounded flex items-center justify-between '>
+              <FaPlus className=' font-bold text-white' />
               Post
             </button>
           </div>
-          <div className='hidden md:flex ml-4'>
+          <div className='animated-button ml-4 cursor-pointer bg-white px-4 py-3'>
             <Link
               to={'/login'}
-              className='bg-[#D4FF00] hover:bg-[#dfff3d] text-black px-4 py-1 rounded-lg'
+              className=' button-content  px-4 py-1 rounded-lg'
             >
               Sign In
             </Link>
@@ -163,7 +131,7 @@ const Navbar = () => {
             <input
               type='text'
               placeholder='Search...'
-              className='w-full p-2 rounded-xl bg-[#EAEAEA] text-white placeholder-gray-400 focus:outline-none'
+              className='w-full p-2 rounded-xl bg-[#EAEAEA]  placeholder-gray-400 focus:outline-none'
             />
             <IoIosSearch className='absolute right-2 text-2xl' />
           </div>

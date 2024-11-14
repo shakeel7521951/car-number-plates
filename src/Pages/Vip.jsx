@@ -47,11 +47,11 @@ const Vip = () => {
               Qatar 8873 <br /> Best Price
             </p>
             <div className=' flex items-center gap-4 font-semibold '>
-              <button className='border p-2 rounded-xl bg-white sm:mt-3'>
-                Contact Us
+              <button className='px-4 py-1 sm:py-3 animated-button rounded-xl bg-white sm:mt-3'>
+                <span className='button-content text-lg'>Contact Us</span>
               </button>
-              <button className='border p-2 rounded-xl bg-white sm:mt-3'>
-                Book Now
+              <button className='px-4 py-1 sm:py-3 animated-button rounded-xl bg-white sm:mt-3'>
+                <span className='button-content text-lg'>Book Now</span>
               </button>
             </div>
           </div>

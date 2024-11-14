@@ -61,7 +61,7 @@ const Login = () => {
 
           <div className='w-full md:p-10 flex flex-col justify-center mt-6 md:mt-0'>
             <h2 className='text-2xl font-semibold mb-4 text-center text-[#050C2B]'>
-              Sign Up
+              Log In
             </h2>
             <form className='space-y-4' onSubmit={handleSubmit}>
               <div>
