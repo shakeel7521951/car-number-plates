@@ -1,5 +1,5 @@
 // App.js
-import React from 'react';
+import React, { useEffect } from 'react';
 import { RouterProvider, createBrowserRouter, Outlet } from 'react-router-dom';
 import './App.css';
 import Navbar from './components/Navbar/Navbar';
@@ -27,6 +27,9 @@ import Login from './components/UserComponent/Login';
 import Register from './components/UserComponent/Register';
 import Profile from './Pages/profileRoutes/Profile';
 import UpdateProfile from './Pages/profileRoutes/UpdateProfile.jsx';
+import { useDispatch } from 'react-redux';
+import { useProfileQuery } from './Redux/userRoutes/userApi.js';
+import { setProfile } from './Redux/userRoutes/userSlice.js';
 
 // Layout for pages with Navbar and Footer
 const MainLayout = () => (
@@ -38,17 +41,19 @@ const MainLayout = () => (
 );
 
 // Dashboard layout with Sidebar only
-const DashboardLayout = () => (
-  <div style={{ display: 'flex' }}>
-    <DashboardSidebar />
-    <div
-      style={{ flex: 1, padding: '20px' }}
-      className='lg:ml-[18%] overflow-x-hidden'
-    >
-      <Outlet />
+const DashboardLayout = () => {
+  return (
+    <div style={{ display: 'flex' }}>
+      <DashboardSidebar />
+      <div
+        style={{ flex: 1, padding: '20px' }}
+        className='lg:ml-[18%] overflow-x-hidden'
+      >
+        <Outlet />
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 // Define routes using createBrowserRouter
 const router = createBrowserRouter([
@@ -94,6 +99,22 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
+  const dispatch = useDispatch();
+  const { data: profile, isLoading, isError } = useProfileQuery();
+
+  useEffect(() => {
+    if (profile) {
+      dispatch(setProfile(profile));
+    }
+  }, [profile, dispatch]);
+
+  if (isLoading) {
+    <h1>Loading...</h1>;
+  }
+  if (isError) {
+    <h1>Error wile fetching</h1>;
+  }
+
   return (
     <div className='App'>
       <RouterProvider router={router} />

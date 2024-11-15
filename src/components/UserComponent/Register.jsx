@@ -1,15 +1,19 @@
 import { useState } from 'react';
 import Car from '../../assets/CarRegister.png';
-import { IoMdCloseCircleOutline, IoMdEye, IoMdEyeOff } from 'react-icons/io';
-import { Link } from 'react-router-dom';
+import { IoMdEye, IoMdEyeOff } from 'react-icons/io';
+import { Link, useNavigate } from 'react-router-dom';
+import { useSignupMutation } from '../../Redux/userRoutes/userApi';
+import { toast } from 'react-toastify'; // Import Toastify
 
 const Register = () => {
+  const [signup, { isLoading }] = useSignupMutation(); // Destructure mutation state
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     password: '',
     confirmPassword: '',
-    userRole: '', // New field for user role
+    role: '',
   });
 
   const [errors, setErrors] = useState({});
@@ -18,33 +22,27 @@ const Register = () => {
 
   const validateForm = () => {
     const newErrors = {};
-    const { name, email, password, confirmPassword, userRole } = formData;
+    const { name, email, password, confirmPassword, role } = formData;
 
-    // Validate name
     if (!name) newErrors.name = 'Name is required';
 
-    // Validate email
     if (!email) {
       newErrors.email = 'Email is required';
     } else if (!/\S+@\S+\.\S+/.test(email)) {
       newErrors.email = 'Email address is invalid';
     }
 
-    // Validate password
     if (!password) {
       newErrors.password = 'Password is required';
     } else if (password.length < 6) {
       newErrors.password = 'Password must be at least 6 characters long';
     }
 
-    // Validate confirm password
     if (password !== confirmPassword) {
       newErrors.confirmPassword = 'Passwords do not match';
     }
 
-    // Validate user role
-    if (!userRole)
-      newErrors.userRole = 'Please select a role (Seller or Buyer)';
+    if (!role) newErrors.role = 'Please select a role (Seller or Buyer)';
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -57,12 +55,25 @@ const Register = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
-      console.log(formData);
+      try {
+        const { confirmPassword, ...data } = formData;
+        const result = await signup(data).unwrap();
+        toast.success('Signup successful:', result?.message);
+        navigate('/');
+      } catch (err) {
+        console.log('err', err);
+        toast.error(
+          `Signup failed: ${err?.data?.message || 'An error occurred'}`
+        );
+      }
     }
   };
+  if (isLoading) {
+    <h1>Loading...</h1>;
+  }
 
   return (
     <div className='flex items-center justify-center bg-[#caba99] mx-auto lg:max-w-[95vw] my-2'>
@@ -76,7 +87,6 @@ const Register = () => {
           />
         </div>
 
-        {/* Form Section */}
         <div className='w-full md:w-1/2 p-8 md:p-10 flex flex-col'>
           <h1 className='text-xl text-center font-semibold text-[#050C2B] italic'>
             "Complete your detail to access exclusive plate number in Qatar"
@@ -159,8 +169,8 @@ const Register = () => {
               {/* Select Role Field */}
               <div>
                 <select
-                  name='userRole'
-                  value={formData.userRole}
+                  name='role'
+                  value={formData.role}
                   onChange={handleChange}
                   className='w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:border-blue-500'
                 >
@@ -168,12 +178,13 @@ const Register = () => {
                   <option value='seller'>Seller</option>
                   <option value='buyer'>Buyer</option>
                 </select>
-                {errors.userRole && (
-                  <p className='text-red-500 text-sm'>{errors.userRole}</p>
+                {errors.role && (
+                  <p className='text-red-500 text-sm'>{errors.role}</p>
                 )}
               </div>
 
               <button
+                disabled={isLoading}
                 type='submit'
                 className='w-full bg-[#050c2b] text-white p-2 rounded-md hover:bg-[#090d1d] transition-colors'
               >

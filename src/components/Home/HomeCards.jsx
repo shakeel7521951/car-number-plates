@@ -5,7 +5,6 @@ import { data } from '../../StaticData/data';
 
 const HomeCards = () => {
   const subData = data.splice(0, 3);
-  console.log(subData);
 
   return (
     <div className='mt-5 p-10'>

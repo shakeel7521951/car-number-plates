@@ -1,9 +1,12 @@
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import carImg from '../../assets/CarLogin.png';
 import { IoMdEye, IoMdEyeOff } from 'react-icons/io';
+import { useLoginMutation } from '../../Redux/userRoutes/userApi';
+import { toast } from 'react-toastify';
 
 const Login = () => {
+  const [login, { isLoading }] = useLoginMutation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -28,17 +31,19 @@ const Login = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = useCallback(
-    (e) => {
-      e.preventDefault();
-      if (validateForm()) {
-        console.log('Email:', email);
-        console.log('Password:', password);
-        // Handle form submission logic here (API call or navigation)
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (validateForm()) {
+      try {
+        const result = await login({ email, password }).unwrap();
+        toast.success(result?.message);
+        navigate('/');
+      } catch (error) {
+        console.log(error);
+        toast.error(error?.data?.message);
       }
-    },
-    [email, password]
-  );
+    }
+  };
 
   return (
     <div className='flex items-center justify-center bg-[#caba99] mx-auto lg:max-w-[95vw] my-2'>
@@ -105,6 +110,7 @@ const Login = () => {
 
               <button
                 type='submit'
+                disabled={isLoading}
                 className='w-full bg-[#050c2b] text-white p-3 rounded-md hover:bg-[#090d1d] transition-colors'
               >
                 Log In

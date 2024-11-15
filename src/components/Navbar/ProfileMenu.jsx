@@ -1,8 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import person from '../../assets/person1.jpeg';
+import { useProfileQuery } from '../../Redux/userRoutes/userApi';
+import { useDispatch, useSelector } from 'react-redux';
+import { setProfile } from '../../Redux/userRoutes/userSlice';
+// import { useProfileMutation } from '../../Redux/userRoutes/userApi';
 
 const ProfileMenu = ({ onClose }) => {
+  const sellerProfile = [
+    { path: '/dashboard', text: 'Dashboard' },
+    { path: '/listing', text: 'My Listing' },
+  ];
+  const { profile } = useSelector((state) => state.user);
+  console.log(profile);
   return (
     <div>
       <div className='flex items-center mb-4'>
@@ -43,7 +53,6 @@ const ProfileMenu = ({ onClose }) => {
         <li className='my-2'>
           <button
             onClick={() => {
-              /* Add your logout function here */
               onClose();
             }}
             className='text-gray-700 hover:text-blue-500'
