@@ -100,19 +100,16 @@ const router = createBrowserRouter([
 
 function App() {
   const dispatch = useDispatch();
-  const { data: profile, isLoading, isError } = useProfileQuery();
-
+  const { data: profile, isLoading } = useProfileQuery();
+  console.log('app', profile?.user);
   useEffect(() => {
-    if (profile) {
-      dispatch(setProfile(profile));
+    if (profile?.user) {
+      dispatch(setProfile(profile?.user));
     }
   }, [profile, dispatch]);
 
   if (isLoading) {
-    <h1>Loading...</h1>;
-  }
-  if (isError) {
-    <h1>Error wile fetching</h1>;
+    return <h1>Loading...</h1>;
   }
 
   return (

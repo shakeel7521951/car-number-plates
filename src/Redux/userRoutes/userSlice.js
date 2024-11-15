@@ -7,7 +7,8 @@ const userSlice = createSlice({
   },
   reducers: {
     setProfile: (state, action) => {
-      state.profile = action.payload?.user; // Update profile
+      console.log(action);
+      state.profile = action?.payload;
     },
     clearProfile: (state) => {
       state.profile = null; // Clear profile on logout

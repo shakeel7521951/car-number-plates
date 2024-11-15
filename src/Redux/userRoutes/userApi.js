@@ -50,10 +50,11 @@ export const apiSlice = createApi({
         method: 'DELETE',
       }),
     }),
-    logout: builder.query({
+    logout: builder.mutation({
       query: () => ({
         url: '/logout',
         method: 'GET',
+        credentials: 'include',
       }),
     }),
   }),
@@ -66,5 +67,5 @@ export const {
   useAddItemMutation,
   useDeleteItemMutation,
   useProfileQuery,
-  useLogoutQuery,
+  useLogoutMutation,
 } = apiSlice;

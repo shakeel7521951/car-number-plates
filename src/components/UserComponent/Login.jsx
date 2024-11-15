@@ -4,6 +4,8 @@ import carImg from '../../assets/CarLogin.png';
 import { IoMdEye, IoMdEyeOff } from 'react-icons/io';
 import { useLoginMutation } from '../../Redux/userRoutes/userApi';
 import { toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
+import { setProfile } from '../../Redux/userRoutes/userSlice';
 
 const Login = () => {
   const [login, { isLoading }] = useLoginMutation();
@@ -12,7 +14,7 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   const validateForm = () => {
     const newErrors = {};
     if (!email) {
@@ -37,6 +39,7 @@ const Login = () => {
       try {
         const result = await login({ email, password }).unwrap();
         toast.success(result?.message);
+        dispatch(setProfile(result?.user));
         navigate('/');
       } catch (error) {
         console.log(error);

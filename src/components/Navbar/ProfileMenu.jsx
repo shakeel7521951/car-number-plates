@@ -1,18 +1,31 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import person from '../../assets/person1.jpeg';
-import { useProfileQuery } from '../../Redux/userRoutes/userApi';
+import { useLogoutMutation } from '../../Redux/userRoutes/userApi';
 import { useDispatch, useSelector } from 'react-redux';
 import { setProfile } from '../../Redux/userRoutes/userSlice';
-// import { useProfileMutation } from '../../Redux/userRoutes/userApi';
+import { toast } from 'react-toastify';
 
 const ProfileMenu = ({ onClose }) => {
+  const dispatch = useDispatch();
   const sellerProfile = [
     { path: '/dashboard', text: 'Dashboard' },
     { path: '/listing', text: 'My Listing' },
   ];
   const { profile } = useSelector((state) => state.user);
   console.log(profile);
+
+  const [logout, { isLoading }] = useLogoutMutation();
+
+  const handleLogout = async () => {
+    try {
+      const response = await logout().unwrap();
+      toast.success(response?.message);
+      dispatch(setProfile(null));
+    } catch (error) {
+      toast.error(error?.data?.message || 'User Is Currently logout');
+    }
+  };
   return (
     <div>
       <div className='flex items-center mb-4'>
@@ -52,9 +65,8 @@ const ProfileMenu = ({ onClose }) => {
         </li>
         <li className='my-2'>
           <button
-            onClick={() => {
-              onClose();
-            }}
+            disabled={isLoading}
+            onClick={handleLogout}
             className='text-gray-700 hover:text-blue-500'
           >
             Logout
