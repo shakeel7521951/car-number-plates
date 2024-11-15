@@ -25,6 +25,8 @@ import DashboardSidebar from './Pages/Dashboard/DashboardSidebar';
 import Dashboard from './Pages/Dashboard/Dashboard';
 import Login from './components/UserComponent/Login';
 import Register from './components/UserComponent/Register';
+import Profile from './Pages/profileRoutes/Profile';
+import UpdateProfile from './Pages/profileRoutes/UpdateProfile.jsx';
 
 // Layout for pages with Navbar and Footer
 const MainLayout = () => (
@@ -39,7 +41,10 @@ const MainLayout = () => (
 const DashboardLayout = () => (
   <div style={{ display: 'flex' }}>
     <DashboardSidebar />
-    <div style={{ flex: 1, padding: '20px' }}>
+    <div
+      style={{ flex: 1, padding: '20px' }}
+      className='lg:ml-[18%] overflow-x-hidden'
+    >
       <Outlet />
     </div>
   </div>
@@ -59,8 +64,10 @@ const router = createBrowserRouter([
       { path: '/single-card/:id', element: <PlateDetailPage /> },
       { path: '/message', element: <Chat /> },
       { path: '/update-password', element: <UpdatePassword /> },
+      { path: '/update-profile', element: <UpdateProfile /> },
       { path: '/listing', element: <MyListing /> },
       { path: '/forgot-password', element: <ForgotPassword /> },
+      { path: '/profile', element: <Profile /> },
       { path: '/seller-dashboard', element: <SellerDashboard /> },
     ],
   },

@@ -107,9 +107,9 @@ const DashboardUser = () => {
 
   return (
     <div className='w-[82%] mx-auto'>
-      <h1 className='text-xl font-semibold mb-4'>Users</h1>
-
-      <div className='bg-white rounded-3xl shadow-lg overflow-hidden p-2'>
+      <h1 className='text-xl font-semibold mb-4 lg:text-left text-center'>Users</h1>
+       <div className='overflow-x-auto'>
+       <div className='min-w-[500px] bg-white rounded-3xl shadow-lg overflow-hidden p-2'>
         {/* Header */}
         <div className='grid grid-cols-5 bg-gray-100 rounded-xl border-[1px] border-black'>
           <div className='p-4 font-medium'>User ID</div>
@@ -135,8 +135,8 @@ const DashboardUser = () => {
                 />
               </div>
               <div className='p-4 text-gray-700'>{user.user_name}</div>
-              <div className='p-4 text-gray-700'>{user.user_email}</div>
-              <div className='p-4 flex space-x-4'>
+              <div className='p-4 text-gray-700 break-words'>{user.user_email}</div>
+              <div className='p-4 flex space-x-2'>
                 {/* Edit Button */}
                 <button
                   className='text-gray-600 hover:text-gray-800'
@@ -156,6 +156,8 @@ const DashboardUser = () => {
           ))}
         </div>
       </div>
+       </div>
+
 
       {/* Edit User Modal */}
       {isEditModalOpen && (

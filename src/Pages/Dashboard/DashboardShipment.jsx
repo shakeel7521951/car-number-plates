@@ -107,13 +107,13 @@ const DashboardShipment = () => {
   console.log(price);
   return (
     <div className='w-[82%] mx-auto'>
-      <h1 className='text-xl font-semibold mb-4'>Shipments</h1>
+      <h1 className='text-xl font-semibold mb-4 lg:text-left text-center'>Number Transfer</h1>
 
       <div className='flex flex-wrap justify-around gap-4 p-2'>
         {data.map((item) => (
           <div
             key={item.id}
-            className='h-[20vh] w-full sm:w-1/2 md:w-1/3 lg:w-[16%] rounded-xl bg-gradient-to-t from-white via-[#c3e88a]-500 to-[#c3e88a] flex justify-center items-center px-3 mb-4'
+            className='h-[20vh] w-full sm:w-1/2 md:w-1/3 lg:w-[23%] lg:h-[20vh] rounded-xl bg-gradient-to-t from-white via-[#c3e88a]-500 to-[#c3e88a] flex justify-center items-center px-3 mb-4'
           >
             <div className='flex justify-center items-center gap-5'>
               <img
@@ -130,7 +130,8 @@ const DashboardShipment = () => {
         ))}
       </div>
 
-      <div className='bg-white rounded-3xl shadow-lg overflow-hidden p-2'>
+          <div className='overflow-x-auto'>
+          <div className='min-w-[700px] bg-white rounded-3xl shadow-lg overflow-hidden p-2'>
         {/* Header */}
         <div className='grid grid-cols-8 bg-gray-100 rounded-xl border-[1px] border-black'>
           <div className='p-4 font-medium'>Order ID</div>
@@ -188,6 +189,8 @@ const DashboardShipment = () => {
           ))}
         </div>
       </div>
+          </div>
+
 
       {/* Edit User Modal */}
       {isEditModalOpen && (
