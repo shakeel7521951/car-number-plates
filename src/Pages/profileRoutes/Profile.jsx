@@ -17,8 +17,8 @@ const Profile = () => {
           <h2 className='text-xl font-bold text-gray-800'>
             Hello, {profile?.name}!
           </h2>
-          <p className='text-gray-600'>{profile.email}</p>
-          <p className='text-gray-600'>Role : {profile.role}</p>
+          <p className='text-gray-600'>{profile?.email}</p>
+          <p className='text-gray-600'>Role : {profile?.role}</p>
         </div>
       </div>
 
