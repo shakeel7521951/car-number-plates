@@ -1,13 +1,18 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { apiSlice } from './userRoutes/userApi'; // Import the correct API slice
+import { apiSlice } from './userRoutes/userApi';
 import userReducer from './userRoutes/userSlice';
+import { productApi } from './userRoutes/productApi';
+
 export const store = configureStore({
   reducer: {
-    [apiSlice.reducerPath]: apiSlice.reducer, // Add the API slice reducer
-    user: userReducer, // Add the user reducer
+    [apiSlice.reducerPath]: apiSlice.reducer,
+    user: userReducer,
+    [productApi.reducerPath]: productApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(apiSlice.middleware), // Add API slice middleware
+    getDefaultMiddleware()
+      .concat(apiSlice.middleware)
+      .concat(productApi.middleware),
 });
 
 export default store;

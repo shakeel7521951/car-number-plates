@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 
 const ExploreCard = ({
   id = 1,
+  _id,
   views = 324,
   like = 44,
   plateNumber = 124234,

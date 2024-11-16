@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { baseUrl } from '../../BaseUrl';
 
-export const adminApi = createApi({
+export const productApi = createApi({
   reducerPath: 'product',
   baseQuery: fetchBaseQuery({
     baseUrl: `${baseUrl}/api/v1`,
@@ -14,8 +14,13 @@ export const adminApi = createApi({
     },
     credentials: 'include',
   }),
-  endpoints: (builder) => ({}),
+  endpoints: (builder) => ({
+    getAllProducts: builder.query({
+      query: () => ({
+        url: '/getAllProducts',
+      }),
+    }),
+  }),
 });
 
-// Export hooks for each endpoint
-// export const {} = adminApi;
+export const { useGetAllProductsQuery } = productApi;
