@@ -51,11 +51,17 @@ export const apiSlice = createApi({
         body: passwordCredentials,
       }),
     }),
-
     logout: builder.mutation({
       query: () => ({
         url: '/logout',
         method: 'GET',
+        credentials: 'include',
+      }),
+    }),
+    deleteProfile: builder.mutation({
+      query: () => ({
+        url: '/delete',
+        method: 'DELETE',
         credentials: 'include',
       }),
     }),
@@ -67,8 +73,8 @@ export const {
   useLoginMutation,
   useSignupMutation,
   useUpdateUserMutation,
-  useDeleteItemMutation,
   useProfileQuery,
   useLogoutMutation,
   useUpdatePasswordMutation,
+  useDeleteProfileMutation,
 } = apiSlice;

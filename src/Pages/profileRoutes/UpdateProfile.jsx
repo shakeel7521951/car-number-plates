@@ -21,7 +21,7 @@ const UpdateProfile = () => {
       dispatch(setProfile(result?.user));
       navigate('/profile');
     } catch (error) {
-      toast.error(error?.data?.message);
+      toast.error(error?.data?.message || 'Error While Updating Profile');
     }
   };
 

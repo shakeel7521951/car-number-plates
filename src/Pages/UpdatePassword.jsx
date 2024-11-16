@@ -13,8 +13,6 @@ const UpdatePassword = () => {
     confirmPassword: '',
   });
 
-  const [isPasswordUpdated, setIsPasswordUpdated] = useState(false);
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -27,7 +25,6 @@ const UpdatePassword = () => {
     e.preventDefault();
     const { oldPassword, password, confirmPassword } = formData;
     console.log(formData);
-    // Validate that the new password and confirm password match
     if (password !== confirmPassword) {
       toast.error('Password is not Match ');
       return;
@@ -43,7 +40,7 @@ const UpdatePassword = () => {
       navigate('/profile');
     } catch (error) {
       console.log(error);
-      toast.error(error?.data?.message);
+      toast.error(error?.data?.message || 'Error while updating password');
     }
   };
 
@@ -112,12 +109,6 @@ const UpdatePassword = () => {
                 Update Password
               </button>
             </form>
-
-            {isPasswordUpdated && (
-              <div className='text-green-500 mt-4 text-center'>
-                Your password has been updated successfully!
-              </div>
-            )}
           </div>
         </div>
       </div>

@@ -4,10 +4,13 @@ import { IoMdEye, IoMdEyeOff } from 'react-icons/io';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSignupMutation } from '../../Redux/userRoutes/userApi';
 import { toast } from 'react-toastify'; // Import Toastify
+import { useDispatch } from 'react-redux';
+import { setProfile } from '../../Redux/userRoutes/userSlice';
 
 const Register = () => {
   const [signup, { isLoading }] = useSignupMutation(); // Destructure mutation state
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -62,7 +65,10 @@ const Register = () => {
         const { confirmPassword, ...data } = formData;
         const result = await signup(data).unwrap();
         toast.success('Signup successful:', result?.message);
-        navigate('/');
+        console.log(result?.user);
+        dispatch(setProfile(result?.user));
+
+        navigate('/explore');
       } catch (err) {
         console.log('err', err);
         toast.error(

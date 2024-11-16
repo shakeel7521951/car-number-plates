@@ -9,14 +9,20 @@ import { toast } from 'react-toastify';
 const ProfileMenu = ({ onClose }) => {
   const dispatch = useDispatch();
   const sellerProfile = [
-    { path: '/dashboard', text: 'Dashboard' },
+    { path: '/seller-dashboard', text: 'Dashboard' },
     { path: '/listing', text: 'My Listing' },
   ];
+  const adminRoute = [{ path: '/dashboard', text: 'Dashboard' }];
   const { profile } = useSelector((state) => state.user);
-  console.log(profile);
-
+  console.log(profile.role);
+  const userProfile = [{ path: '/history', text: 'Purchasing History' }];
   const [logout, { isLoading }] = useLogoutMutation();
-
+  const userArray =
+    profile?.role === 'Seller'
+      ? [...sellerProfile]
+      : profile?.role === 'Admin'
+      ? [...adminRoute]
+      : [...userProfile];
   const handleLogout = async () => {
     try {
       const response = await logout().unwrap();
@@ -44,7 +50,20 @@ const ProfileMenu = ({ onClose }) => {
       <hr className='border-t-2 border-[#D4FF00] my-4' />
 
       <ul>
-        <li className='my-2'>
+        {userArray.map((item) => {
+          return (
+            <li key={item?.path} className='my-2'>
+              <Link
+                to={item.path}
+                onClick={onClose}
+                className='text-gray-700 hover:text-blue-500'
+              >
+                {item.text}
+              </Link>
+            </li>
+          );
+        })}
+        {/* <li className='my-2'>
           <Link
             to='/dashboard'
             onClick={onClose}
@@ -62,17 +81,17 @@ const ProfileMenu = ({ onClose }) => {
           >
             My Listings
           </Link>
-        </li>
-        <li className='my-2'>
-          <button
-            disabled={isLoading}
-            onClick={handleLogout}
-            className='text-gray-700 hover:text-blue-500'
-          >
-            Logout
-          </button>
-        </li>
+        </li> */}
       </ul>
+      <div className='my-2'>
+        <button
+          disabled={isLoading}
+          onClick={handleLogout}
+          className='text-gray-700 hover:text-blue-500'
+        >
+          Logout
+        </button>
+      </div>
     </div>
   );
 };

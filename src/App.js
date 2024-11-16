@@ -30,6 +30,7 @@ import UpdateProfile from './Pages/profileRoutes/UpdateProfile.jsx';
 import { useDispatch } from 'react-redux';
 import { useProfileQuery } from './Redux/userRoutes/userApi.js';
 import { setProfile } from './Redux/userRoutes/userSlice.js';
+import ProtectedRoute from './Pages/ProtectedRoute.jsx';
 
 // Layout for pages with Navbar and Footer
 const MainLayout = () => (
@@ -55,7 +56,6 @@ const DashboardLayout = () => {
   );
 };
 
-// Define routes using createBrowserRouter
 const router = createBrowserRouter([
   {
     element: <MainLayout />,
@@ -70,15 +70,35 @@ const router = createBrowserRouter([
       { path: '/message', element: <Chat /> },
       { path: '/update-password', element: <UpdatePassword /> },
       { path: '/update-profile', element: <UpdateProfile /> },
-      { path: '/listing', element: <MyListing /> },
       { path: '/forgot-password', element: <ForgotPassword /> },
       { path: '/profile', element: <Profile /> },
-      { path: '/seller-dashboard', element: <SellerDashboard /> },
+
+      // Protected seller routes
+      {
+        path: '/listing',
+        element: (
+          <ProtectedRoute allowedRoles={['Seller']}>
+            <MyListing />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/seller-dashboard',
+        element: (
+          <ProtectedRoute allowedRoles={['Seller']}>
+            <SellerDashboard />
+          </ProtectedRoute>
+        ),
+      },
     ],
   },
   {
     path: '/dashboard',
-    element: <DashboardLayout />, // For dashboard routes with Sidebar only
+    element: (
+      <ProtectedRoute allowedRoles={['Admin']}>
+        <DashboardLayout />
+      </ProtectedRoute>
+    ),
     children: [
       { index: true, element: <Dashboard /> },
       { path: 'orders', element: <DashboardOrder /> },
@@ -100,17 +120,13 @@ const router = createBrowserRouter([
 
 function App() {
   const dispatch = useDispatch();
-  const { data: profile, isLoading } = useProfileQuery();
+  const { data: profile } = useProfileQuery();
   console.log('app', profile?.user);
   useEffect(() => {
     if (profile?.user) {
       dispatch(setProfile(profile?.user));
     }
   }, [profile, dispatch]);
-
-  if (isLoading) {
-    return <h1>Loading...</h1>;
-  }
 
   return (
     <div className='App'>

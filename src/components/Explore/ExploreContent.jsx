@@ -3,8 +3,11 @@ import ExploreCard from './ExploreCard';
 import { data } from '../../StaticData/data';
 import Rectangle_50 from '../../assets/Rectangle 50.png';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { useSelector } from 'react-redux';
 
 const ExploreContent = () => {
+  const { profile } = useSelector((state) => state.user);
+
   const itemsPerPage = 6;
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -41,7 +44,9 @@ const ExploreContent = () => {
         />
         <div className='absolute inset-0 bg-black bg-opacity-40 flex  justify-between p-4 md:px-12 md:py-8'>
           <div className='text-white space-y-3'>
-            <h1 className='text-3xl md:text-5xl font-bold'>Welcome, Lusail</h1>
+            <h1 className='text-3xl md:text-5xl font-bold'>
+              Welcome, {profile?.name}
+            </h1>
             <p className='text-lg md:text-2xl'>Buy & Sell Your Number Plates</p>
             <button className='border border-white py-2 px-4 rounded-lg bg-transparent mt-3 hover:bg-white hover:text-black transition'>
               Get Started

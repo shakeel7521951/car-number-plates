@@ -88,7 +88,6 @@ const SellerDataCards = () => {
           </p>
         )}
       </main>
-      {console.log('seller', sellerData)}
       <div className='w-full flex items-center justify-center'>
         <button
           onClick={handleCount}

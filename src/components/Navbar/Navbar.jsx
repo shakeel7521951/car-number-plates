@@ -9,8 +9,10 @@ import person from '../../assets/person1.jpeg';
 import MessageBox from './MessageBox';
 import ProfileMenu from './ProfileMenu';
 import { menuLinks } from '../../StaticData/data';
+import { useSelector } from 'react-redux';
 
 const Navbar = () => {
+  const { profile } = useSelector((state) => state.user);
   // const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
@@ -61,27 +63,29 @@ const Navbar = () => {
 
         {/* Mobile Menu Icon */}
         <div className='md:hidden flex gap-4'>
-          <main>
-            <div
-              className='w-10 h-10 rounded-full cursor-pointer'
-              onClick={toggleProfileMenu}
-              ref={profileButtonRef} // Add ref to the profile button
-            >
-              <img
-                src={person}
-                alt='Person'
-                className='object-cover w-full h-full rounded-full'
-              />
-            </div>
-            {isProfileMenuOpen && (
-              <main
-                className='absolute top-16 right-10 bg-white rounded-lg shadow-lg w-56 p-4 z-30'
-                ref={profileMenuRef}
+          {profile && (
+            <main>
+              <div
+                className='w-10 h-10 rounded-full cursor-pointer'
+                onClick={toggleProfileMenu}
+                ref={profileButtonRef} // Add ref to the profile button
               >
-                <ProfileMenu onClose={() => setIsProfileMenuOpen(false)} />
-              </main>
-            )}
-          </main>
+                <img
+                  src={person}
+                  alt='Person'
+                  className='object-cover w-full h-full rounded-full'
+                />
+              </div>
+              {isProfileMenuOpen && (
+                <main
+                  className='absolute top-16 right-10 bg-white rounded-lg shadow-lg w-56 p-4 z-30'
+                  ref={profileMenuRef}
+                >
+                  <ProfileMenu onClose={() => setIsProfileMenuOpen(false)} />
+                </main>
+              )}
+            </main>
+          )}
           <button
             onClick={() => setIsMobileMenuOpen(true)}
             className='text-white text-2xl'
@@ -106,21 +110,26 @@ const Navbar = () => {
 
         {/* Sign In and Post Buttons */}
         <main className='hidden md:flex'>
-          <div className='hidden md:flex ml-3 justify-center items-center border-2 border-[#9FA2A0] rounded-md'>
-            {/*  if seller then the button should show */}
-            <button className='bg-transparent  text-white font-bold w-max px-4 py-1 rounded flex items-center justify-between '>
-              <FaPlus className=' font-bold text-white' />
-              Post
-            </button>
-          </div>
-          <div className='animated-button ml-4 cursor-pointer bg-white px-4 py-3'>
-            <Link
-              to={'/login'}
-              className=' button-content  px-4 py-1 rounded-lg'
-            >
-              Sign In
-            </Link>
-          </div>
+          {profile?.role === 'seller' && (
+            <div className='hidden md:flex ml-3 justify-center items-center border-2 border-[#9FA2A0] rounded-md'>
+              {/*  if seller then the button should show */}
+
+              <button className='bg-transparent  text-white font-bold w-max px-4 py-1 rounded flex items-center justify-between '>
+                <FaPlus className=' font-bold text-white' />
+                Post
+              </button>
+            </div>
+          )}
+          {!profile && (
+            <div className='animated-button ml-4 cursor-pointer bg-white px-4 py-3'>
+              <Link
+                to={'/login'}
+                className=' button-content  px-4 py-1 rounded-lg'
+              >
+                Sign In
+              </Link>
+            </div>
+          )}
         </main>
       </div>
 
@@ -136,32 +145,34 @@ const Navbar = () => {
             <IoIosSearch className='absolute right-2 text-2xl' />
           </div>
         </div>
-        <div className='flex gap-4'>
-          <CiHeart size='40px' />
-          <CiBellOn size='40px' />
-          <MessageBox />
-          <main>
-            <div
-              className='w-10 h-10 rounded-full cursor-pointer'
-              onClick={toggleProfileMenu}
-              ref={profileButtonRef} // Profile button ref
-            >
-              <img
-                src={person}
-                alt='Person'
-                className='object-cover w-full h-full rounded-full'
-              />
-            </div>
-            {isProfileMenuOpen && (
-              <main
-                className='absolute top-32 right-10 bg-white rounded-lg shadow-lg w-56 p-4 z-30'
-                ref={profileMenuRef}
+        {profile && (
+          <div className='flex gap-4'>
+            <CiHeart size='40px' />
+            <CiBellOn size='40px' />
+            <MessageBox />
+            <main>
+              <div
+                className='w-10 h-10 rounded-full cursor-pointer'
+                onClick={toggleProfileMenu}
+                ref={profileButtonRef} // Profile button ref
               >
-                <ProfileMenu onClose={() => setIsProfileMenuOpen(false)} />
-              </main>
-            )}
-          </main>
-        </div>
+                <img
+                  src={person}
+                  alt='Person'
+                  className='object-cover w-full h-full rounded-full'
+                />
+              </div>
+              {isProfileMenuOpen && (
+                <main
+                  className='absolute top-32 right-10 bg-white rounded-lg shadow-lg w-56 p-4 z-30'
+                  ref={profileMenuRef}
+                >
+                  <ProfileMenu onClose={() => setIsProfileMenuOpen(false)} />
+                </main>
+              )}
+            </main>
+          </div>
+        )}
       </div>
 
       {/* Mobile Sidebar */}
