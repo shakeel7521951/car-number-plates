@@ -1,24 +1,28 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
+import { useUpdateUserMutation } from '../../Redux/userRoutes/userApi';
+import { toast } from 'react-toastify';
+import { setProfile } from '../../Redux/userRoutes/userSlice';
 
 const UpdateProfile = () => {
   const navigate = useNavigate();
-
-  // Mock current user data
-  const currentUser = {
-    name: 'John Doe',
-    role: 'Buyer', // default role, update this dynamically in production
-  };
-
-  // Form state
-  const [name, setName] = useState(currentUser.name);
-  const [role, setRole] = useState(currentUser.role);
-
-  const handleUpdate = (e) => {
+  const dispatch = useDispatch();
+  const [updateUser, { isLoading }] = useUpdateUserMutation();
+  const { profile } = useSelector((state) => state.user);
+  const [name, setName] = useState(profile?.name);
+  const [role, setRole] = useState(profile?.role);
+  const handleUpdate = async (e) => {
     e.preventDefault();
-    // Implement actual update logic here
-    alert(`Profile updated:\nName: ${name}\nRole: ${role}`);
-    navigate('/profile'); // Navigate back to profile after saving changes
+    try {
+      const result = await updateUser({ name, role }).unwrap();
+      console.log(result?.user);
+      toast.success('Update Profile Successfully');
+      dispatch(setProfile(result?.user));
+      navigate('/profile');
+    } catch (error) {
+      toast.error(error?.data?.message);
+    }
   };
 
   return (
@@ -29,16 +33,16 @@ const UpdateProfile = () => {
           <label className='block text-gray-700'>Name</label>
           <input
             type='text'
-            value={name}
+            defaultValue={profile?.name}
             onChange={(e) => setName(e.target.value)}
-            className='w-full px-4 py-2  rounded border border-black'
+            className='w-full px-4 py-2 rounded border border-black'
             required
           />
         </div>
         <div className='mb-4'>
           <label className='block text-gray-700'>Role</label>
           <select
-            value={role}
+            defaultValue={profile?.role}
             onChange={(e) => setRole(e.target.value)}
             className='w-full px-4 py-2 border rounded border-black'
             required
@@ -48,12 +52,16 @@ const UpdateProfile = () => {
           </select>
         </div>
         <div className='flex justify-between flex-wrap'>
-          <button type='submit' className='px-4 py-2 animated-button'>
-            <span className='button-content '>Save Changes</span>
+          <button
+            type='submit'
+            className='px-4 py-2 animated-button'
+            disabled={isLoading}
+          >
+            <span className='button-content'>Save Changes</span>
           </button>
 
-          <div className='animated-button px-4 py-2 '>
-            <Link to={'/update-password'} className='button-content '>
+          <div className='animated-button px-4 py-2'>
+            <Link to={'/update-password'} className='button-content'>
               Update Password
             </Link>
           </div>
@@ -63,7 +71,7 @@ const UpdateProfile = () => {
             type='button'
             className='px-4 py-2 animated-button'
           >
-            <span className='button-content '> Cancel</span>
+            <span className='button-content'>Cancel</span>
           </Link>
         </div>
       </form>

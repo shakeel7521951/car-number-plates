@@ -31,25 +31,27 @@ export const apiSlice = createApi({
         credentials: 'include',
       }),
     }),
-    addItem: builder.mutation({
-      query: (itemData) => ({
-        url: '/items',
-        method: 'POST',
-        body: itemData,
-      }),
-    }),
     profile: builder.query({
       query: () => ({
         url: '/profile',
         method: 'GET',
       }),
     }),
-    deleteItem: builder.mutation({
-      query: (itemId) => ({
-        url: `/items/${itemId}`,
-        method: 'DELETE',
+    updateUser: builder.mutation({
+      query: (data) => ({
+        url: '/updateProfile',
+        method: 'PUT',
+        body: data,
       }),
     }),
+    updatePassword: builder.mutation({
+      query: (passwordCredentials) => ({
+        url: '/updatePassword',
+        method: 'PUT',
+        body: passwordCredentials,
+      }),
+    }),
+
     logout: builder.mutation({
       query: () => ({
         url: '/logout',
@@ -64,8 +66,9 @@ export const apiSlice = createApi({
 export const {
   useLoginMutation,
   useSignupMutation,
-  useAddItemMutation,
+  useUpdateUserMutation,
   useDeleteItemMutation,
   useProfileQuery,
   useLogoutMutation,
+  useUpdatePasswordMutation,
 } = apiSlice;

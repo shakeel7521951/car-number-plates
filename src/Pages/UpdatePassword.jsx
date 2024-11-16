@@ -1,11 +1,16 @@
 import { useState } from 'react';
 import image from '../assets/CarUpdate.png';
+import { useUpdatePasswordMutation } from '../Redux/userRoutes/userApi';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 const UpdatePassword = () => {
+  const [UpdatePassword, { isLoading }] = useUpdatePasswordMutation();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    currentPassword: '',
-    newPassword: '',
-    confirmNewPassword: '',
+    oldPassword: '',
+    password: '',
+    confirmPassword: '',
   });
 
   const [isPasswordUpdated, setIsPasswordUpdated] = useState(false);
@@ -20,15 +25,26 @@ const UpdatePassword = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { currentPassword, newPassword, confirmNewPassword } = formData;
-
+    const { oldPassword, password, confirmPassword } = formData;
+    console.log(formData);
     // Validate that the new password and confirm password match
-    if (newPassword !== confirmNewPassword) {
-      alert("New password and confirm password don't match");
+    if (password !== confirmPassword) {
+      toast.error('Password is not Match ');
       return;
     }
-
-    // Make API call to update the password (replace with your actual API endpoint)
+    try {
+      const res = await UpdatePassword({
+        oldPassword,
+        password,
+        confirmPassword,
+      }).unwrap();
+      console.log(res);
+      toast.success(res?.message);
+      navigate('/profile');
+    } catch (error) {
+      console.log(error);
+      toast.error(error?.data?.message);
+    }
   };
 
   return (
@@ -54,8 +70,8 @@ const UpdatePassword = () => {
               <div>
                 <input
                   type='password'
-                  name='currentPassword'
-                  value={formData.currentPassword}
+                  name='oldPassword'
+                  value={formData.oldPassword}
                   onChange={handleChange}
                   className='w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:border-blue-500'
                   placeholder='Enter your current password'
@@ -67,8 +83,8 @@ const UpdatePassword = () => {
               <div>
                 <input
                   type='password'
-                  name='newPassword'
-                  value={formData.newPassword}
+                  name='password'
+                  value={formData.password}
                   onChange={handleChange}
                   className='w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:border-blue-500'
                   placeholder='Enter a new password'
@@ -80,8 +96,8 @@ const UpdatePassword = () => {
               <div>
                 <input
                   type='password'
-                  name='confirmNewPassword'
-                  value={formData.confirmNewPassword}
+                  name='confirmPassword'
+                  value={formData.confirmPassword}
                   onChange={handleChange}
                   className='w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:border-blue-500'
                   placeholder='Confirm your new password'

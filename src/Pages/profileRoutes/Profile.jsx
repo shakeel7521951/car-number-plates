@@ -1,14 +1,8 @@
 import React from 'react';
-import profileImg from '../../assets/person1.jpeg';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 const Profile = () => {
-  // Mock user data
-  const user = {
-    name: 'John Doe',
-    email: 'johndoe@example.com',
-    profileImage: profileImg,
-    role: 'Buyer',
-  };
+  const { profile } = useSelector((state) => state.user);
 
   const handleDelete = () => {
     if (window.confirm('Are you sure you want to delete your profile?')) {
@@ -19,17 +13,12 @@ const Profile = () => {
   return (
     <div className='max-w-md mx-auto bg-white shadow-md rounded-md p-6'>
       <div className='flex items-center'>
-        <img
-          src={user.profileImage}
-          alt={`${user.name}'s profile`}
-          className='w-20 h-20 rounded-full mr-4'
-        />
         <div>
           <h2 className='text-xl font-bold text-gray-800'>
-            Hello, {user.name}!
+            Hello, {profile?.name}!
           </h2>
-          <p className='text-gray-600'>{user.email}</p>
-          <p className='text-gray-600'>Role : {user.role}</p>
+          <p className='text-gray-600'>{profile.email}</p>
+          <p className='text-gray-600'>Role : {profile.role}</p>
         </div>
       </div>
 
