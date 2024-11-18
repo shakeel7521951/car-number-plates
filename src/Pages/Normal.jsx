@@ -1,14 +1,20 @@
 import { useEffect, useState } from 'react';
 import ExploreCard from '../components/Explore/ExploreCard';
-import { data } from '../StaticData/data';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import normal from '../assets/CarNormal.png';
+import { useGetFilterProductMutation } from '../Redux/ProductRoutes/productApi';
+
 const Normal = () => {
   const itemsPerPage = 6;
   const [currentPage, setCurrentPage] = useState(1);
+  const [getNormalProduct, { data: filteredData, isLoading, error }] =
+    useGetFilterProductMutation();
 
-  const totalPages = Math.ceil(data.length / itemsPerPage);
-  console.log(totalPages);
+  // Handle pagination
+  const totalPages = Math.ceil(
+    (filteredData?.products?.length || 0) / itemsPerPage
+  );
+
   const handlePageClick = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
@@ -21,14 +27,22 @@ const Normal = () => {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
   };
 
-  const currentData = data.slice(
+  // Pagination logic for current data
+  const currentData = filteredData?.products?.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
 
   useEffect(() => {
-    window.scroll(0, 0);
+    window.scroll(0, 0); // Scroll to top when page changes
   }, [currentPage]);
+
+  useEffect(() => {
+    getNormalProduct('normal');
+  }, [getNormalProduct]);
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error fetching data: {error.message}</div>;
 
   return (
     <main className='px-2 sm:px-6 mt-12'>
@@ -46,7 +60,7 @@ const Normal = () => {
             <p className='text-white my-3 sm:text-3xl font-semibold'>
               Qatar 8873 <br /> Best Price
             </p>
-            <div className=' flex items-center gap-4 font-semibold '>
+            <div className='flex items-center gap-4 font-semibold'>
               <button className='px-4 py-1 sm:py-3 animated-button rounded-xl bg-white sm:mt-3'>
                 <span className='button-content text-lg'>Contact Us</span>
               </button>
@@ -55,57 +69,60 @@ const Normal = () => {
               </button>
             </div>
           </div>
-          <div className='text-white  md:text-2xl text-center font-bold italic hidden lg:block mt-4'>
+          <div className='text-white md:text-2xl text-center font-bold italic hidden lg:block mt-4'>
             "Browse and Discover Exclusive plate Numbers"
           </div>
         </div>
       </div>
 
-      <h1 className=' font-bold text-black my-4 text-4xl '>Normal Plates</h1>
-      <p className='text-black my-4'>Number Of plates: {data.length}</p>
+      <h1 className='font-bold text-black my-4 text-4xl'>Normal Plates</h1>
+      <p className='text-black my-4'>
+        Number Of plates: {filteredData?.products?.length}
+      </p>
 
       <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-between gap-4 max-w-[1500px] mx-auto'>
-        {currentData.map((plate) => (
-          <ExploreCard key={plate.id} {...plate} />
+        {currentData?.map((plate) => (
+          <ExploreCard key={plate._id} {...plate} />
         ))}
       </div>
+      {filteredData?.length > itemsPerPage && (
+        <div className='flex justify-center items-center mt-10 space-x-2'>
+          <button
+            onClick={handlePreviousPage}
+            disabled={currentPage === 1}
+            className={`px-2 py-1 ${currentPage === 1 ? 'opacity-50' : ''}`}
+          >
+            <FaChevronLeft className='text-2xl bg-[#e8fe26] rounded text-black cursor-pointer' />
+          </button>
 
-      <div className='flex justify-center items-center mt-10 space-x-2'>
-        <button
-          onClick={handlePreviousPage}
-          disabled={currentPage === 1}
-          className={`px-2 py-1 ${currentPage === 1 ? 'opacity-50' : ''}`}
-        >
-          <FaChevronLeft className='text-2xl bg-[#e8fe26] rounded text-black cursor-pointer' />
-        </button>
+          {[...Array(totalPages)].map((_, index) => {
+            const pageNumber = index + 1;
+            return (
+              <button
+                key={pageNumber}
+                onClick={() => handlePageClick(pageNumber)}
+                className={`px-2 rounded ${
+                  currentPage === pageNumber
+                    ? 'bg-[#e8fe26] text-black'
+                    : 'text-white'
+                }`}
+              >
+                {pageNumber}
+              </button>
+            );
+          })}
 
-        {[...Array(totalPages)].map((_, index) => {
-          const pageNumber = index + 1;
-          return (
-            <button
-              key={pageNumber}
-              onClick={() => handlePageClick(pageNumber)}
-              className={`px-2 rounded ${
-                currentPage === pageNumber
-                  ? 'bg-[#e8fe26] text-black'
-                  : 'text-white'
-              }`}
-            >
-              {pageNumber}
-            </button>
-          );
-        })}
-
-        <button
-          onClick={handleNextPage}
-          disabled={currentPage === totalPages}
-          className={`px-2 py-1 ${
-            currentPage === totalPages ? 'opacity-50' : ''
-          }`}
-        >
-          <FaChevronRight className='text-2xl bg-[#e8fe26] rounded text-black cursor-pointer' />
-        </button>
-      </div>
+          <button
+            onClick={handleNextPage}
+            disabled={currentPage === totalPages}
+            className={`px-2 py-1 ${
+              currentPage === totalPages ? 'opacity-50' : ''
+            }`}
+          >
+            <FaChevronRight className='text-2xl bg-[#e8fe26] rounded text-black cursor-pointer' />
+          </button>
+        </div>
+      )}
     </main>
   );
 };

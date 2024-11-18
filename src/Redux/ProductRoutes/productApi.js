@@ -21,7 +21,18 @@ export const productApi = createApi({
     getSingleProduct: builder.query({
       query: (id) => `/singleProduct/${id}`,
     }),
+    getFilterProduct: builder.mutation({
+      query: (category) => ({
+        url: '/filteredProducts',
+        method: 'POST',
+        body: { category },
+      }),
+    }),
   }),
 });
 
-export const { useGetAllProductsQuery, useGetSingleProductQuery } = productApi;
+export const {
+  useGetAllProductsQuery,
+  useGetSingleProductQuery,
+  useGetFilterProductMutation,
+} = productApi;

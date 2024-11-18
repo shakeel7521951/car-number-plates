@@ -15,7 +15,7 @@ import { IoCartOutline } from 'react-icons/io5';
 // import { useSelector } from 'react-redux';
 import { useGetSingleProductQuery } from '../Redux/ProductRoutes/productApi';
 import { useSelector } from 'react-redux';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 const PlateDetailPage = () => {
   const { id } = useParams();
 
@@ -24,6 +24,7 @@ const PlateDetailPage = () => {
 
   const { product } = useSelector((state) => state.product);
   const [showItems, setShowItems] = useState(6);
+  console.log(product);
   if (isLoading) {
     return <h1>Loading...</h1>;
   }
@@ -122,7 +123,9 @@ const PlateDetailPage = () => {
               : 'animated-button'
           } bg-white  p-2 rounded-xl font-semibold mx-auto text-center   `}
           disabled={showItems >= product?.length}
-          onClick={() => setShowItems((prev) => prev + 6)}
+          onClick={() => {
+            setShowItems((prev) => prev + 6);
+          }}
         >
           <span className='button-content '>Load More</span>
         </button>

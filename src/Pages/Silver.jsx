@@ -1,14 +1,24 @@
 import { useEffect, useState } from 'react';
 import ExploreCard from '../components/Explore/ExploreCard';
-import { data } from '../StaticData/data';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import normal from '../assets/silver.jpg';
+import { useGetFilterProductMutation } from '../Redux/ProductRoutes/productApi';
+
 const Silver = () => {
   const itemsPerPage = 6;
   const [currentPage, setCurrentPage] = useState(1);
+  const [getNormalProduct, { data: filteredData, isLoading, error }] =
+    useGetFilterProductMutation();
 
-  const totalPages = Math.ceil(data.length / itemsPerPage);
-  console.log(totalPages);
+  useEffect(() => {
+    getNormalProduct('silver');
+  }, [getNormalProduct]);
+
+  // Ensure filteredData and products are available before calculating totalPages
+  const totalPages = filteredData?.products
+    ? Math.ceil(filteredData?.products?.length / itemsPerPage)
+    : 0;
+
   const handlePageClick = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
@@ -21,14 +31,20 @@ const Silver = () => {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
   };
 
-  const currentData = data.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
+  // Ensure currentData is an array and the slice operation is safe
+  const currentData = filteredData?.products
+    ? filteredData.products.slice(
+        (currentPage - 1) * itemsPerPage,
+        currentPage * itemsPerPage
+      )
+    : [];
 
   useEffect(() => {
     window.scroll(0, 0);
   }, [currentPage]);
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error fetching data: {error.message}</div>;
 
   return (
     <main className='px-2 sm:px-6 mt-12'>
@@ -62,50 +78,53 @@ const Silver = () => {
       </div>
 
       <h1 className=' font-bold text-black my-4 text-4xl '>Silver Plates</h1>
-      <p className='text-black my-4'>Number Of plates: {data.length}</p>
+      <p className='text-black my-4'>
+        Number Of plates: {filteredData?.products?.length || 0}
+      </p>
 
       <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-between gap-4 max-w-[1500px] mx-auto'>
-        {currentData.map((plate) => (
-          <ExploreCard key={plate.id} {...plate} />
+        {currentData?.map((plate) => (
+          <ExploreCard key={plate._id} {...plate} />
         ))}
       </div>
+      {filteredData?.products?.length > itemsPerPage && (
+        <div className='flex justify-center items-center mt-10 space-x-2'>
+          <button
+            onClick={handlePreviousPage}
+            disabled={currentPage === 1}
+            className={`px-2 py-1 ${currentPage === 1 ? 'opacity-50' : ''}`}
+          >
+            <FaChevronLeft className='text-2xl bg-[#e8fe26] rounded text-black cursor-pointer' />
+          </button>
 
-      <div className='flex justify-center items-center mt-10 space-x-2'>
-        <button
-          onClick={handlePreviousPage}
-          disabled={currentPage === 1}
-          className={`px-2 py-1 ${currentPage === 1 ? 'opacity-50' : ''}`}
-        >
-          <FaChevronLeft className='text-2xl bg-[#e8fe26] rounded text-black cursor-pointer' />
-        </button>
+          {[...Array(totalPages)].map((_, index) => {
+            const pageNumber = index + 1;
+            return (
+              <button
+                key={pageNumber}
+                onClick={() => handlePageClick(pageNumber)}
+                className={`px-2 rounded ${
+                  currentPage === pageNumber
+                    ? 'bg-[#e8fe26] text-black'
+                    : 'text-white'
+                }`}
+              >
+                {pageNumber}
+              </button>
+            );
+          })}
 
-        {[...Array(totalPages)].map((_, index) => {
-          const pageNumber = index + 1;
-          return (
-            <button
-              key={pageNumber}
-              onClick={() => handlePageClick(pageNumber)}
-              className={`px-2 rounded ${
-                currentPage === pageNumber
-                  ? 'bg-[#e8fe26] text-black'
-                  : 'text-white'
-              }`}
-            >
-              {pageNumber}
-            </button>
-          );
-        })}
-
-        <button
-          onClick={handleNextPage}
-          disabled={currentPage === totalPages}
-          className={`px-2 py-1 ${
-            currentPage === totalPages ? 'opacity-50' : ''
-          }`}
-        >
-          <FaChevronRight className='text-2xl bg-[#e8fe26] rounded text-black cursor-pointer' />
-        </button>
-      </div>
+          <button
+            onClick={handleNextPage}
+            disabled={currentPage === totalPages}
+            className={`px-2 py-1 ${
+              currentPage === totalPages ? 'opacity-50' : ''
+            }`}
+          >
+            <FaChevronRight className='text-2xl bg-[#e8fe26] rounded text-black cursor-pointer' />
+          </button>
+        </div>
+      )}
     </main>
   );
 };
