@@ -14,12 +14,15 @@ export const productApi = createApi({
     },
     credentials: 'include',
   }),
+  tagTypes: ['Products'],
   endpoints: (builder) => ({
     getAllProducts: builder.query({
       query: () => '/getAllProducts',
+      providesTags: ['Products'],
     }),
     getSingleProduct: builder.query({
       query: (id) => `/singleProduct/${id}`,
+      providesTags: (result, error, id) => [{ type: 'Products', id }],
     }),
     getFilterProduct: builder.mutation({
       query: (category) => ({
@@ -28,6 +31,27 @@ export const productApi = createApi({
         body: { category },
       }),
     }),
+    updateView: builder.mutation({
+      query: (id) => ({
+        url: `/productViews/${id}`,
+        method: 'PUT',
+      }),
+      invalidatesTags: [{ type: 'Products' }],
+    }),
+    likeProduct: builder.mutation({
+      query: (id) => ({
+        url: `/likeProduct/${id}`,
+        method: 'PUT',
+      }),
+      invalidatesTags: ['Products'], // Optionally invalidate product data if needed
+    }),
+    dislikeProduct: builder.mutation({
+      query: (id) => ({
+        url: `/dislikeProduct/${id}`,
+        method: 'PUT',
+      }),
+      invalidatesTags: ['Products'],
+    }),
   }),
 });
 
@@ -35,4 +59,7 @@ export const {
   useGetAllProductsQuery,
   useGetSingleProductQuery,
   useGetFilterProductMutation,
+  useUpdateViewMutation,
+  useDislikeProductMutation,
+  useLikeProductMutation,
 } = productApi;

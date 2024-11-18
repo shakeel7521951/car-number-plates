@@ -2,21 +2,24 @@ import React from 'react';
 import ExploreCard from '../Explore/ExploreCard';
 import { Link } from 'react-router-dom';
 import { data } from '../../StaticData/data';
+import { useSelector } from 'react-redux';
 
 const HomeCards = () => {
-  const subData = data.splice(0, 3);
+  const { product } = useSelector((state) => state.product);
 
+  const subData = product?.slice(0, 3);
+  console.log(subData);
   return (
     <div className='mt-5 p-10'>
       <h1 className='text-white text-center text-[30px] md:text-[40px] font-bold'>
         New Today
       </h1>
       <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-between gap-4 max-w-[1500px] mx-auto car_background p-6 mt-7'>
-        {subData.map((data, index) => {
+        {subData?.map((data, index) => {
           return <ExploreCard {...data} key={index} />;
         })}
       </div>
-      {/* Centering Explore More button */}
+
       <div className='flex justify-center items-center w-full mt-7'>
         <div className='w-full max-w-[200px]'>
           <Link

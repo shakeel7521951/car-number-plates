@@ -15,7 +15,7 @@ import { IoCartOutline } from 'react-icons/io5';
 // import { useSelector } from 'react-redux';
 import { useGetSingleProductQuery } from '../Redux/ProductRoutes/productApi';
 import { useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 const PlateDetailPage = () => {
   const { id } = useParams();
 

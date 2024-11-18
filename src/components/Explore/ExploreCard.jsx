@@ -1,6 +1,12 @@
 import { FaCartPlus, FaClock, FaEye, FaHeart } from 'react-icons/fa';
 import plateImg from '../../assets/plateName.png';
 import { Link } from 'react-router-dom';
+import {
+  useDislikeProductMutation,
+  useLikeProductMutation,
+  useUpdateViewMutation,
+} from '../../Redux/ProductRoutes/productApi';
+import { useState } from 'react';
 
 export const calculateTimeDifference = (createdAt) => {
   const createdDate = new Date(createdAt);
@@ -26,8 +32,27 @@ const ExploreCard = ({
   price = 33322,
   image = plateImg,
 }) => {
+  const [updateView] = useUpdateViewMutation();
+
   const like = likes?.length;
+  console.log(like);
+  const [isLiked, setIsLiked] = useState(false); // Track like status
+  const [likeProduct, { data }] = useLikeProductMutation();
+  console.log(data);
+  const [dislikeProduct] = useDislikeProductMutation();
   const timeAgo = calculateTimeDifference(created_at);
+  const handleImageClick = () => {
+    updateView(_id); // Call the updateView mutation when the image is clicked
+  };
+
+  const handleLikeButtonClick = async () => {
+    if (isLiked) {
+      await dislikeProduct(_id);
+    } else {
+      await likeProduct(_id);
+    }
+    setIsLiked(!isLiked); // Toggle like status after API call
+  };
   return (
     <main className='bg-[#FFD200] shadow-2xl border-[#EFF312]  border-2 px-4 rounded-md text-black  '>
       {/* Starting div */}
@@ -40,14 +65,22 @@ const ExploreCard = ({
           </div>
           <div className='flex flex-col items-center'>
             <span>{like}</span>
-            <FaHeart />
+            <FaHeart
+              onClick={handleLikeButtonClick}
+              style={{ cursor: 'pointer', color: isLiked ? 'red' : 'black' }}
+            />
           </div>
         </aside>
       </div>
       {/* Image for the number plate */}
       <div className='my-6'>
         <Link to={`/single-card/${_id}`}>
-          <img src={image} alt='NumberPlate' className='w-full' />
+          <img
+            src={image}
+            alt='NumberPlate'
+            className='w-full'
+            onClick={handleImageClick}
+          />
         </Link>
       </div>
       <main className='flex justify-between items-center '>

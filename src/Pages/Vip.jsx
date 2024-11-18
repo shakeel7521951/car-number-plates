@@ -11,7 +11,7 @@ const Vip = () => {
     useGetFilterProductMutation();
   console.log('filteredData', filteredData);
   useEffect(() => {
-    getVipProducts('vip'); // Fetch products with "vip" filter
+    getVipProducts('vip');
   }, [getVipProducts]);
 
   const totalPages = filteredData?.products

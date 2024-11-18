@@ -79,7 +79,7 @@ const router = createBrowserRouter([
       {
         path: '/listing',
         element: (
-          <ProtectedRoute allowedRoles={['Seller']}>
+          <ProtectedRoute allowedRoles={['seller']}>
             <MyListing />
           </ProtectedRoute>
         ),
@@ -87,7 +87,7 @@ const router = createBrowserRouter([
       {
         path: '/seller-dashboard',
         element: (
-          <ProtectedRoute allowedRoles={['Seller']}>
+          <ProtectedRoute allowedRoles={['seller']}>
             <SellerDashboard />
           </ProtectedRoute>
         ),
@@ -97,7 +97,7 @@ const router = createBrowserRouter([
   {
     path: '/dashboard',
     element: (
-      <ProtectedRoute allowedRoles={['Admin']}>
+      <ProtectedRoute allowedRoles={['admin']}>
         <DashboardLayout />
       </ProtectedRoute>
     ),

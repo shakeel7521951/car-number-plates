@@ -9,7 +9,7 @@ import { toast } from 'react-toastify';
 const ProfileMenu = ({ onClose }) => {
   const dispatch = useDispatch();
   const sellerProfile = [
-    { path: '/seller-dashboard', text: 'Dashboard' },
+    { path: '/seller-dashboard', text: 'Seller-Dashboard' },
     { path: '/listing', text: 'My Listing' },
   ];
   const adminRoute = [{ path: '/dashboard', text: 'Dashboard' }];
@@ -18,9 +18,9 @@ const ProfileMenu = ({ onClose }) => {
   const userProfile = [{ path: '/history', text: 'Purchasing History' }];
   const [logout, { isLoading }] = useLogoutMutation();
   const userArray =
-    profile?.role === 'Seller'
+    profile?.role === 'seller'
       ? [...sellerProfile]
-      : profile?.role === 'Admin'
+      : profile?.role === 'admin'
       ? [...adminRoute]
       : [...userProfile];
   const handleLogout = async () => {
