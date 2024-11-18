@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { baseUrl } from '../../BaseUrl';
 
 export const productApi = createApi({
-  reducerPath: 'product',
+  reducerPath: 'productsApi',
   baseQuery: fetchBaseQuery({
     baseUrl: `${baseUrl}/api/v1`,
     prepareHeaders: (headers, { getState }) => {
@@ -16,11 +16,12 @@ export const productApi = createApi({
   }),
   endpoints: (builder) => ({
     getAllProducts: builder.query({
-      query: () => ({
-        url: '/getAllProducts',
-      }),
+      query: () => '/getAllProducts',
+    }),
+    getSingleProduct: builder.query({
+      query: (id) => `/singleProduct/${id}`,
     }),
   }),
 });
 
-export const { useGetAllProductsQuery } = productApi;
+export const { useGetAllProductsQuery, useGetSingleProductQuery } = productApi;

@@ -2,19 +2,34 @@ import { FaCartPlus, FaClock, FaEye, FaHeart } from 'react-icons/fa';
 import plateImg from '../../assets/plateName.png';
 import { Link } from 'react-router-dom';
 
+export const calculateTimeDifference = (createdAt) => {
+  const createdDate = new Date(createdAt);
+  const currentDate = new Date();
+  const timeDifferenceInMs = currentDate - createdDate; // Difference in milliseconds
+
+  const hours = Math.floor(timeDifferenceInMs / (1000 * 60 * 60));
+  const days = Math.floor(hours / 24);
+
+  if (days > 0) {
+    return `${days} Day${days > 1 ? 's' : ''} Ago`;
+  } else {
+    return `${hours} Hour${hours > 1 ? 's' : ''} Ago`;
+  }
+};
 const ExploreCard = ({
-  id = 1,
   _id,
   views = 324,
-  like = 44,
-  plateNumber = 124234,
-  time = 2,
-  actualPrice = 44453,
-  discountPrice = 33322,
+  likes = 44,
+  plateNo = 124234,
+  created_at,
+  discount = 44453,
+  price = 33322,
   image = plateImg,
 }) => {
+  const like = likes?.length;
+  const timeAgo = calculateTimeDifference(created_at);
   return (
-    <main className='bg-[#020617] shadow-2xl border-[#EFF312]  border-2 px-4 rounded-md text-white'>
+    <main className='bg-[#FFD200] shadow-2xl border-[#EFF312]  border-2 px-4 rounded-md text-black  '>
       {/* Starting div */}
       <div className='flex items-center justify-between mt-4'>
         <h1 className='text-lg font-semibold'>Plate Number</h1>
@@ -31,18 +46,27 @@ const ExploreCard = ({
       </div>
       {/* Image for the number plate */}
       <div className='my-6'>
-        <Link to={`/single-card/${id}`}>
+        <Link to={`/single-card/${_id}`}>
           <img src={image} alt='NumberPlate' className='w-full' />
         </Link>
       </div>
-      <h1 className='text-lg font-semibold'>Private Plate {plateNumber}</h1>
-      {/* Profile Div */}
-      <div className='border border-white justify-between gap-4 items-center rounded-full flex w-max p-2 my-4 cursor-pointer'>
-        <div className='w-8 h-8 rounded-full'>
-          <img src={image} alt='' className='w-full h-full rounded-full' />
+      <main className='flex justify-between items-center '>
+        <div>
+          {' '}
+          <h1 className='text-lg font-semibold'>Private Plate {plateNo}</h1>
+          {/* Profile Div */}
+          <div className='border border-white justify-between gap-4 items-center rounded-full flex w-max p-2 my-4 cursor-pointer'>
+            <div className='w-8 h-8 rounded-full'>
+              <img src={image} alt='' className='w-full h-full rounded-full' />
+            </div>
+            <h1 className='text-lg pr-4 font-semibold'>Personal</h1>
+          </div>
         </div>
-        <h1 className='text-lg pr-4 font-semibold'>Personal</h1>
-      </div>
+        <div className='text-end flex items-center flex-col'>
+          <h1 className='text-[#92905F]'>Active</h1>
+          <p className='text-[10px]'>Transfer By Metrash</p>
+        </div>
+      </main>
 
       {/* Button div */}
       <div className='flex gap-12'>
@@ -50,14 +74,16 @@ const ExploreCard = ({
           <FaCartPlus className='text-base' /> For Sale
         </button>
         <button className='flex border-white border items-center justify-center text-sm gap-2 p-2 rounded-2xl'>
-          <FaClock /> {time} Hour Ago
+          <FaClock /> {timeAgo}
         </button>
       </div>
 
       {/* Pricing last */}
       <div className='flex items-end justify-end gap-4 my-4'>
-        <h1 className='line-through text-gray-600'>{actualPrice} Q.T</h1>
-        <h1 className='text-xl font-bold'>{discountPrice} Q.T</h1>
+        {discount > 0 && (
+          <h1 className='line-through text-gray-600'>{discount} Q.T</h1>
+        )}
+        <h1 className='text-xl font-bold'>{price} Q.T</h1>
       </div>
     </main>
   );

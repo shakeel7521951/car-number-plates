@@ -7,7 +7,6 @@ const userSlice = createSlice({
   },
   reducers: {
     setProfile: (state, action) => {
-      console.log(action.payload);
       state.profile = action?.payload;
     },
     clearProfile: (state) => {

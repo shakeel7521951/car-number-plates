@@ -2,23 +2,27 @@ import { useEffect, useState } from 'react';
 import ExploreCard from './ExploreCard';
 import Rectangle_50 from '../../assets/Rectangle 50.png';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
-import { useSelector } from 'react-redux';
-import { useGetAllProductsQuery } from '../../Redux/userRoutes/productApi';
+import { useDispatch, useSelector } from 'react-redux';
+import { useGetAllProductsQuery } from '../../Redux/ProductRoutes/productApi';
+import { setProduct } from '../../Redux/ProductRoutes/productSlice';
 
 const ExploreContent = () => {
+  const dispatch = useDispatch();
   const { profile } = useSelector((state) => state.user);
-  const { data: recievedData } = useGetAllProductsQuery();
+  // const { data: recievedData, isError, isLoading } = useGetAllProductsQuery();
 
-  console.log('received data', recievedData);
-
+  // useEffect(() => {
+  //   dispatch(setProduct(recievedData?.products));
+  // }, [recievedData, dispatch]);
+  // console.log(recievedData);
+  const { product: recievedData } = useSelector((state) => state.product);
   const itemsPerPage = 6;
   const [currentPage, setCurrentPage] = useState(1);
-
   // Get the total number of products for pagination
-  const totalProducts = recievedData?.products?.length || 0;
+  const totalProducts = recievedData?.length || 0;
   const totalPages = Math.ceil(totalProducts / itemsPerPage);
 
-  const currentrecievedData = recievedData?.products?.slice(
+  const currentrecievedData = recievedData?.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );

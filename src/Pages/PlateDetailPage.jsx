@@ -4,18 +4,31 @@ import whatsapp from '../assets/social-icons/whtsapp.png';
 import facebook from '../assets/social-icons/fb.png';
 import twitter from '../assets/social-icons/twitter.png';
 import pin from '../assets/social-icons/pin.png';
-import ExploreCard from '../components/Explore/ExploreCard';
-import { data } from '../StaticData/data';
+import ExploreCard, {
+  calculateTimeDifference,
+} from '../components/Explore/ExploreCard';
+// import { data } from '../StaticData/data';
 import person from '../assets/person1.jpeg';
 import { useParams } from 'react-router-dom';
 
 import { IoCartOutline } from 'react-icons/io5';
+// import { useSelector } from 'react-redux';
+import { useGetSingleProductQuery } from '../Redux/ProductRoutes/productApi';
+import { useSelector } from 'react-redux';
+import { useState } from 'react';
 const PlateDetailPage = () => {
   const { id } = useParams();
-  const subdata = data.slice(0, 6);
-  const currentplateData = subdata.find((elem) => elem.id === id);
 
-  // if (!currentplateData) return <div>Plate not found</div>;
+  const { data, isLoading } = useGetSingleProductQuery(id);
+  const currentplateData = data?.product;
+
+  const { product } = useSelector((state) => state.product);
+  const [showItems, setShowItems] = useState(6);
+  if (isLoading) {
+    return <h1>Loading...</h1>;
+  }
+  const mappingData = product?.slice(0, showItems);
+  const time = calculateTimeDifference(currentplateData?.created_at);
   return (
     <div>
       {/* plate detaail hero section */}
@@ -31,16 +44,12 @@ const PlateDetailPage = () => {
       >
         {currentplateData && (
           <div className='w-[80%] h-[80%] flex justify-between items-end'>
-            <img
-              src={currentplateData.image}
-              alt=''
-              className='w-[60%] h-[90%]'
-            />
+            <img src={plateNameImage} alt='' className='w-[60%] h-[90%]' />
 
             <div className='w-[30%] flex flex-col gap-5 '>
               <div className='flex flex-col items-start justify-center'>
                 <p className='text-white text-[32px] font-bold'>
-                  Private Plate {currentplateData.plateNumber}
+                  Private Plate {currentplateData?.plateNo}
                 </p>
                 <div className='bg-[#D9D9D9] rounded-2xl py-1 px-3 p flex justify-center items-center'>
                   <img src={person} alt='' className='w-[40px] rounded-full' />
@@ -54,11 +63,9 @@ const PlateDetailPage = () => {
                 }}
               >
                 <div className='flex flex-col items-center gap-10'>
-                  <p className='text-[24px] font-medium'>
-                    Posted: {currentplateData.time} Hours Ago
-                  </p>
+                  <p className='text-[24px] font-medium'>Posted: {time}</p>
                   <p className='text-[32px] font-bold'>
-                    {currentplateData.discountPrice} Q.R
+                    {currentplateData?.price} Q.R
                   </p>
                   <div className='py-2 px-4 flex justify-center gap-2 items-center rounded-full bg-[#D9D9D9] text-[#000]'>
                     <IoCartOutline />
@@ -105,12 +112,20 @@ const PlateDetailPage = () => {
       </div>
       {/* plate detaail likes section */}
       <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-between gap-4 p-14'>
-        {subdata.map((data_elem, data_index) => {
+        {mappingData?.map((data_elem, data_index) => {
           return <ExploreCard {...data_elem} key={data_index} />;
         })}
-        <p className='bg-[#0D072C] text-white p-2 rounded-xl font-semibold mx-auto text-center'>
-          Load More
-        </p>
+        <button
+          className={`${
+            showItems >= product?.length
+              ? ' cursor-not-allowed'
+              : 'animated-button'
+          } bg-white  p-2 rounded-xl font-semibold mx-auto text-center   `}
+          disabled={showItems >= product?.length}
+          onClick={() => setShowItems((prev) => prev + 6)}
+        >
+          <span className='button-content '>Load More</span>
+        </button>
       </div>
     </div>
   );

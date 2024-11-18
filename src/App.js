@@ -27,10 +27,12 @@ import Login from './components/UserComponent/Login';
 import Register from './components/UserComponent/Register';
 import Profile from './Pages/profileRoutes/Profile';
 import UpdateProfile from './Pages/profileRoutes/UpdateProfile.jsx';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useProfileQuery } from './Redux/userRoutes/userApi.js';
 import { setProfile } from './Redux/userRoutes/userSlice.js';
 import ProtectedRoute from './Pages/ProtectedRoute.jsx';
+import { setProduct } from './Redux/ProductRoutes/productSlice.js';
+import { useGetAllProductsQuery } from './Redux/ProductRoutes/productApi.js';
 
 // Layout for pages with Navbar and Footer
 const MainLayout = () => (
@@ -121,7 +123,11 @@ const router = createBrowserRouter([
 function App() {
   const dispatch = useDispatch();
   const { data: profile } = useProfileQuery();
-  console.log('app', profile?.user);
+  const { data: recievedData } = useGetAllProductsQuery();
+
+  useEffect(() => {
+    dispatch(setProduct(recievedData?.products));
+  }, [recievedData, dispatch]);
   useEffect(() => {
     if (profile?.user) {
       dispatch(setProfile(profile?.user));
