@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
+import { useCreatePlateMutation } from '../Redux/ProductRoutes/productApi';
+import { useNavigate } from 'react-router-dom';
 
 const CreateNumberPlate = () => {
+  const navigate = useNavigate();
+  const [createProduct, { isLoading }] = useCreatePlateMutation();
   const [formData, setFormData] = useState({
     category: '',
     plateNo: '',
@@ -43,16 +47,19 @@ const CreateNumberPlate = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) {
       toast.error('Please fill out all required fields correctly.');
       return;
     }
-
-    // Submit form data (use your API integration here)
-    console.log('Form submitted', formData);
-    toast.success('Number plate created successfully!');
+    try {
+      const result = await createProduct(formData).unwrap();
+      toast.success(result?.message);
+      navigate(-1);
+    } catch (error) {
+      toast.error(error?.data?.message);
+    }
   };
 
   return (
@@ -77,10 +84,10 @@ const CreateNumberPlate = () => {
             <option value='' disabled>
               Select category
             </option>
-            <option value='Normal'>Normal</option>
-            <option value='Silver'>Silver</option>
-            <option value='Gold'>Gold</option>
-            <option value='VIP'>VIP</option>
+            <option value='normal'>Normal</option>
+            <option value='silver'>Silver</option>
+            <option value='gold'>Gold</option>
+            <option value='vip'>VIP</option>
           </select>
           {errors.category && (
             <p className='text-red-500 text-sm mt-1'>{errors.category}</p>
@@ -149,6 +156,7 @@ const CreateNumberPlate = () => {
 
         {/* Submit Button */}
         <button
+          disabled={isLoading}
           type='submit'
           className='w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg transition duration-200'
         >

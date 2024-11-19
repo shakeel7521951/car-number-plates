@@ -52,13 +52,24 @@ export const productApi = createApi({
       }),
       invalidatesTags: ['Products'],
     }),
-
+    getSellerProduct: builder.query({
+      query: () => '/get-seller-products',
+      keepUnusedDataFor: 0,
+      providesTags: ['Products'],
+    }),
     createPlate: builder.mutation({
       query: (data) => ({
         url: '/createProduct',
         method: 'POST',
         body: data,
       }),
+    }),
+    deleteProduct: builder.mutation({
+      query: (id) => ({
+        url: `/deleteProduct/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['Products'],
     }),
   }),
 });
@@ -71,4 +82,6 @@ export const {
   useDislikeProductMutation,
   useLikeProductMutation,
   useCreatePlateMutation,
+  useGetSellerProductQuery,
+  useDeleteProductMutation,
 } = productApi;

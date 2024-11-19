@@ -44,7 +44,6 @@ const MainLayout = () => (
   </>
 );
 
-// Dashboard layout with Sidebar only
 const DashboardLayout = () => {
   return (
     <div style={{ display: 'flex' }}>
@@ -74,14 +73,21 @@ const router = createBrowserRouter([
       { path: '/update-password', element: <UpdatePassword /> },
       { path: '/update-profile', element: <UpdateProfile /> },
       { path: '/forgot-password', element: <ForgotPassword /> },
-      { path: '/createPlate', element: <CreateNumberPlate /> },
+      {
+        path: '/createPlate',
+        element: (
+          <ProtectedRoute allowedRoles={['seller', 'admin']}>
+            <CreateNumberPlate />
+          </ProtectedRoute>
+        ),
+      },
       { path: '/profile', element: <Profile /> },
 
       // Protected seller routes
       {
         path: '/listing',
         element: (
-          <ProtectedRoute allowedRoles={['seller', 'Seller']}>
+          <ProtectedRoute allowedRoles={['seller', 'admin']}>
             <MyListing />
           </ProtectedRoute>
         ),
@@ -89,7 +95,7 @@ const router = createBrowserRouter([
       {
         path: '/seller-dashboard',
         element: (
-          <ProtectedRoute allowedRoles={['seller', 'Seller']}>
+          <ProtectedRoute allowedRoles={['seller', 'admin']}>
             <SellerDashboard />
           </ProtectedRoute>
         ),
@@ -99,7 +105,7 @@ const router = createBrowserRouter([
   {
     path: '/dashboard',
     element: (
-      <ProtectedRoute allowedRoles={['admin', 'Admin']}>
+      <ProtectedRoute allowedRoles={['admin']}>
         <DashboardLayout />
       </ProtectedRoute>
     ),

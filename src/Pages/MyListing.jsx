@@ -1,80 +1,224 @@
-import { useState } from 'react';
-import { LinkingData } from '../StaticData/data';
+import React, { useState } from 'react';
 import { CiCirclePlus } from 'react-icons/ci';
 import plateName from '../assets/plateName.png';
 import { FaEye } from 'react-icons/fa';
-import { BsThreeDots } from 'react-icons/bs';
-import Listing from '../components/UserComponent/Listing';
+import { Link } from 'react-router-dom';
+import {
+  useDeleteProductMutation,
+  useGetSellerProductQuery,
+} from '../Redux/ProductRoutes/productApi';
+import { toast } from 'react-toastify';
 
 const MyListing = () => {
-  const [showDeleteOptions, setShowDeleteOptions] = useState(null);
-  const [AddProduct, setAddProduct] = useState(false);
-  const handleThreeDotsClick = (id) => {
-    setShowDeleteOptions(showDeleteOptions === id ? null : id);
+  const [deleteModal, setDeleteModal] = useState(null);
+  const [updateModal, setUpdateModal] = useState(null);
+  const [deleteProduct, { isLoading: deleteLoader }] =
+    useDeleteProductMutation();
+  const {
+    data: sellerProducts,
+    isLoading,
+    isError,
+  } = useGetSellerProductQuery();
+  // console.log(sellerProducts);
+  const [formData, setFormData] = useState({
+    plateNo: '',
+    price: '',
+    discount: '',
+    status: 'Active',
+  });
+
+  const handleDelete = async (id) => {
+    console.log('Product deleted:', id);
+    try {
+      const resp = await deleteProduct(id).unwrap();
+      console.log(resp);
+      toast.success(resp?.message);
+    } catch (error) {
+      console.log(error);
+    }
+    setDeleteModal(null);
   };
-  const handleToggle = () => {
-    setAddProduct(!AddProduct);
+
+  const handleUpdateSubmit = (e) => {
+    e.preventDefault();
+    console.log('Product updated:', formData);
+    setUpdateModal(null);
   };
+  if (isLoading) {
+    return <h1>Loading...</h1>;
+  }
+  if (isError) {
+    return <h1>Error </h1>;
+  }
+
   return (
     <main className='px-2 sm:px-16 mt-12 font-bold relative'>
-      {AddProduct && <Listing onClose={handleToggle} />}
       <div className='flex items-center justify-between'>
-        <h1 className='text-3xl font-bold'>My Listing </h1>
-        <button onClick={handleToggle}>
+        <h1 className='text-3xl font-bold'>My Listing</h1>
+        <Link to={'/createPlate'}>
           <CiCirclePlus size='40px' className='text-black' />
-        </button>
+        </Link>
       </div>
       <div className='flex flex-col gap-4 mt-12'>
-        {LinkingData.map(({ id, views, like, plateNumber, price, image }) => {
-          return (
-            <main
-              className='border bottom-1 border-black p-4 flex flex-col sm:flex-row justify-between'
-              key={id}
-            >
-              <div className='flex gap-4'>
-                <div className='w-32 sm:w-40'>
-                  <img
-                    src={plateName}
-                    alt='some'
-                    className='w-full h-full object-cover'
-                  />
-                </div>
-                <div className='flex flex-col'>
-                  <h1>Private Plate {plateNumber}</h1>
-                  <h1>{price} Q.T</h1>
-                  <h1 className='flex items-center gap-2'>
-                    <FaEye />
-                    <span>{views} views</span>
-                  </h1>
-                </div>
+        {sellerProducts?.products?.map(({ _id, views, plateNo, price }) => (
+          <div
+            className='border bottom-1 border-black p-4 flex flex-col sm:flex-row justify-between'
+            key={_id}
+          >
+            <div className='flex gap-4'>
+              <div className='w-32 sm:w-40'>
+                <img
+                  src={plateName}
+                  alt='Plate'
+                  className='w-full h-full object-cover'
+                />
               </div>
-              <div className='flex flex-col items-end justify-between relative'>
-                <button onClick={() => handleThreeDotsClick(id)}>
-                  <BsThreeDots />
+              <div className='flex flex-col'>
+                <h1>Private Plate {plateNo}</h1>
+                <h1>{price} Q.T</h1>
+                <h1 className='flex items-center gap-2'>
+                  <FaEye />
+                  <span>{views} views</span>
+                </h1>
+              </div>
+            </div>
+            <div className='flex flex-col items-end justify-end'>
+              <div className='flex gap-4 mt-2'>
+                <button
+                  className='p-2 border border-1 border-black rounded'
+                  onClick={() => setDeleteModal(_id)}
+                >
+                  Delete
                 </button>
-                {showDeleteOptions === id && (
-                  <div className='absolute top-2 right-4 bg-white border border-gray-300 shadow-md p-2 rounded'>
-                    <button
-                      className='text-red-500'
-                      onClick={() => console.log(`Delete item with id: ${id}`)}
-                    >
-                      Delete
-                    </button>
-                  </div>
-                )}
-                <div className='flex gap-4 mt-2'>
-                  <button className='p-2 border border-1 border-black rounded'>
-                    Mark as Sold
-                  </button>
-                  <button className='p-2 bg-black text-white rounded'>
-                    Republish
-                  </button>
-                </div>
+                <button
+                  className='p-2 bg-black text-white rounded'
+                  onClick={() => {
+                    setUpdateModal(_id);
+                    setFormData({
+                      plateNo,
+                      price,
+                      discount: '',
+                      status: 'active',
+                    });
+                  }}
+                >
+                  Update
+                </button>
               </div>
-            </main>
-          );
-        })}
+            </div>
+          </div>
+        ))}
       </div>
+
+      {deleteModal && (
+        <div className='fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center'>
+          <div className='bg-white p-6 rounded-lg'>
+            <h2 className='text-lg font-bold'>Confirm Delete</h2>
+            <p>Are you sure you want to delete this product?</p>
+            <div className='flex justify-end gap-4 mt-4'>
+              <button
+                className='px-4 py-2 bg-gray-300 rounded-lg'
+                onClick={() => setDeleteModal(null)}
+              >
+                Cancel
+              </button>
+              <button
+                className='px-4 py-2 bg-red-500 text-white rounded-lg'
+                onClick={() => handleDelete(deleteModal)}
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Update Modal */}
+      {updateModal && (
+        <div className='fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center'>
+          <div className='bg-white p-6 rounded-lg w-full max-w-md'>
+            <h2 className='text-lg font-bold'>Update Product</h2>
+            <form onSubmit={handleUpdateSubmit} className='space-y-4 mt-4'>
+              <div>
+                <label className='block text-gray-700 font-medium mb-1'>
+                  Plate Number
+                </label>
+                <input
+                  type='text'
+                  name='plateNo'
+                  value={formData?.plateNo}
+                  onChange={(e) =>
+                    setFormData({ ...formData, plateNo: e.target.value })
+                  }
+                  className='w-full px-4 py-2 border border-gray-300 rounded-lg'
+                  placeholder='Enter plate number'
+                />
+              </div>
+              <div>
+                <label className='block text-gray-700 font-medium mb-1'>
+                  Price
+                </label>
+                <input
+                  type='text'
+                  name='price'
+                  value={formData.price}
+                  onChange={(e) =>
+                    setFormData({ ...formData, price: e.target.value })
+                  }
+                  className='w-full px-4 py-2 border border-gray-300 rounded-lg'
+                  placeholder='Enter price'
+                />
+              </div>
+              <div>
+                <label className='block text-gray-700 font-medium mb-1'>
+                  Discount
+                </label>
+                <input
+                  type='text'
+                  name='discount'
+                  value={formData.discount}
+                  onChange={(e) =>
+                    setFormData({ ...formData, discount: e.target.value })
+                  }
+                  className='w-full px-4 py-2 border border-gray-300 rounded-lg'
+                  placeholder='Enter discount (optional)'
+                />
+              </div>
+              <div>
+                <label className='block text-gray-700 font-medium mb-1'>
+                  Status
+                </label>
+                <select
+                  name='status'
+                  value={formData.status}
+                  onChange={(e) =>
+                    setFormData({ ...formData, status: e.target.value })
+                  }
+                  className='w-full px-4 py-2 border border-gray-300 rounded-lg'
+                >
+                  <option value='active'>Active</option>
+                  <option value='markAsSold'>Mark as Sold</option>
+                </select>
+              </div>
+              <div className='flex justify-end gap-4'>
+                <button
+                  type='button'
+                  className='px-4 py-2 bg-gray-300 rounded-lg'
+                  onClick={() => setUpdateModal(null)}
+                >
+                  Cancel
+                </button>
+                <button
+                  type='submit'
+                  className='px-4 py-2 bg-blue-500 text-white rounded-lg'
+                >
+                  Update
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </main>
   );
 };

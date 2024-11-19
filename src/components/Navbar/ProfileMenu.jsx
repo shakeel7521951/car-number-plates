@@ -12,7 +12,11 @@ const ProfileMenu = ({ onClose }) => {
     { path: '/seller-dashboard', text: 'Seller-Dashboard' },
     { path: '/listing', text: 'My Listing' },
   ];
-  const adminRoute = [{ path: '/dashboard', text: 'Dashboard' }];
+  const adminRoute = [
+    { path: '/dashboard', text: 'Dashboard' },
+    { path: '/seller-dashboard', text: 'Seller-Dashboard' },
+    { path: '/listing', text: 'My Listing' },
+  ];
   const { profile } = useSelector((state) => state.user);
   console.log(profile.role);
   const userProfile = [{ path: '/history', text: 'Purchasing History' }];
@@ -37,7 +41,7 @@ const ProfileMenu = ({ onClose }) => {
       <div className='flex items-center mb-4'>
         <img src={person} alt='User' className='w-12 h-12 rounded-full' />
         <div className='ml-3'>
-          <h3 className='font-semibold text-lg'>John Doe</h3>
+          <h3 className='font-semibold text-lg'>{profile?.name || 'John'} </h3>
           <Link
             to='/profile'
             onClick={onClose}
