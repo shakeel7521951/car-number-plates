@@ -11,7 +11,7 @@ import { useState } from 'react';
 export const calculateTimeDifference = (createdAt) => {
   const createdDate = new Date(createdAt);
   const currentDate = new Date();
-  const timeDifferenceInMs = currentDate - createdDate; // Difference in milliseconds
+  const timeDifferenceInMs = currentDate - createdDate;
 
   const hours = Math.floor(timeDifferenceInMs / (1000 * 60 * 60));
   const days = Math.floor(hours / 24);
@@ -31,18 +31,17 @@ const ExploreCard = ({
   discount = 44453,
   price = 33322,
   image = plateImg,
+  category = 'normal',
 }) => {
   const [updateView] = useUpdateViewMutation();
 
   const like = likes?.length;
-  console.log(like);
   const [isLiked, setIsLiked] = useState(false); // Track like status
   const [likeProduct, { data }] = useLikeProductMutation();
-  console.log(data);
   const [dislikeProduct] = useDislikeProductMutation();
   const timeAgo = calculateTimeDifference(created_at);
   const handleImageClick = () => {
-    updateView(_id); // Call the updateView mutation when the image is clicked
+    updateView(_id);
   };
 
   const handleLikeButtonClick = async () => {
@@ -95,9 +94,14 @@ const ExploreCard = ({
             <h1 className='text-lg pr-4 font-semibold'>Personal</h1>
           </div>
         </div>
-        <div className='text-end flex items-center flex-col'>
-          <h1 className='text-[#92905F]'>Active</h1>
-          <p className='text-[10px]'>Transfer By Metrash</p>
+        <div className='flex flex-col items-start justify-start'>
+          <h1 className='capitalize pb-8'>
+            Category : <span className='text-gray-700'>{category}</span>
+          </h1>
+          <div className='text-end flex items-center flex-col'>
+            <h1 className='text-[#92905F]'>Active</h1>
+            <p className='text-[10px]'>Transfer By Metrash</p>
+          </div>
         </div>
       </main>
 

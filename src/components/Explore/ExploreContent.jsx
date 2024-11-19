@@ -2,27 +2,17 @@ import { useEffect, useState } from 'react';
 import ExploreCard from './ExploreCard';
 import Rectangle_50 from '../../assets/Rectangle 50.png';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
-import { useDispatch, useSelector } from 'react-redux';
-import { useGetAllProductsQuery } from '../../Redux/ProductRoutes/productApi';
-import { setProduct } from '../../Redux/ProductRoutes/productSlice';
+import { useSelector } from 'react-redux';
 
 const ExploreContent = () => {
-  const dispatch = useDispatch();
   const { profile } = useSelector((state) => state.user);
-  // const { data: recievedData, isError, isLoading } = useGetAllProductsQuery();
-
-  // useEffect(() => {
-  //   dispatch(setProduct(recievedData?.products));
-  // }, [recievedData, dispatch]);
-  // console.log(recievedData);
-  const { product: recievedData } = useSelector((state) => state.product);
+  const { product: receivedData } = useSelector((state) => state.product);
   const itemsPerPage = 6;
   const [currentPage, setCurrentPage] = useState(1);
-  // Get the total number of products for pagination
-  const totalProducts = recievedData?.length || 0;
+  const totalProducts = receivedData?.length || 0;
   const totalPages = Math.ceil(totalProducts / itemsPerPage);
 
-  const currentrecievedData = recievedData?.slice(
+  const currentReceivedData = receivedData?.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
@@ -70,7 +60,7 @@ const ExploreContent = () => {
       <p className='text-black my-4'>Plates Numbers: {totalProducts}</p>
 
       <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-between gap-4 max-w-[1500px] mx-auto'>
-        {currentrecievedData?.map((plate) => (
+        {currentReceivedData?.map((plate) => (
           <ExploreCard key={plate._id} {...plate} />
         ))}
       </div>

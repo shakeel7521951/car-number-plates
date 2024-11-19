@@ -110,14 +110,15 @@ const Navbar = () => {
 
         {/* Sign In and Post Buttons */}
         <main className='hidden md:flex'>
-          {profile?.role === 'seller' && (
+          {profile?.role !== 'buyer' && (
             <div className='hidden md:flex ml-3 justify-center items-center border-2 border-[#9FA2A0] rounded-md'>
-              {/*  if seller then the button should show */}
-
-              <button className='bg-transparent  text-white font-bold w-max px-4 py-1 rounded flex items-center justify-between '>
+              <Link
+                to={'/createPlate'}
+                className='bg-transparent  text-white font-bold w-max px-4 py-1 rounded flex items-center justify-between '
+              >
                 <FaPlus className=' font-bold text-white' />
                 Post
-              </button>
+              </Link>
             </div>
           )}
           {!profile && (

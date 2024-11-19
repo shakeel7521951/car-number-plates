@@ -43,7 +43,7 @@ export const productApi = createApi({
         url: `/likeProduct/${id}`,
         method: 'PUT',
       }),
-      invalidatesTags: ['Products'], // Optionally invalidate product data if needed
+      invalidatesTags: ['Products'],
     }),
     dislikeProduct: builder.mutation({
       query: (id) => ({
@@ -51,6 +51,14 @@ export const productApi = createApi({
         method: 'PUT',
       }),
       invalidatesTags: ['Products'],
+    }),
+
+    createPlate: builder.mutation({
+      query: (data) => ({
+        url: '/createProduct',
+        method: 'POST',
+        body: data,
+      }),
     }),
   }),
 });
@@ -62,4 +70,5 @@ export const {
   useUpdateViewMutation,
   useDislikeProductMutation,
   useLikeProductMutation,
+  useCreatePlateMutation,
 } = productApi;

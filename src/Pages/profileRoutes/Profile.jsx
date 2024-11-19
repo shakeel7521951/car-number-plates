@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useDeleteProfileMutation } from '../../Redux/userRoutes/userApi';
 import { toast } from 'react-toastify';
+import { setProfile } from '../../Redux/userRoutes/userSlice';
 const Profile = () => {
   const { profile } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
   // console.log('profie ', profile);
   const [deleteProfile, { isLoading }] = useDeleteProfileMutation();
   const [confirmDelete, setConfirmDelete] = useState(false);
@@ -13,6 +15,7 @@ const Profile = () => {
   const handleDeleteProfile = async () => {
     try {
       const resp = await deleteProfile().unwrap();
+      dispatch(setProfile(null));
       toast.success(resp?.message);
       navigate('/');
       console.log(resp);
@@ -30,7 +33,7 @@ const Profile = () => {
               Hello, {profile?.name}!
             </h2>
             <p className='text-gray-600'>{profile?.email}</p>
-            <p className='text-gray-600'>Role : {profile?.role}</p>
+            <p className='text-gray-600 capitalize'>Role : {profile?.role}</p>
           </div>
         </div>
 

@@ -18,9 +18,9 @@ const ProfileMenu = ({ onClose }) => {
   const userProfile = [{ path: '/history', text: 'Purchasing History' }];
   const [logout, { isLoading }] = useLogoutMutation();
   const userArray =
-    profile?.role === 'seller'
+    profile?.role?.toLowerCase() === 'seller'
       ? [...sellerProfile]
-      : profile?.role === 'admin'
+      : profile?.role?.toLowerCase() === 'admin'
       ? [...adminRoute]
       : [...userProfile];
   const handleLogout = async () => {

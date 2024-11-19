@@ -15,7 +15,8 @@ const UpdateProfile = () => {
   const handleUpdate = async (e) => {
     e.preventDefault();
     try {
-      const result = await updateUser({ name, role }).unwrap();
+      const lowercaseRole = role.toLowerCase();
+      const result = await updateUser({ name, role: lowercaseRole }).unwrap();
       console.log(result?.user);
       toast.success('Update Profile Successfully');
       dispatch(setProfile(result?.user));
@@ -24,7 +25,6 @@ const UpdateProfile = () => {
       toast.error(error?.data?.message || 'Error While Updating Profile');
     }
   };
-
   return (
     <div className='max-w-3xl mx-auto bg-white shadow-md rounded-md p-6 mt-12'>
       <h2 className='text-2xl font-bold mb-4'>Update Profile</h2>
@@ -47,8 +47,11 @@ const UpdateProfile = () => {
             className='w-full px-4 py-2 border rounded border-black'
             required
           >
-            <option value='Buyer'>Buyer</option>
-            <option value='Seller'>Seller</option>
+            <option value='' disabled>
+              Select your role
+            </option>
+            <option value='buyer'>Buyer</option>
+            <option value='seller'>Seller</option>
           </select>
         </div>
         <div className='flex justify-between flex-wrap'>

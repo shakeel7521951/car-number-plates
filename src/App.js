@@ -27,7 +27,8 @@ import Login from './components/UserComponent/Login';
 import Register from './components/UserComponent/Register';
 import Profile from './Pages/profileRoutes/Profile';
 import UpdateProfile from './Pages/profileRoutes/UpdateProfile.jsx';
-import { useDispatch, useSelector } from 'react-redux';
+import CreateNumberPlate from './Pages/CreateNumberPlate';
+import { useDispatch } from 'react-redux';
 import { useProfileQuery } from './Redux/userRoutes/userApi.js';
 import { setProfile } from './Redux/userRoutes/userSlice.js';
 import ProtectedRoute from './Pages/ProtectedRoute.jsx';
@@ -73,13 +74,14 @@ const router = createBrowserRouter([
       { path: '/update-password', element: <UpdatePassword /> },
       { path: '/update-profile', element: <UpdateProfile /> },
       { path: '/forgot-password', element: <ForgotPassword /> },
+      { path: '/createPlate', element: <CreateNumberPlate /> },
       { path: '/profile', element: <Profile /> },
 
       // Protected seller routes
       {
         path: '/listing',
         element: (
-          <ProtectedRoute allowedRoles={['seller']}>
+          <ProtectedRoute allowedRoles={['seller', 'Seller']}>
             <MyListing />
           </ProtectedRoute>
         ),
@@ -87,7 +89,7 @@ const router = createBrowserRouter([
       {
         path: '/seller-dashboard',
         element: (
-          <ProtectedRoute allowedRoles={['seller']}>
+          <ProtectedRoute allowedRoles={['seller', 'Seller']}>
             <SellerDashboard />
           </ProtectedRoute>
         ),
@@ -97,7 +99,7 @@ const router = createBrowserRouter([
   {
     path: '/dashboard',
     element: (
-      <ProtectedRoute allowedRoles={['admin']}>
+      <ProtectedRoute allowedRoles={['admin', 'Admin']}>
         <DashboardLayout />
       </ProtectedRoute>
     ),
@@ -123,11 +125,11 @@ const router = createBrowserRouter([
 function App() {
   const dispatch = useDispatch();
   const { data: profile } = useProfileQuery();
-  const { data: recievedData } = useGetAllProductsQuery();
+  const { data: receivedData } = useGetAllProductsQuery();
 
   useEffect(() => {
-    dispatch(setProduct(recievedData?.products));
-  }, [recievedData, dispatch]);
+    dispatch(setProduct(receivedData?.products));
+  }, [receivedData, dispatch]);
   useEffect(() => {
     if (profile?.user) {
       dispatch(setProfile(profile?.user));
