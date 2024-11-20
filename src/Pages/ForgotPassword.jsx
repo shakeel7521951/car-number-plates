@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import image from '../assets/CarForgot.png';
+import image from '../assets/HomePage2.jpg';
 
 const ForgotPassword = ({ setIsPopUpOpen }) => {
   const [email, setEmail] = useState('');
@@ -27,7 +27,7 @@ const ForgotPassword = ({ setIsPopUpOpen }) => {
     <section className='w-[90vw] mx-auto mt-12 '>
       <div className='w-full bg-white text-black rounded-lg shadow-lg  p-4 md:p-8 flex flex-col md:flex-row items-center md:items-start'>
         <div
-          className='hidden md:block w-1/2 p-4 
+          className='hidden md:block w-1/2 p-4 h-[100vh] 
         '
         >
           <img

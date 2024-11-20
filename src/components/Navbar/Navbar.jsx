@@ -9,14 +9,19 @@ import person from '../../assets/person1.jpeg';
 import MessageBox from './MessageBox';
 import ProfileMenu from './ProfileMenu';
 import { menuLinks } from '../../StaticData/data';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { setLanguage } from '../../Redux/ToggleLanguage';
 
 const Navbar = () => {
   const { profile } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
   // const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+  // const [selectedLanguage, setSelectedLanguage] = useState('eng'); // Default language: English
 
+  const { language } = useSelector((state) => state.language);
+  // console.log('lang', language);
   const toggleProfileMenu = () => {
     setIsProfileMenuOpen(!isProfileMenuOpen);
   };
@@ -51,6 +56,11 @@ const Navbar = () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
+  const handleLanguageChange = (e) => {
+    const value = e.target.value;
+    dispatch(setLanguage(value));
+    // console.log('Selected Language:', value);
+  };
 
   return (
     <nav className='p-2 relative'>
@@ -133,47 +143,62 @@ const Navbar = () => {
           )}
         </main>
       </div>
-
-      {/* Search and Icons */}
-      <div className='hidden md:flex ms-6 mr-4'>
-        <div className='flex justify-end m-0 w-[100%] md:w-[80%] mx-5'>
-          <div className='w-full md:w-2/4 flex items-center relative md:ms-24 border border-black rounded-xl'>
-            <input
-              type='text'
-              placeholder='Search...'
-              className='w-full p-2 rounded-xl bg-[#EAEAEA]  placeholder-gray-400 focus:outline-none'
-            />
-            <IoIosSearch className='absolute right-2 text-2xl' />
-          </div>
+      <div className='flex items-center justify-between '>
+        <div className='flex items-center mt-4'>
+          <label htmlFor='language' className='mr-2 text-white'>
+            Language:
+          </label>
+          <select
+            id='language'
+            value={language}
+            onChange={handleLanguageChange}
+            className='p-2 rounded bg-white text-black'
+          >
+            <option value='eng'>English</option>
+            <option value='arabic'>Arabic</option>
+          </select>
         </div>
-        {profile && (
-          <div className='flex gap-4'>
-            <CiHeart size='40px' />
-            <CiBellOn size='40px' />
-            <MessageBox />
-            <main>
-              <div
-                className='w-10 h-10 rounded-full cursor-pointer'
-                onClick={toggleProfileMenu}
-                ref={profileButtonRef} // Profile button ref
-              >
-                <img
-                  src={person}
-                  alt='Person'
-                  className='object-cover w-full h-full rounded-full'
-                />
-              </div>
-              {isProfileMenuOpen && (
-                <main
-                  className='absolute top-32 right-10 bg-white rounded-lg shadow-lg w-56 p-4 z-30'
-                  ref={profileMenuRef}
-                >
-                  <ProfileMenu onClose={() => setIsProfileMenuOpen(false)} />
-                </main>
-              )}
-            </main>
+        {/* Search and Icons */}
+        <div className='hidden md:flex ms-6 mr-4'>
+          <div className='flex justify-end m-0 w-[100%] md:w-[80%] mx-5'>
+            {/* <div className='w-full md:w-2/4 flex items-center relative md:ms-24 border border-black rounded-xl'>
+              <input
+                type='text'
+                placeholder='Search...'
+                className='w-full p-2 rounded-xl bg-[#EAEAEA]  placeholder-gray-400 focus:outline-none'
+              />
+              <IoIosSearch className='absolute right-2 text-2xl' />
+            </div> */}
           </div>
-        )}
+          {profile && (
+            <div className='flex gap-4'>
+              <CiHeart size='40px' />
+              <CiBellOn size='40px' />
+              <MessageBox />
+              <main>
+                <div
+                  className='w-10 h-10 rounded-full cursor-pointer'
+                  onClick={toggleProfileMenu}
+                  ref={profileButtonRef} // Profile button ref
+                >
+                  <img
+                    src={person}
+                    alt='Person'
+                    className='object-cover w-full h-full rounded-full'
+                  />
+                </div>
+                {isProfileMenuOpen && (
+                  <main
+                    className='absolute top-32 right-10 bg-white rounded-lg shadow-lg w-56 p-4 z-30'
+                    ref={profileMenuRef}
+                  >
+                    <ProfileMenu onClose={() => setIsProfileMenuOpen(false)} />
+                  </main>
+                )}
+              </main>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Mobile Sidebar */}

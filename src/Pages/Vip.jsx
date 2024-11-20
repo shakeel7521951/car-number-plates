@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react';
 import ExploreCard from '../components/Explore/ExploreCard';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
-import normal from '../assets/CarNormal.png';
+import normal from '../assets/HomePage2.jpg';
 import { useGetFilterProductMutation } from '../Redux/ProductRoutes/productApi';
+import { useSelector } from 'react-redux';
 
 const Vip = () => {
   const itemsPerPage = 6;
   const [currentPage, setCurrentPage] = useState(1);
+  const { language } = useSelector((state) => state.language);
+
   const [getVipProducts, { data: filteredData, isLoading, isError }] =
     useGetFilterProductMutation();
   console.log('filteredData', filteredData);
@@ -55,7 +58,9 @@ const Vip = () => {
         <div className='absolute inset-0 bg-black bg-opacity-40 flex items-center justify-between p-4 md:px-12 md:py-8'>
           <div>
             <h1 className='text-white font-bold text-xl sm:text-4xl'>
-              VIP Number Plates
+              {language === 'eng'
+                ? 'Vip Number Plates'
+                : 'لوحات أرقام كبار الشخصيات'}
             </h1>
             <p className='text-white mt-3 sm:text-3xl font-semibold'>
               Qatar 8873 <br /> Best Price

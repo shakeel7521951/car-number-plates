@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import image from '../assets/CarUpdate.png';
+import image from '../assets/gold.jpg';
 import { useUpdatePasswordMutation } from '../Redux/userRoutes/userApi';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
@@ -46,9 +46,9 @@ const UpdatePassword = () => {
 
   return (
     <section className='w-[90vw] mx-auto mt-12 flex justify-center items-center min-h-screen'>
-      <div className='w-full bg-white text-black rounded-lg shadow-lg p-4 md:p-8 flex flex-col md:flex-row items-center md:items-start'>
+      <div className='w-full bg-white text-black rounded-lg shadow-lg p-4 md:p-8 flex flex-col md:flex-row items-center justify-center'>
         {/* Image Section: Visible on large screens */}
-        <div className='hidden md:block w-1/2 p-4'>
+        <div className='hidden md:block w-1/2 p-4 h-[100vh]'>
           <img
             src={image}
             alt='Car Update Password'

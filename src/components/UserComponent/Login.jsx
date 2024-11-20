@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import carImg from '../../assets/CarLogin.png';
+import carImg from '../../assets/HomePage2.jpg';
 import { IoMdEye, IoMdEyeOff } from 'react-icons/io';
 import { useLoginMutation } from '../../Redux/userRoutes/userApi';
 import { toast } from 'react-toastify';

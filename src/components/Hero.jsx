@@ -14,6 +14,7 @@ import {
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
+import { Link } from 'react-router-dom';
 
 function Hero() {
   const hero_data = [
@@ -56,11 +57,14 @@ function Hero() {
                 <p className='text-xl md:text-2xl font-medium'>$160</p>
               </div>
               <div className='flex gap-4 flex-wrap'>
-                <button className='animated-button  bg-white px-4 py-3'>
+                <Link
+                  to={'/explore'}
+                  className='animated-button  bg-white px-4 py-3'
+                >
                   <span className='button-content text-lg font-semibold'>
                     BOOK NOW
                   </span>
-                </button>
+                </Link>
                 <button className='animated-button px-4 bg-white'>
                   <span className='button-content text-lg font-semibold'>
                     CONTACT

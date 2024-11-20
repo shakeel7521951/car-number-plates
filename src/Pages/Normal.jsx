@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import ExploreCard from '../components/Explore/ExploreCard';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
-import normal from '../assets/CarNormal.png';
+import normal from '../assets/HomepageImg.jpg';
 import { useGetFilterProductMutation } from '../Redux/ProductRoutes/productApi';
 
 const Normal = () => {

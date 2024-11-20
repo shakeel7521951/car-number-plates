@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Car from '../../assets/CarRegister.png';
+import Car from '../../assets/HomepageImg.jpg';
 import { IoMdEye, IoMdEyeOff } from 'react-icons/io';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSignupMutation } from '../../Redux/userRoutes/userApi';
