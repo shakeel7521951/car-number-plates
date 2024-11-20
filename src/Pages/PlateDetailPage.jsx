@@ -1,7 +1,8 @@
-import plate_her0_image from '../assets/27465ddd5a3dab417a4b9db3167262fc.jpg';
+import plate_her0_image from '../assets/HomepageImg.jpg';
 import whatsapp from '../assets/social-icons/whtsapp.png';
 import facebook from '../assets/social-icons/fb.png';
 import twitter from '../assets/social-icons/twitter.png';
+import numberPlate from '../assets/plateName.png';
 import pin from '../assets/social-icons/pin.png';
 import ExploreCard, {
   calculateTimeDifference,
@@ -13,6 +14,7 @@ import { IoCartOutline } from 'react-icons/io5';
 import { useGetSingleProductQuery } from '../Redux/ProductRoutes/productApi';
 import { useSelector } from 'react-redux';
 import { useState } from 'react';
+
 const PlateDetailPage = () => {
   const { id } = useParams();
 
@@ -21,37 +23,38 @@ const PlateDetailPage = () => {
 
   const { product } = useSelector((state) => state.product);
   const [showItems, setShowItems] = useState(6);
+
   if (isLoading) {
     return <h1>Loading...</h1>;
   }
+
   const mappingData = product?.slice(0, showItems);
   const time = calculateTimeDifference(currentplateData?.created_at);
+
   return (
     <div>
-      <div
-        className='.bg-num-plate flex justify-center items-center '
-        style={{
-          backgroundImage: `url(${plate_her0_image})`,
-          width: '100%',
-          height: '100vh',
-          backgroundSize: '100% 100%',
-          // backgroundPosition:'centre'
-        }}
-      >
+      <div className='relative w-full h-screen'>
+        <img
+          src={plate_her0_image}
+          alt='Background'
+          className='absolute top-0 left-0 w-full h-full object-cover'
+        />
         {currentplateData && (
-          <div className='w-[100%] sm:w-[80%] h-[80%] flex justify-between items-center sm:items-end'>
+          // make this conteent to the centter
+
+          <div className='relative z-10 w-[90%] sm:w-[80%] h-[80%] flex items-center justify-center mx-auto pt-10'>
             <img
-              src={currentplateData.image}
+              src={numberPlate}
               alt=''
               className='w-[55%] h-[100%] hidden sm:block'
             />
 
-            <div className='w-[70%] mx-auto sm:w-[40%] flex flex-col gap-[6px] '>
+            <div className='w-[70%] mx-auto sm:w-[40%] flex flex-col gap-[6px]'>
               <div className='flex flex-col items-start justify-center'>
                 <p className='text-white ms:text-[21px] lg:text-[25px] font-bold'>
                   Private Plate {currentplateData.plateNo}
                 </p>
-                <div className='bg-[#D9D9D9] rounded-2xl py-1 px-3  flex gap-[3px] justify-center items-center'>
+                <div className='bg-[#D9D9D9] rounded-2xl py-1 px-3 flex gap-[3px] justify-center items-center'>
                   <img src={person} alt='' className='w-[40px] rounded-full' />
                   <p className='text-black'>Personal</p>
                 </div>
@@ -72,7 +75,7 @@ const PlateDetailPage = () => {
                     <p>For Sale</p>
                   </div>
                   <div className='flex flex-col gap-[4px]'>
-                    <p className='bg-[#B4F92B] text-black p-2 rounded-xl font-semibold '>
+                    <p className='bg-[#B4F92B] text-black p-2 rounded-xl font-semibold'>
                       Chat with Seller
                     </p>
                     <p className='bg-[#000] text-white py-2 px-6 rounded-xl font-semibold'>
@@ -110,7 +113,7 @@ const PlateDetailPage = () => {
           </div>
         )}
       </div>
-      {/* plate detaail likes section */}
+      {/* plate detail likes section */}
       <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-between gap-4 p-14'>
         {mappingData?.map((data_elem, data_index) => {
           return <ExploreCard {...data_elem} key={data_index} />;
@@ -120,16 +123,17 @@ const PlateDetailPage = () => {
             showItems >= product?.length
               ? ' cursor-not-allowed'
               : 'animated-button'
-          } bg-white  p-2 rounded-xl font-semibold mx-auto text-center   `}
+          } bg-white p-2 rounded-xl font-semibold mx-auto text-center`}
           disabled={showItems >= product?.length}
           onClick={() => {
             setShowItems((prev) => prev + 6);
           }}
         >
-          <span className='button-content '>Load More</span>
+          <span className='button-content'>Load More</span>
         </button>
       </div>
     </div>
   );
 };
+
 export default PlateDetailPage;
