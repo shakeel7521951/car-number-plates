@@ -3,10 +3,12 @@ import ExploreCard from '../components/Explore/ExploreCard';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import normal from '../assets/silver.jpg';
 import { useGetFilterProductMutation } from '../Redux/ProductRoutes/productApi';
+import { useSelector } from 'react-redux';
 
 const Silver = () => {
   const itemsPerPage = 6;
   const [currentPage, setCurrentPage] = useState(1);
+  const { language } = useSelector((state) => state.language); // Get language from Redux
   const [getNormalProduct, { data: filteredData, isLoading, error }] =
     useGetFilterProductMutation();
 
@@ -57,29 +59,29 @@ const Silver = () => {
         <div className='absolute inset-0 bg-black bg-opacity-40 flex items-center justify-between p-4 md:px-12 md:py-8'>
           <div>
             <h1 className='text-white font-bold text-xl sm:text-4xl'>
-              Silver Number Plates
+              {language === 'eng' ? 'Silver Number Plates' : 'لوحات أرقام فضية'}
             </h1>
             <p className='text-white mt-3 sm:text-3xl font-semibold'>
-              Qatar 8873 <br /> Best Price
+              {language === 'eng' ? 'Qatar 8873' : 'قطر 8873'} <br />{language === 'eng' ? 'Best Price' : 'أفضل الأسعار'}
             </p>
             <div className=' flex items-center gap-4 font-semibold mt-6'>
               <button className='px-4 py-1 sm:py-3 animated-button rounded-xl bg-white sm:mt-3'>
-                <span className='button-content sm:text-lg'>Contact Us</span>
+                <span className='button-content sm:text-lg'>{language === 'eng' ? 'Contact Us' : 'اتصل بنا'}</span>
               </button>
               <button className='px-4 py-1 sm:py-3 animated-button rounded-xl bg-white sm:mt-3'>
-                <span className='button-content sm:text-lg'>Book Now</span>
+                <span className='button-content sm:text-lg'>{language === 'eng' ? 'Book Now' : 'احجز الآن'}</span>
               </button>
             </div>
           </div>
           <div className='text-white  md:text-2xl text-center font-bold italic hidden lg:block mt-4'>
-            "Your journey to a unique number plate starts with your details"
+            {language === 'eng' ? '"Your journey to a unique number plate starts with your details"' : '"رحلتك إلى لوحة أرقام مميزة تبدأ بتفاصيلك"'}
           </div>
         </div>
       </div>
 
-      <h1 className=' font-bold text-black my-4 text-4xl '>Silver Plates</h1>
-      <p className='text-black my-4'>
-        Number Of plates: {filteredData?.products?.length || 0}
+      <h1 className={`font-bold text-black my-4 text-4xl ${language === 'eng'?'text-left':'text-right'}`}>{language === 'eng' ? 'Silver Plates' : 'لوحات فضية'}</h1>
+      <p className={`text-black my-4 ${language === 'eng'?'text-left':'text-right'}`}>
+       {language === 'eng' ? 'Number Of plates' : 'عدد اللوحات:'}  :{filteredData?.products?.length || 0}
       </p>
 
       <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-between gap-4 max-w-[1500px] mx-auto'>
@@ -103,11 +105,7 @@ const Silver = () => {
               <button
                 key={pageNumber}
                 onClick={() => handlePageClick(pageNumber)}
-                className={`px-2 rounded ${
-                  currentPage === pageNumber
-                    ? 'bg-[#e8fe26] text-black'
-                    : 'text-white'
-                }`}
+                className={`px-2 rounded ${currentPage === pageNumber ? 'bg-[#e8fe26] text-black' : 'text-white'}`}
               >
                 {pageNumber}
               </button>
@@ -117,9 +115,7 @@ const Silver = () => {
           <button
             onClick={handleNextPage}
             disabled={currentPage === totalPages}
-            className={`px-2 py-1 ${
-              currentPage === totalPages ? 'opacity-50' : ''
-            }`}
+            className={`px-2 py-1 ${currentPage === totalPages ? 'opacity-50' : ''}`}
           >
             <FaChevronRight className='text-2xl bg-[#e8fe26] rounded text-black cursor-pointer' />
           </button>

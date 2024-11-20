@@ -8,7 +8,6 @@ import { CiBellOn, CiHeart } from 'react-icons/ci';
 import person from '../../assets/person1.jpeg';
 import MessageBox from './MessageBox';
 import ProfileMenu from './ProfileMenu';
-import { menuLinks } from '../../StaticData/data';
 import { useDispatch, useSelector } from 'react-redux';
 import { setLanguage } from '../../Redux/ToggleLanguage';
 
@@ -61,6 +60,14 @@ const Navbar = () => {
     dispatch(setLanguage(value));
     // console.log('Selected Language:', value);
   };
+
+  const menuLinks = [
+    { path: '/normal', label: language === 'eng' ? 'Normal' : 'عادي' },
+      { path: '/silver', label: language === 'eng' ? 'Silver' : 'فضي' },
+      { path: '/gold', label: language === 'eng' ? 'Gold' : 'ذهبي' },
+      { path: '/vip', label: language === 'eng' ? 'VIP' : 'مميز' },
+      { path: '/message', label: language === 'eng' ? 'Messages' : 'الرسائل' }
+  ];
 
   return (
     <nav className='p-2 relative'>
@@ -127,7 +134,7 @@ const Navbar = () => {
                 className='bg-transparent  text-white font-bold w-max px-4 py-1 rounded flex items-center justify-between '
               >
                 <FaPlus className=' font-bold text-white' />
-                Post
+                {language === 'eng'?'Post' : 'بريد'}
               </Link>
             </div>
           )}
@@ -137,7 +144,7 @@ const Navbar = () => {
                 to={'/login'}
                 className=' button-content  px-4 py-1 rounded-lg'
               >
-                Sign In
+                {language === 'eng'?'Sign In':'تسجيل الدخول'}
               </Link>
             </div>
           )}
@@ -146,7 +153,7 @@ const Navbar = () => {
       <div className='flex items-center justify-between '>
         <div className='flex items-center mt-4'>
           <label htmlFor='language' className='mr-2 text-white'>
-            Language:
+           
           </label>
           <select
             id='language'

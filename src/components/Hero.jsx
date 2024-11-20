@@ -15,8 +15,11 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux'; 
 
 function Hero() {
+  const { language } = useSelector((state) => state.language); 
+
   const hero_data = [
     {
       id: 1,
@@ -48,26 +51,35 @@ function Hero() {
             }}
           >
             {/* Overlay Content */}
-            <div className='flex flex-col items-center text-center text-white absolute inset-0 p-2 md:p-8 mt-12'>
-              <p className='text-3xl md:text-5xl font-bold mb-4 tracking-wide'>
-                CAR NUMBER PLATE
+            <div
+              className={`flex flex-col items-center text-center text-white absolute inset-0 p-2 md:p-8 mt-12 ${
+                language === 'ar' ? 'text-right' : 'text-left'
+              }`}
+            >
+              <p
+                className={`text-3xl md:text-5xl font-bold mb-4 tracking-wide ${
+                  language === 'ar' ? 'text-right' : 'text-left'
+                }`}
+              >
+                {language === 'eng' ? 'CAR NUMBER PLATE' : 'لوحة أرقام السيارة'}
               </p>
               <div className='flex flex-col items-center mb-6'>
-                <p className='text-xl md:text-2xl font-medium'>Qatar 8873</p>
-                <p className='text-xl md:text-2xl font-medium'>$160</p>
+                <p className='text-xl md:text-2xl font-medium'>
+                  {language === 'eng' ? 'Qatar 8873' : 'قطر 8873'}
+                </p>
+                <p className='text-xl md:text-2xl font-medium'>
+                  {language === 'eng' ? '$160' : '160 ريال قطري'}
+                </p>
               </div>
-              <div className='flex gap-4 flex-wrap'>
-                <Link
-                  to={'/explore'}
-                  className='animated-button  bg-white px-4 py-3'
-                >
+              <div className={`flex gap-4 flex-wrap ${language === 'ar' ? 'text-right' : 'text-left'}`}>
+                <Link to={'/explore'} className='animated-button bg-white px-4 py-3'>
                   <span className='button-content text-lg font-semibold'>
-                    BOOK NOW
+                    {language === 'eng' ? 'BOOK NOW' : 'احجز الآن'}
                   </span>
                 </Link>
                 <button className='animated-button px-4 bg-white'>
                   <span className='button-content text-lg font-semibold'>
-                    CONTACT
+                    {language === 'eng' ? 'CONTACT' : 'اتصل'}
                   </span>
                 </button>
               </div>

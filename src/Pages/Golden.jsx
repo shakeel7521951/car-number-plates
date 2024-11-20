@@ -3,8 +3,10 @@ import ExploreCard from '../components/Explore/ExploreCard';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import normal from '../assets/gold.jpg';
 import { useGetFilterProductMutation } from '../Redux/ProductRoutes/productApi';
+import { useSelector } from 'react-redux';
 
 const Gold = () => {
+  const { language } = useSelector((state) => state.language); // Get language from Redux
   const itemsPerPage = 6;
   const [currentPage, setCurrentPage] = useState(1);
   const [getGoldProduct, { data: filteredData, isLoading, error }] =
@@ -55,29 +57,29 @@ const Gold = () => {
         <div className='absolute inset-0 bg-black bg-opacity-40 flex items-center justify-between p-4 md:px-12 md:py-8'>
           <div>
             <h1 className='text-white font-bold text-xl sm:text-4xl'>
-              Gold Number Plates
+              {language==='eng'?'Gold Number Plates':'لوحات أرقام ذهبية'}
             </h1>
             <p className='text-white mt-3 sm:text-3xl font-semibold'>
-              Qatar 8873 <br /> Best Price
+              {language==='eng'?'Qatar 8873':'قطر 8873'} <br /> {language==='eng'?'Best Price':'أفضل الأسعار'}
             </p>
             <div className='flex items-center gap-4 font-semibold mt-6'>
               <button className='px-4 py-1 sm:py-3 animated-button rounded-xl bg-white sm:mt-3'>
-                <span className='button-content sm:text-lg'>Contact Us</span>
+                <span className='button-content sm:text-lg'>{language==='eng'?'Contact Us':'اتصل بنا'}</span>
               </button>
               <button className='px-4 py-1 sm:py-3 animated-button rounded-xl bg-white sm:mt-3'>
-                <span className='button-content sm:text-lg'>Book Now</span>
+                <span className='button-content sm:text-lg'>{language==='eng'?'Book Now':'احجز الآن'}</span>
               </button>
             </div>
           </div>
           <div className='text-white md:text-2xl text-center font-bold italic hidden lg:block mt-4'>
-            "Access the best of Lusail Numbers by sharing your details."
+            {language==='eng'?'"Access the best of Lusail Numbers by sharing your details."':'"احصل على أفضل أرقام لوسيل من خلال مشاركة بياناتك."'}
           </div>
         </div>
       </div>
 
-      <h1 className='font-bold text-black my-4 text-4xl'>Gold Plates</h1>
-      <p className='text-black my-4'>
-        Number Of Plates: {filteredData?.products?.length || 0}
+      <h1 className={`font-bold text-black my-4 text-4xl ${language === 'eng'?'text-left':'text-right'}`}>{language==='eng'?'Gold Plates':'لوحات الذهب'}</h1>
+      <p className={`text-black my-4 ${language === 'eng'?'text-left':'text-right'}`}>
+        {language==='eng'?'Number Of Plates:':'عدد اللوحات:'} {filteredData?.products?.length || 0}
       </p>
 
       <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-between gap-4 max-w-[1500px] mx-auto'>

@@ -1,5 +1,5 @@
 import React from 'react';
-import image from '../../assets/summaryImg.png';
+import image from '../../assets/silver.jpg';
 import { useSelector } from 'react-redux';
 
 const Summary = () => {

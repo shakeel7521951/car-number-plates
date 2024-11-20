@@ -7,6 +7,7 @@ import { setProfile } from '../../Redux/userRoutes/userSlice';
 import { toast } from 'react-toastify';
 
 const ProfileMenu = ({ onClose }) => {
+  const { language } = useSelector((state) => state.language);
   const dispatch = useDispatch();
   const sellerProfile = [
     { path: '/seller-dashboard', text: 'Seller-Dashboard' },
@@ -47,7 +48,7 @@ const ProfileMenu = ({ onClose }) => {
             onClick={onClose}
             className='text-blue-500 hover:underline text-sm'
           >
-            View Profile
+             {language === 'eng'?'View Profile':'عرض الملف الشخصي'}
           </Link>
         </div>
       </div>
@@ -93,7 +94,7 @@ const ProfileMenu = ({ onClose }) => {
           onClick={handleLogout}
           className='text-gray-700 hover:text-blue-500'
         >
-          Logout
+          {language === 'eng'?'Logout':'تسجيل الخروج'}
         </button>
       </div>
     </div>

@@ -103,13 +103,7 @@ import plateImg from '../assets/plateName.png';
 //   },
 // ];
 
-export const menuLinks = [
-  { path: '/normal', label: 'Normal' },
-  { path: '/silver', label: 'Silver' },
-  { path: '/gold', label: 'Gold' },
-  { path: '/vip', label: 'VIP' },
-  { path: '/message', label: 'Messages' },
-];
+
 
 export const LinkingData = [
   {
