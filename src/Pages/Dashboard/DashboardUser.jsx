@@ -4,6 +4,12 @@ import user_image_2 from '../../assets/person2.jpg';
 import user_image_3 from '../../assets/person3.jpeg';
 import { FaRegEdit } from 'react-icons/fa';
 import { MdDeleteOutline } from 'react-icons/md';
+import {
+  useDeleteUserMutation,
+  useGetAllUsersQuery,
+  useUpdateUserRoleMutation,
+} from '../../Redux/ProductRoutes/productApi';
+import { toast } from 'react-toastify';
 
 const DashboardUser = () => {
   const [usersData, setUsersData] = useState([
@@ -45,6 +51,11 @@ const DashboardUser = () => {
     },
   ]);
 
+  const { data: AllUsers } = useGetAllUsersQuery();
+  const users = AllUsers?.users;
+  const [deleteUser] = useDeleteUserMutation();
+  const [updateRole] = useUpdateUserRoleMutation();
+
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
   const [editedUserName, setEditedUserName] = useState('');
@@ -52,112 +63,123 @@ const DashboardUser = () => {
   const [editedUserImage, setEditedUserImage] = useState(null);
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  // state by me
+  const [selectedId, setSelectedId] = useState(null);
 
   // Function to open the edit modal
-  const openEditModal = (user) => {
-    setSelectedUser(user);
-    setEditedUserName(user.user_name);
-    setEditedUserEmail(user.user_email);
-    setEditedUserImage(user.user_image);
+  const openEditModal = (id) => {
+    setSelectedId(id);
     setIsEditModalOpen(true);
   };
 
   // Function to handle saving edited data
-  const handleEditSave = () => {
-    const updatedUsers = usersData.map((user) =>
-      user.user_id === selectedUser.user_id
-        ? {
-            ...user,
-            user_name: editedUserName,
-            user_email: editedUserEmail,
-            user_image: editedUserImage,
-          }
-        : user
-    );
-    setUsersData(updatedUsers);
+  const handleEditSave = async () => {
+    console.log('selectedId', selectedId);
+    // try {
+    //   const res = await updateRole()
+    // } catch (error) {
+
+    // }
+    // const updatedUsers = usersData.map((user) =>
+    //   user.user_id === selectedUser.user_id
+    //     ? {
+    //         ...user,
+    //         user_name: editedUserName,
+    //         user_email: editedUserEmail,
+    //         user_image: editedUserImage,
+    //       }
+    //     : user
+    // );
+    // setUsersData(updatedUsers);
     setIsEditModalOpen(false);
   };
 
-  // Function to handle file change for profile picture
-  const handleImageChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setEditedUserImage(reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
+  // // Function to handle file change for profile picture
+  // const handleImageChange = (event) => {
+  //   const file = event.target.files[0];
+  //   if (file) {
+  //     const reader = new FileReader();
+  //     reader.onloadend = () => {
+  //       setEditedUserImage(reader.result);
+  //     };
+  //     reader.readAsDataURL(file);
+  //   }
+  // };
 
   // Function to open delete confirmation modal
-  const openDeleteModal = (user) => {
-    setSelectedUser(user);
+  const openDeleteModal = (id) => {
+    setSelectedId(id);
     setIsDeleteModalOpen(true);
   };
 
   // Function to delete the user
-  const handleDeleteUser = () => {
-    const updatedUsers = usersData.filter(
-      (user) => user.user_id !== selectedUser.user_id
-    );
-    setUsersData(updatedUsers);
+  const handleDeleteUser = async () => {
+    try {
+      console.log('check id', selectedId);
+      const res = await deleteUser({ id: selectedId }).unwrap();
+      toast.success(res?.message);
+    } catch (error) {
+      console.log(error?.data?.message);
+    }
     setIsDeleteModalOpen(false);
   };
 
   return (
     <div className='w-[82%] mx-auto'>
-      <h1 className='text-xl font-semibold mb-4 lg:text-left text-center'>Users</h1>
-       <div className='overflow-x-auto'>
-       <div className='min-w-[500px] bg-white rounded-3xl shadow-lg overflow-hidden p-2'>
-        {/* Header */}
-        <div className='grid grid-cols-5 bg-gray-100 rounded-xl border-[1px] border-black'>
-          <div className='p-4 font-medium'>User ID</div>
-          <div className='p-4 font-medium'>Picture</div>
-          <div className='p-4 font-medium'>Name</div>
-          <div className='p-4 font-medium'>Email</div>
-          <div className='p-4 font-medium'>Actions</div>
-        </div>
+      <h1 className='text-xl font-semibold mb-4 lg:text-left text-center'>
+        Users
+      </h1>
+      <div className='overflow-x-auto'>
+        <div className='min-w-[500px] bg-white rounded-3xl shadow-lg overflow-hidden p-2'>
+          {/* Header */}
+          <div className='grid grid-cols-4 bg-gray-100 rounded-xl border-[1px] border-black'>
+            <div className='p-4 font-medium'>User ID</div>
+            {/* <div className='p-4 font-medium'>Picture</div> */}
+            <div className='p-4 font-medium'>Name</div>
+            <div className='p-4 font-medium'>Email</div>
+            <div className='p-4 font-medium'>Actions</div>
+          </div>
 
-        {/* User Rows */}
-        <div className='divide-y divide-gray-200'>
-          {usersData.map((user) => (
-            <div
-              key={user.user_id}
-              className='grid grid-cols-5 items-center bg-white hover:bg-gray-50'
-            >
-              <div className='p-4 text-gray-700'>{user.user_id}</div>
-              <div className='p-4'>
-                <img
-                  src={user.user_image}
-                  alt={user.user_name}
-                  className='w-14 h-14 rounded-lg object-cover'
-                />
+          {/* User Rows */}
+          <div className='divide-y divide-gray-200'>
+            {users?.map((user, index) => (
+              <div
+                key={user._id}
+                className='grid grid-cols-4 items-center bg-white hover:bg-gray-50'
+              >
+                <div className='p-4 text-gray-700'>{index + 1}</div>
+                {/* <div className='p-4'>
+                  <img
+                    src={user.user_image}
+                    alt={user.user_name}
+                    className='w-14 h-14 rounded-lg object-cover'
+                  />
+                </div> */}
+                <div className='p-4 text-gray-700'>{user?.name}</div>
+                <div className='p-4 text-gray-700 break-words'>
+                  {user?.email}
+                </div>
+                <div className='p-4 flex space-x-2  justify-end'>
+                  {/* Edit Button */}
+                  <button
+                    className='text-gray-600 hover:text-gray-800'
+                    onClick={() => openEditModal(user?._id)}
+                  >
+                    <FaRegEdit className='w-6 h-7' />
+                  </button>
+                  {/* Delete Button */}
+                  <button
+                    className='text-gray-600 hover:text-gray-800'
+                    onClick={() => openDeleteModal(user?._id)}
+                  >
+                    <MdDeleteOutline className='w-7 h-7' />
+                  </button>
+                </div>
               </div>
-              <div className='p-4 text-gray-700'>{user.user_name}</div>
-              <div className='p-4 text-gray-700 break-words'>{user.user_email}</div>
-              <div className='p-4 flex space-x-2'>
-                {/* Edit Button */}
-                <button
-                  className='text-gray-600 hover:text-gray-800'
-                  onClick={() => openEditModal(user)}
-                >
-                  <FaRegEdit className='w-6 h-7' />
-                </button>
-                {/* Delete Button */}
-                <button
-                  className='text-gray-600 hover:text-gray-800'
-                  onClick={() => openDeleteModal(user)}
-                >
-                  <MdDeleteOutline className='w-7 h-7' />
-                </button>
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
-       </div>
-
 
       {/* Edit User Modal */}
       {isEditModalOpen && (
@@ -165,12 +187,12 @@ const DashboardUser = () => {
           <div className='bg-white p-6 rounded-xl shadow-lg w-[400px]'>
             <h2 className='text-lg font-semibold mb-4'>Edit User</h2>
             <div className='mb-4 text-center'>
-              <img
+              {/* <img
                 src={editedUserImage}
                 alt='Profile'
                 className='w-20 h-20 rounded-full object-cover mx-auto mb-4'
-              />
-              <input type='file' onChange={handleImageChange} />
+              /> */}
+              {/* <input type='file' onChange={handleImageChange} /> */}
             </div>
             <div className='mb-4'>
               <label>Name:</label>
