@@ -132,7 +132,7 @@ function App() {
   const dispatch = useDispatch();
   const { data: profile } = useProfileQuery();
   const { data: receivedData } = useGetAllProductsQuery();
-n  useEffect(() => {
+  useEffect(() => {
     dispatch(setProduct(receivedData));
   }, [receivedData, dispatch]);
   useEffect(() => {
