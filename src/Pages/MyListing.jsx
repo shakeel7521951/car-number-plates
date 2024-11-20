@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import { CiCirclePlus } from 'react-icons/ci';
 import plateName from '../assets/plateName.png';
 import { FaEye } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   useDeleteProductMutation,
   useGetSellerProductQuery,
+  useUpdateProductMutation,
 } from '../Redux/ProductRoutes/productApi';
 import { toast } from 'react-toastify';
 
@@ -14,17 +15,19 @@ const MyListing = () => {
   const [updateModal, setUpdateModal] = useState(null);
   const [deleteProduct, { isLoading: deleteLoader }] =
     useDeleteProductMutation();
+  const [updateProduct, { isLoading: updateLoading }] =
+    useUpdateProductMutation();
+  const navigate = useNavigate();
   const {
     data: sellerProducts,
     isLoading,
     isError,
   } = useGetSellerProductQuery();
-  // console.log(sellerProducts);
   const [formData, setFormData] = useState({
     plateNo: '',
     price: '',
     discount: '',
-    status: 'Active',
+    availability: 'Active',
   });
 
   const handleDelete = async (id) => {
@@ -39,11 +42,24 @@ const MyListing = () => {
     setDeleteModal(null);
   };
 
-  const handleUpdateSubmit = (e) => {
+  const handleUpdateSubmit = async (e) => {
     e.preventDefault();
-    console.log('Product updated:', formData);
+    console.log('update called', updateModal);
+    try {
+      const res = await updateProduct({
+        id: updateModal,
+        updatePlate: formData,
+      }).unwrap();
+      console.log('res', res);
+      // navigate(-1); // Navigate back
+      toast.success('Product updated successfully!');
+    } catch (error) {
+      console.error('Update failed', error);
+      toast.error(error?.data?.message);
+    }
     setUpdateModal(null);
   };
+
   if (isLoading) {
     return <h1>Loading...</h1>;
   }
@@ -60,54 +76,57 @@ const MyListing = () => {
         </Link>
       </div>
       <div className='flex flex-col gap-4 mt-12'>
-        {sellerProducts?.products?.map(({ _id, views, plateNo, price }) => (
-          <div
-            className='border bottom-1 border-black p-4 flex flex-col sm:flex-row justify-between'
-            key={_id}
-          >
-            <div className='flex gap-4'>
-              <div className='w-32 sm:w-40'>
-                <img
-                  src={plateName}
-                  alt='Plate'
-                  className='w-full h-full object-cover'
-                />
+        {sellerProducts?.map(
+          ({ _id, views, plateNo, price, discount, availability }) => (
+            <div
+              className='border bottom-1 border-black p-4 flex flex-col sm:flex-row justify-between'
+              key={_id}
+            >
+              <div className='flex gap-4'>
+                <div className='w-32 sm:w-40'>
+                  <img
+                    src={plateName}
+                    alt='Plate'
+                    className='w-full h-full object-cover'
+                  />
+                </div>
+                <div className='flex flex-col'>
+                  <h1>Private Plate : {plateNo}</h1>
+                  <h1>{price} Q.T</h1>
+                  <h1 className='flex items-center gap-2'>
+                    <FaEye />
+                    <span>{views} views</span>
+                  </h1>
+                </div>
               </div>
-              <div className='flex flex-col'>
-                <h1>Private Plate {plateNo}</h1>
-                <h1>{price} Q.T</h1>
-                <h1 className='flex items-center gap-2'>
-                  <FaEye />
-                  <span>{views} views</span>
-                </h1>
+              <div className='flex flex-col items-end justify-end'>
+                <div className='flex gap-4 mt-2'>
+                  <button
+                    disabled={deleteLoader}
+                    className='p-2 border border-1 border-black rounded'
+                    onClick={() => setDeleteModal(_id)}
+                  >
+                    Delete
+                  </button>
+                  <button
+                    className='p-2 bg-black text-white rounded'
+                    onClick={() => {
+                      setUpdateModal(_id);
+                      setFormData({
+                        plateNo,
+                        price,
+                        discount,
+                        availability,
+                      });
+                    }}
+                  >
+                    Update
+                  </button>
+                </div>
               </div>
             </div>
-            <div className='flex flex-col items-end justify-end'>
-              <div className='flex gap-4 mt-2'>
-                <button
-                  className='p-2 border border-1 border-black rounded'
-                  onClick={() => setDeleteModal(_id)}
-                >
-                  Delete
-                </button>
-                <button
-                  className='p-2 bg-black text-white rounded'
-                  onClick={() => {
-                    setUpdateModal(_id);
-                    setFormData({
-                      plateNo,
-                      price,
-                      discount: '',
-                      status: 'active',
-                    });
-                  }}
-                >
-                  Update
-                </button>
-              </div>
-            </div>
-          </div>
-        ))}
+          )
+        )}
       </div>
 
       {deleteModal && (
@@ -138,7 +157,10 @@ const MyListing = () => {
         <div className='fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center'>
           <div className='bg-white p-6 rounded-lg w-full max-w-md'>
             <h2 className='text-lg font-bold'>Update Product</h2>
-            <form onSubmit={handleUpdateSubmit} className='space-y-4 mt-4'>
+            <form
+              onSubmit={(e) => handleUpdateSubmit(e)}
+              className='space-y-4 mt-4'
+            >
               <div>
                 <label className='block text-gray-700 font-medium mb-1'>
                   Plate Number
@@ -186,13 +208,13 @@ const MyListing = () => {
               </div>
               <div>
                 <label className='block text-gray-700 font-medium mb-1'>
-                  Status
+                  Availability
                 </label>
                 <select
-                  name='status'
-                  value={formData.status}
+                  name='availability'
+                  value={formData.availability}
                   onChange={(e) =>
-                    setFormData({ ...formData, status: e.target.value })
+                    setFormData({ ...formData, availability: e.target.value })
                   }
                   className='w-full px-4 py-2 border border-gray-300 rounded-lg'
                 >

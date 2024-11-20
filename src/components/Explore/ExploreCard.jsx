@@ -6,7 +6,7 @@ import {
   useLikeProductMutation,
   useUpdateViewMutation,
 } from '../../Redux/ProductRoutes/productApi';
-import { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 export const calculateTimeDifference = (createdAt) => {
   const createdDate = new Date(createdAt);
@@ -22,10 +22,11 @@ export const calculateTimeDifference = (createdAt) => {
     return `${hours} Hour${hours > 1 ? 's' : ''} Ago`;
   }
 };
+
 const ExploreCard = ({
   _id,
   views = 324,
-  likes = 44,
+  likes = [],
   plateNo = 124234,
   created_at,
   discount = 44453,
@@ -34,26 +35,29 @@ const ExploreCard = ({
   category = 'normal',
 }) => {
   const [updateView] = useUpdateViewMutation();
-
-  const like = likes?.length;
-  const [isLiked, setIsLiked] = useState(false); // Track like status
-  const [likeProduct, { data }] = useLikeProductMutation();
+  const [likeProduct] = useLikeProductMutation();
   const [dislikeProduct] = useDislikeProductMutation();
+  const { profile } = useSelector((state) => state.user);
+
   const timeAgo = calculateTimeDifference(created_at);
+
+  // Check if the product is liked by the user
+  const isLiked = likes.includes(profile?._id);
+  console.log(isLiked);
   const handleImageClick = () => {
     updateView(_id);
   };
 
   const handleLikeButtonClick = async () => {
     if (isLiked) {
-      await dislikeProduct(_id);
+      await dislikeProduct(_id).unwrap();
     } else {
-      await likeProduct(_id);
+      await likeProduct(_id).unwrap();
     }
-    setIsLiked(!isLiked); // Toggle like status after API call
   };
+
   return (
-    <main className='bg-[#FFD200] shadow-2xl border-[#EFF312]  border-2 px-4 rounded-md text-black  '>
+    <main className='bg-[#FFD200] shadow-2xl border-[#EFF312] border-2 px-4 rounded-md text-black'>
       {/* Starting div */}
       <div className='flex items-center justify-between mt-4'>
         <h1 className='text-lg font-semibold'>Plate Number</h1>
@@ -63,14 +67,18 @@ const ExploreCard = ({
             <FaEye />
           </div>
           <div className='flex flex-col items-center'>
-            <span>{like}</span>
+            <span>{likes?.length}</span>
             <FaHeart
               onClick={handleLikeButtonClick}
-              style={{ cursor: 'pointer', color: isLiked ? 'red' : 'black' }}
+              style={{
+                cursor: 'pointer',
+                color: isLiked ? 'red' : 'black',
+              }}
             />
           </div>
         </aside>
       </div>
+
       {/* Image for the number plate */}
       <div className='my-6'>
         <Link to={`/single-card/${_id}`}>
@@ -82,9 +90,8 @@ const ExploreCard = ({
           />
         </Link>
       </div>
-      <main className='flex justify-between items-center '>
+      <main className='flex justify-between items-center'>
         <div>
-          {' '}
           <h1 className='text-lg font-semibold'>Private Plate {plateNo}</h1>
           {/* Profile Div */}
           <div className='border border-white justify-between gap-4 items-center rounded-full flex w-max p-2 my-4 cursor-pointer'>

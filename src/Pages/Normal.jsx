@@ -9,6 +9,7 @@ const Normal = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [getNormalProduct, { data: filteredData, isLoading, error }] =
     useGetFilterProductMutation();
+  console.log('res from the api', filteredData);
 
   // Handle pagination
   const totalPages = Math.ceil(
@@ -32,7 +33,7 @@ const Normal = () => {
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
-
+  console.log(currentData);
   useEffect(() => {
     window.scroll(0, 0); // Scroll to top when page changes
   }, [currentPage]);

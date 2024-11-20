@@ -19,6 +19,9 @@ export const productApi = createApi({
     getAllProducts: builder.query({
       query: () => '/getAllProducts',
       providesTags: ['Products'],
+      transformResponse: (response) => {
+        return response.products?.reverse() || [];
+      },
     }),
     getSingleProduct: builder.query({
       query: (id) => `/singleProduct/${id}`,
@@ -29,7 +32,11 @@ export const productApi = createApi({
         url: '/filteredProducts',
         method: 'POST',
         body: { category },
+        transformResponse: (response) => {
+          return response.products?.reverse() || [];
+        },
       }),
+      invalidatesTags: ['Products'],
     }),
     updateView: builder.mutation({
       query: (id) => ({
@@ -56,6 +63,9 @@ export const productApi = createApi({
       query: () => '/get-seller-products',
       keepUnusedDataFor: 0,
       providesTags: ['Products'],
+      transformResponse: (response) => {
+        return response.products?.reverse() || [];
+      },
     }),
     createPlate: builder.mutation({
       query: (data) => ({
@@ -63,6 +73,15 @@ export const productApi = createApi({
         method: 'POST',
         body: data,
       }),
+      invalidatesTags: ['Products'],
+    }),
+    updateProduct: builder.mutation({
+      query: ({ id, updatePlate }) => ({
+        url: `/updateProduct/${id}`,
+        method: 'PUT',
+        body: updatePlate,
+      }),
+      invalidatesTags: ['Products'],
     }),
     deleteProduct: builder.mutation({
       query: (id) => ({
@@ -84,4 +103,5 @@ export const {
   useCreatePlateMutation,
   useGetSellerProductQuery,
   useDeleteProductMutation,
+  useUpdateProductMutation,
 } = productApi;

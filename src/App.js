@@ -132,9 +132,8 @@ function App() {
   const dispatch = useDispatch();
   const { data: profile } = useProfileQuery();
   const { data: receivedData } = useGetAllProductsQuery();
-
-  useEffect(() => {
-    dispatch(setProduct(receivedData?.products));
+n  useEffect(() => {
+    dispatch(setProduct(receivedData));
   }, [receivedData, dispatch]);
   useEffect(() => {
     if (profile?.user) {
