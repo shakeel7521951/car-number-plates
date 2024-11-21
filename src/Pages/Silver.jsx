@@ -17,8 +17,8 @@ const Silver = () => {
   }, [getNormalProduct]);
 
   // Ensure filteredData and products are available before calculating totalPages
-  const totalPages = filteredData?.products
-    ? Math.ceil(filteredData?.products?.length / itemsPerPage)
+  const totalPages = filteredData
+    ? Math.ceil(filteredData?.length / itemsPerPage)
     : 0;
 
   const handlePageClick = (pageNumber) => {
@@ -34,8 +34,8 @@ const Silver = () => {
   };
 
   // Ensure currentData is an array and the slice operation is safe
-  const currentData = filteredData?.products
-    ? filteredData.products.slice(
+  const currentData = filteredData
+    ? filteredData?.slice(
         (currentPage - 1) * itemsPerPage,
         currentPage * itemsPerPage
       )
@@ -62,26 +62,44 @@ const Silver = () => {
               {language === 'eng' ? 'Silver Number Plates' : 'لوحات أرقام فضية'}
             </h1>
             <p className='text-white mt-3 sm:text-3xl font-semibold'>
-              {language === 'eng' ? 'Qatar 8873' : 'قطر 8873'} <br />{language === 'eng' ? 'Best Price' : 'أفضل الأسعار'}
+              {language === 'eng' ? 'Qatar 8873' : 'قطر 8873'} <br />
+              {language === 'eng' ? 'Best Price' : 'أفضل الأسعار'}
             </p>
             <div className=' flex items-center gap-4 font-semibold mt-6'>
               <button className='px-4 py-1 sm:py-3 animated-button rounded-xl bg-white sm:mt-3'>
-                <span className='button-content sm:text-lg'>{language === 'eng' ? 'Contact Us' : 'اتصل بنا'}</span>
+                <span className='button-content sm:text-lg'>
+                  {language === 'eng' ? 'Contact Us' : 'اتصل بنا'}
+                </span>
               </button>
               <button className='px-4 py-1 sm:py-3 animated-button rounded-xl bg-white sm:mt-3'>
-                <span className='button-content sm:text-lg'>{language === 'eng' ? 'Book Now' : 'احجز الآن'}</span>
+                <span className='button-content sm:text-lg'>
+                  {language === 'eng' ? 'Book Now' : 'احجز الآن'}
+                </span>
               </button>
             </div>
           </div>
           <div className='text-white  md:text-2xl text-center font-bold italic hidden lg:block mt-4'>
-            {language === 'eng' ? '"Your journey to a unique number plate starts with your details"' : '"رحلتك إلى لوحة أرقام مميزة تبدأ بتفاصيلك"'}
+            {language === 'eng'
+              ? '"Your journey to a unique number plate starts with your details"'
+              : '"رحلتك إلى لوحة أرقام مميزة تبدأ بتفاصيلك"'}
           </div>
         </div>
       </div>
 
-      <h1 className={`font-bold text-black my-4 text-4xl ${language === 'eng'?'text-left':'text-right'}`}>{language === 'eng' ? 'Silver Plates' : 'لوحات فضية'}</h1>
-      <p className={`text-black my-4 ${language === 'eng'?'text-left':'text-right'}`}>
-       {language === 'eng' ? 'Number Of plates' : 'عدد اللوحات:'}  :{filteredData?.products?.length || 0}
+      <h1
+        className={`font-bold text-black my-4 text-4xl ${
+          language === 'eng' ? 'text-left' : 'text-right'
+        }`}
+      >
+        {language === 'eng' ? 'Silver Plates' : 'لوحات فضية'}
+      </h1>
+      <p
+        className={`text-black my-4 ${
+          language === 'eng' ? 'text-left' : 'text-right'
+        }`}
+      >
+        {language === 'eng' ? 'Number Of plates' : 'عدد اللوحات:'} :
+        {filteredData?.length || 0}
       </p>
 
       <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-between gap-4 max-w-[1500px] mx-auto'>
@@ -89,7 +107,7 @@ const Silver = () => {
           <ExploreCard key={plate._id} {...plate} />
         ))}
       </div>
-      {filteredData?.products?.length > itemsPerPage && (
+      {filteredData?.length > itemsPerPage && (
         <div className='flex justify-center items-center mt-10 space-x-2'>
           <button
             onClick={handlePreviousPage}
@@ -105,7 +123,11 @@ const Silver = () => {
               <button
                 key={pageNumber}
                 onClick={() => handlePageClick(pageNumber)}
-                className={`px-2 rounded ${currentPage === pageNumber ? 'bg-[#e8fe26] text-black' : 'text-white'}`}
+                className={`px-2 rounded ${
+                  currentPage === pageNumber
+                    ? 'bg-[#e8fe26] text-black'
+                    : 'text-white'
+                }`}
               >
                 {pageNumber}
               </button>
@@ -115,7 +137,9 @@ const Silver = () => {
           <button
             onClick={handleNextPage}
             disabled={currentPage === totalPages}
-            className={`px-2 py-1 ${currentPage === totalPages ? 'opacity-50' : ''}`}
+            className={`px-2 py-1 ${
+              currentPage === totalPages ? 'opacity-50' : ''
+            }`}
           >
             <FaChevronRight className='text-2xl bg-[#e8fe26] rounded text-black cursor-pointer' />
           </button>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import ExploreCard from './ExploreCard';
-import Rectangle_50 from '../../assets/Rectangle 50.png';
+import Rectangle_50 from '../../assets/exploreCar.jpg';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { useSelector } from 'react-redux';
 
@@ -43,25 +43,37 @@ const ExploreContent = () => {
           className='rounded h-full w-full object-cover'
         />
         <div
-          className={`absolute inset-0 bg-black bg-opacity-40 flex justify-between p-4 md:px-12 md:py-8 ${language === 'arabic' ? 'text-right' : 'text-left'}`}
+          className={`absolute inset-0 bg-black bg-opacity-40 flex justify-between p-4 md:px-12 md:py-8 ${
+            language === 'arabic' ? 'text-right' : 'text-left'
+          }`}
         >
           <div className='text-white space-y-3 mt-14'>
             <h1
-              className={`text-3xl md:text-5xl font-bold ${language === 'arabic' ? 'text-right' : 'text-left'}`}
+              className={`text-3xl md:text-5xl font-bold ${
+                language === 'arabic' ? 'text-right' : 'text-left'
+              }`}
             >
-              {language === 'eng' ? `Welcome, ${profile?.name || ""}` : `مرحبًا، ${profile?.name || ""}`}
+              {language === 'eng'
+                ? `Welcome, ${profile?.name || ''}`
+                : `مرحبًا، ${profile?.name || ''}`}
             </h1>
             <p
-              className={`text-lg md:text-2xl ${language === 'arabic' ? 'text-right' : 'text-left'}`}
+              className={`text-lg md:text-2xl ${
+                language === 'arabic' ? 'text-right' : 'text-left'
+              }`}
             >
-              {language === 'eng' ? 'Buy & Sell Your Number Plates' : 'اشترِ وبيع لوحات السيارات الخاصة بك'}
+              {language === 'eng'
+                ? 'Buy & Sell Your Number Plates'
+                : 'اشترِ وبيع لوحات السيارات الخاصة بك'}
             </p>
             <button className='border border-white py-2 px-4 rounded-lg bg-transparent mt-3 hover:bg-white hover:text-black transition'>
               {language === 'eng' ? 'Get Started' : 'ابدأ الآن'}
             </button>
           </div>
           <div
-            className={`text-white md:text-2xl text-center font-bold italic hidden lg:block mt-16 ${language === 'arabic' ? 'text-right' : 'text-left'}`}
+            className={`text-white md:text-2xl text-center font-bold italic hidden lg:block mt-16 ${
+              language === 'arabic' ? 'text-right' : 'text-left'
+            }`}
           >
             {language === 'eng'
               ? '"Lusail Numbers - Your gateway to unique car plate number in Qatar"'
@@ -70,14 +82,20 @@ const ExploreContent = () => {
         </div>
       </div>
       <h1
-        className={`font-bold text-black my-4 text-4xl ${language === 'arabic' ? 'text-right' : 'text-left'}`}
+        className={`font-bold text-black my-4 text-4xl ${
+          language === 'arabic' ? 'text-right' : 'text-left'
+        }`}
       >
         {language === 'eng' ? 'Explore More Now' : 'استكشف المزيد الآن'}
       </h1>
       <p
-        className={`text-black my-4 ${language === 'arabic' ? 'text-right' : 'text-left'}`}
+        className={`text-black my-4 ${
+          language === 'arabic' ? 'text-right' : 'text-left'
+        }`}
       >
-        {language === 'eng' ? `Plates Numbers: ${totalProducts}` : `عدد الأرقام: ${totalProducts}`}
+        {language === 'eng'
+          ? `Plates Numbers: ${totalProducts}`
+          : `عدد الأرقام: ${totalProducts}`}
       </p>
 
       <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-between gap-4 max-w-[1500px] mx-auto'>
@@ -102,7 +120,11 @@ const ExploreContent = () => {
               <button
                 key={pageNumber}
                 onClick={() => handlePageClick(pageNumber)}
-                className={`px-2 rounded ${currentPage === pageNumber ? 'bg-[#e8fe26] text-black' : 'text-white'}`}
+                className={`px-2 rounded ${
+                  currentPage === pageNumber
+                    ? 'bg-[#e8fe26] text-black'
+                    : 'text-white'
+                }`}
               >
                 {pageNumber}
               </button>
@@ -112,7 +134,9 @@ const ExploreContent = () => {
           <button
             onClick={handleNextPage}
             disabled={currentPage === totalPages}
-            className={`px-2 py-1 ${currentPage === totalPages ? 'opacity-50' : ''}`}
+            className={`px-2 py-1 ${
+              currentPage === totalPages ? 'opacity-50' : ''
+            }`}
           >
             <FaChevronRight className='text-2xl bg-[#e8fe26] rounded text-black cursor-pointer' />
           </button>

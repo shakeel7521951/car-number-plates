@@ -33,12 +33,13 @@ export const productApi = createApi({
         url: '/filteredProducts',
         method: 'POST',
         body: { category },
-        transformResponse: (response) => {
-          return response.products?.reverse() || [];
-        },
       }),
+      transformResponse: (response) => {
+        return response.products?.reverse() || [];
+      },
       invalidatesTags: ['Products'],
     }),
+
     updateView: builder.mutation({
       query: (id) => ({
         url: `/productViews/${id}`,

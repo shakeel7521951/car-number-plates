@@ -16,8 +16,8 @@ const Gold = () => {
     getGoldProduct('gold');
   }, [getGoldProduct]);
 
-  const totalPages = filteredData?.products
-    ? Math.ceil(filteredData.products.length / itemsPerPage)
+  const totalPages = filteredData
+    ? Math.ceil(filteredData?.length / itemsPerPage)
     : 0;
 
   const handlePageClick = (pageNumber) => {
@@ -32,8 +32,8 @@ const Gold = () => {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
   };
 
-  const currentData = filteredData?.products
-    ? filteredData.products.slice(
+  const currentData = filteredData
+    ? filteredData?.slice(
         (currentPage - 1) * itemsPerPage,
         currentPage * itemsPerPage
       )
@@ -57,29 +57,47 @@ const Gold = () => {
         <div className='absolute inset-0 bg-black bg-opacity-40 flex items-center justify-between p-4 md:px-12 md:py-8'>
           <div>
             <h1 className='text-white font-bold text-xl sm:text-4xl'>
-              {language==='eng'?'Gold Number Plates':'لوحات أرقام ذهبية'}
+              {language === 'eng' ? 'Gold Number Plates' : 'لوحات أرقام ذهبية'}
             </h1>
             <p className='text-white mt-3 sm:text-3xl font-semibold'>
-              {language==='eng'?'Qatar 8873':'قطر 8873'} <br /> {language==='eng'?'Best Price':'أفضل الأسعار'}
+              {language === 'eng' ? 'Qatar 8873' : 'قطر 8873'} <br />{' '}
+              {language === 'eng' ? 'Best Price' : 'أفضل الأسعار'}
             </p>
             <div className='flex items-center gap-4 font-semibold mt-6'>
               <button className='px-4 py-1 sm:py-3 animated-button rounded-xl bg-white sm:mt-3'>
-                <span className='button-content sm:text-lg'>{language==='eng'?'Contact Us':'اتصل بنا'}</span>
+                <span className='button-content sm:text-lg'>
+                  {language === 'eng' ? 'Contact Us' : 'اتصل بنا'}
+                </span>
               </button>
               <button className='px-4 py-1 sm:py-3 animated-button rounded-xl bg-white sm:mt-3'>
-                <span className='button-content sm:text-lg'>{language==='eng'?'Book Now':'احجز الآن'}</span>
+                <span className='button-content sm:text-lg'>
+                  {language === 'eng' ? 'Book Now' : 'احجز الآن'}
+                </span>
               </button>
             </div>
           </div>
           <div className='text-white md:text-2xl text-center font-bold italic hidden lg:block mt-4'>
-            {language==='eng'?'"Access the best of Lusail Numbers by sharing your details."':'"احصل على أفضل أرقام لوسيل من خلال مشاركة بياناتك."'}
+            {language === 'eng'
+              ? '"Access the best of Lusail Numbers by sharing your details."'
+              : '"احصل على أفضل أرقام لوسيل من خلال مشاركة بياناتك."'}
           </div>
         </div>
       </div>
 
-      <h1 className={`font-bold text-black my-4 text-4xl ${language === 'eng'?'text-left':'text-right'}`}>{language==='eng'?'Gold Plates':'لوحات الذهب'}</h1>
-      <p className={`text-black my-4 ${language === 'eng'?'text-left':'text-right'}`}>
-        {language==='eng'?'Number Of Plates:':'عدد اللوحات:'} {filteredData?.products?.length || 0}
+      <h1
+        className={`font-bold text-black my-4 text-4xl ${
+          language === 'eng' ? 'text-left' : 'text-right'
+        }`}
+      >
+        {language === 'eng' ? 'Gold Plates' : 'لوحات الذهب'}
+      </h1>
+      <p
+        className={`text-black my-4 ${
+          language === 'eng' ? 'text-left' : 'text-right'
+        }`}
+      >
+        {language === 'eng' ? 'Number Of Plates:' : 'عدد اللوحات:'}{' '}
+        {filteredData?.length || 0}
       </p>
 
       <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-between gap-4 max-w-[1500px] mx-auto'>
@@ -87,7 +105,7 @@ const Gold = () => {
           <ExploreCard key={plate._id} {...plate} />
         ))}
       </div>
-      {filteredData?.products?.length > itemsPerPage && (
+      {filteredData?.length > itemsPerPage && (
         <div className='flex justify-center items-center mt-10 space-x-2'>
           <button
             onClick={handlePreviousPage}
