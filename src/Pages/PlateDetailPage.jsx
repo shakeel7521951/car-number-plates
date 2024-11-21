@@ -14,6 +14,7 @@ import { IoCartOutline } from 'react-icons/io5';
 import { useGetSingleProductQuery } from '../Redux/ProductRoutes/productApi';
 import { useSelector } from 'react-redux';
 import { useState } from 'react';
+import PlateNumber from '../PlateNumber';
 
 const PlateDetailPage = () => {
   const { id } = useParams();
@@ -43,16 +44,19 @@ const PlateDetailPage = () => {
           // make this conteent to the centter
 
           <div className='relative z-10 w-[90%] sm:w-[80%] h-[80%] flex items-center justify-center mx-auto pt-10'>
-            <img
+            {/* <img
               src={numberPlate}
               alt=''
               className='w-[55%] h-[100%] hidden sm:block'
-            />
+            /> */}
+            <div className='w-[55%] h-[100%] hidden sm:block'>
+              <PlateNumber plateNo={currentplateData?.plateNo} />
+            </div>
 
             <div className='w-[70%] mx-auto sm:w-[40%] flex flex-col gap-[6px]'>
               <div className='flex flex-col items-start justify-center'>
                 <p className='text-white ms:text-[21px] lg:text-[25px] font-bold'>
-                  Private Plate {currentplateData.plateNo}
+                  Private Plate {currentplateData?.plateNo}
                 </p>
                 <div className='bg-[#D9D9D9] rounded-2xl py-1 px-3 flex gap-[3px] justify-center items-center'>
                   <img src={person} alt='' className='w-[40px] rounded-full' />
@@ -68,7 +72,7 @@ const PlateDetailPage = () => {
                 <div className='flex flex-col items-center gap-[6px]'>
                   <p className='text-[20px] font-sem'>Posted: {time}</p>
                   <p className='text-[25px] font-bold'>
-                    {currentplateData?.price} Q.R
+                    {currentplateData?.price - currentplateData?.discount} Q.R
                   </p>
                   <div className='py-2 px-4 flex justify-center gap-2 items-center rounded-full bg-[#D9D9D9] text-[#000]'>
                     <IoCartOutline />

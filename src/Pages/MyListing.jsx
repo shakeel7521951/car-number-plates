@@ -9,15 +9,15 @@ import {
   useUpdateProductMutation,
 } from '../Redux/ProductRoutes/productApi';
 import { toast } from 'react-toastify';
+import PlateNumber from '../PlateNumber';
 
 const MyListing = () => {
   const [deleteModal, setDeleteModal] = useState(null);
   const [updateModal, setUpdateModal] = useState(null);
   const [deleteProduct, { isLoading: deleteLoader }] =
     useDeleteProductMutation();
-  const [updateProduct, { isLoading: updateLoading }] =
-    useUpdateProductMutation();
-  const navigate = useNavigate();
+  const [updateProduct] = useUpdateProductMutation();
+  // const navigate = useNavigate();
   const {
     data: sellerProducts,
     isLoading,
@@ -84,11 +84,12 @@ const MyListing = () => {
             >
               <div className='flex gap-4'>
                 <div className='w-32 sm:w-40'>
-                  <img
+                  {/* <img
                     src={plateName}
                     alt='Plate'
                     className='w-full h-full object-cover'
-                  />
+                  /> */}
+                  <PlateNumber plateNo={plateNo} />
                 </div>
                 <div className='flex flex-col'>
                   <h1>Private Plate : {plateNo}</h1>

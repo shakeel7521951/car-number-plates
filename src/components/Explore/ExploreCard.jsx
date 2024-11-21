@@ -8,6 +8,7 @@ import {
 } from '../../Redux/ProductRoutes/productApi';
 import { useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
+import PlateNumber from '../../PlateNumber';
 
 // Move the calculateTimeDifference function outside the component
 export const calculateTimeDifference = (createdAt, language) => {
@@ -32,7 +33,6 @@ export const calculateTimeDifference = (createdAt, language) => {
     }
   }
 };
-
 
 const ExploreCard = ({
   _id,
@@ -86,16 +86,18 @@ const ExploreCard = ({
   };
 
   return (
-    <main className="bg-[#FFD200] shadow-2xl border-[#EFF312] border-2 px-4 rounded-md text-black">
+    <main className='bg-[#FFD200] shadow-2xl border-[#EFF312] border-2 px-4 rounded-md text-black'>
       {/* Starting div */}
-      <div className="flex items-center justify-between mt-4">
-        <h1 className="text-lg font-semibold">{language === 'eng' ? 'Plate Number' : 'رقم اللوحة'}</h1>
-        <aside className="flex justify-center items-center gap-4 font-bold">
-          <div className="flex flex-col items-center">
+      <div className='flex items-center justify-between mt-4'>
+        <h1 className='text-lg font-semibold'>
+          {language === 'eng' ? 'Plate Number' : 'رقم اللوحة'}
+        </h1>
+        <aside className='flex justify-center items-center gap-4 font-bold'>
+          <div className='flex flex-col items-center'>
             <span>{views}</span>
             <FaEye />
           </div>
-          <div className="flex flex-col items-center">
+          <div className='flex flex-col items-center'>
             <span>{likes?.length}</span>
             <FaHeart
               onClick={handleLikeButtonClick}
@@ -109,49 +111,67 @@ const ExploreCard = ({
       </div>
 
       {/* Image for the number plate */}
-      <div className="my-6">
+      <div className='my-6'>
         <Link to={`/single-card/${_id}`}>
-          <img src={image} alt="NumberPlate" className="w-full" onClick={handleImageClick} />
+          {/* <img
+            src={image}
+            alt='NumberPlate'
+            className='w-full'
+            onClick={handleImageClick}
+          /> */}
+          <PlateNumber plateNo={plateNo} />
         </Link>
       </div>
-      <main className="flex justify-between items-center">
+      <main className='flex justify-between items-center'>
         <div>
-          <h1 className="text-lg font-semibold">
-            {language === 'eng' ? `Private Plate ${plateNo}` : `اللوحة الخاصة ${plateNo}`}
+          <h1 className='text-lg font-semibold'>
+            {language === 'eng'
+              ? `Private Plate ${plateNo}`
+              : `اللوحة الخاصة ${plateNo}`}
           </h1>
           {/* Profile Div */}
-          <div className="border border-white justify-between gap-4 items-center rounded-full flex w-max p-2 my-4 cursor-pointer">
-            <div className="w-8 h-8 rounded-full">
-              <img src={image} alt="" className="w-full h-full rounded-full" />
+          <div className='border border-white justify-between gap-4 items-center rounded-full flex w-max p-2 my-4 cursor-pointer'>
+            <div className='w-8 h-8 rounded-full'>
+              <img src={image} alt='' className='w-full h-full rounded-full' />
             </div>
-            <h1 className="text-lg pr-4 font-semibold">{language === 'eng' ? 'Personal' : 'شخصي'}</h1>
+            <h1 className='text-lg pr-4 font-semibold'>
+              {language === 'eng' ? 'Personal' : 'شخصي'}
+            </h1>
           </div>
         </div>
-        <div className="flex flex-col items-start justify-start">
-          <h1 className="capitalize pb-8">
-            {language === 'eng' ? 'Category :' : 'الفئة :'} <span className="text-gray-700">{changeCategory || category}</span>
+        <div className='flex flex-col items-start justify-start'>
+          <h1 className='capitalize pb-8'>
+            {language === 'eng' ? 'Category :' : 'الفئة :'}{' '}
+            <span className='text-gray-700'>{changeCategory || category}</span>
           </h1>
-          <div className="text-end flex items-center flex-col">
-            <h1 className="text-[#92905F]">{language === 'eng' ? 'Active' : 'نشط'}</h1>
-            <p className="text-[10px]">{language === 'eng' ? 'Transfer By Metrash' : 'نقل عبر مترش'}</p>
+          <div className='text-end flex items-center flex-col'>
+            <h1 className='text-[#92905F]'>
+              {language === 'eng' ? 'Active' : 'نشط'}
+            </h1>
+            <p className='text-[10px]'>
+              {language === 'eng' ? 'Transfer By Metrash' : 'نقل عبر مترش'}
+            </p>
           </div>
         </div>
       </main>
 
       {/* Button div */}
-      <div className="flex gap-12">
-        <button className="flex border-white border items-center justify-center text-sm gap-2 px-2 rounded-2xl">
-          <FaCartPlus className="text-base" /> {language === 'eng' ? 'For Sale' : 'للتسوق'}
+      <div className='flex gap-12'>
+        <button className='flex border-white border items-center justify-center text-sm gap-2 px-2 rounded-2xl'>
+          <FaCartPlus className='text-base' />{' '}
+          {language === 'eng' ? 'For Sale' : 'للتسوق'}
         </button>
-        <button className="flex border-white border items-center justify-center text-sm gap-2 p-2 rounded-2xl">
+        <button className='flex border-white border items-center justify-center text-sm gap-2 p-2 rounded-2xl'>
           <FaClock /> {timeAgo}
         </button>
       </div>
 
       {/* Pricing last */}
-      <div className="flex items-end justify-end gap-4 my-4">
-        {discount > 0 && <h1 className="line-through text-gray-600">{discount} Q.T</h1>}
-        <h1 className="text-xl font-bold">{price} Q.T</h1>
+      <div className='flex items-end justify-end gap-4 my-4'>
+        {discount > 0 && (
+          <h1 className='line-through text-gray-600'>{price} Q.T</h1>
+        )}
+        <h1 className='text-xl font-bold'>{price - discount} Q.T</h1>
       </div>
     </main>
   );
