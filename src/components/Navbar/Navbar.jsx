@@ -5,7 +5,7 @@ import logo from '../../assets/logo.png';
 import { Link } from 'react-router-dom';
 
 import { CiBellOn, CiHeart } from 'react-icons/ci';
-import person from '../../assets/person1.jpeg';
+import person from '../../assets/user.png';
 import MessageBox from './MessageBox';
 import ProfileMenu from './ProfileMenu';
 import { useDispatch, useSelector } from 'react-redux';
@@ -63,10 +63,10 @@ const Navbar = () => {
 
   const menuLinks = [
     { path: '/normal', label: language === 'eng' ? 'Normal' : 'عادي' },
-      { path: '/silver', label: language === 'eng' ? 'Silver' : 'فضي' },
-      { path: '/gold', label: language === 'eng' ? 'Gold' : 'ذهبي' },
-      { path: '/vip', label: language === 'eng' ? 'VIP' : 'مميز' },
-      { path: '/message', label: language === 'eng' ? 'Messages' : 'الرسائل' }
+    { path: '/silver', label: language === 'eng' ? 'Silver' : 'فضي' },
+    { path: '/gold', label: language === 'eng' ? 'Gold' : 'ذهبي' },
+    { path: '/vip', label: language === 'eng' ? 'VIP' : 'مميز' },
+    { path: '/message', label: language === 'eng' ? 'Messages' : 'الرسائل' },
   ];
 
   return (
@@ -134,7 +134,7 @@ const Navbar = () => {
                 className='bg-transparent  text-white font-bold w-max px-4 py-1 rounded flex items-center justify-between '
               >
                 <FaPlus className=' font-bold text-white' />
-                {language === 'eng'?'Post' : 'بريد'}
+                {language === 'eng' ? 'Post' : 'بريد'}
               </Link>
             </div>
           )}
@@ -144,7 +144,7 @@ const Navbar = () => {
                 to={'/login'}
                 className=' button-content  px-4 py-1 rounded-lg'
               >
-                {language === 'eng'?'Sign In':'تسجيل الدخول'}
+                {language === 'eng' ? 'Sign In' : 'تسجيل الدخول'}
               </Link>
             </div>
           )}
@@ -152,9 +152,7 @@ const Navbar = () => {
       </div>
       <div className='flex items-center justify-between '>
         <div className='flex items-center mt-4'>
-          <label htmlFor='language' className='mr-2 text-white'>
-           
-          </label>
+          <label htmlFor='language' className='mr-2 text-white'></label>
           <select
             id='language'
             value={language}

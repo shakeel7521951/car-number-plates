@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 const ExploreContent = () => {
   const { profile } = useSelector((state) => state.user);
   const { product: receivedData } = useSelector((state) => state.product);
-  const { language } = useSelector((state) => state.language); // Get language from Redux
+  const { language } = useSelector((state) => state.language);
   const itemsPerPage = 6;
   const [currentPage, setCurrentPage] = useState(1);
   const totalProducts = receivedData?.length || 0;

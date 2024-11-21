@@ -14,7 +14,7 @@ export const productApi = createApi({
     },
     credentials: 'include',
   }),
-  tagTypes: ['Products', 'Users'],
+  tagTypes: ['Products'],
 
   endpoints: (builder) => ({
     getAllProducts: builder.query({
@@ -92,26 +92,6 @@ export const productApi = createApi({
       }),
       invalidatesTags: ['Products'],
     }),
-    getAllUsers: builder.query({
-      query: () => '/users',
-      providesTags: ['Users'],
-    }),
-
-    deleteUser: builder.mutation({
-      query: ({ id }) => ({
-        url: `/deleteuser/${id}`,
-        method: 'DELETE',
-      }),
-      invalidatesTags: ['Users'],
-    }),
-    updateUserRole: builder.mutation({
-      query: ({ id, role }) => ({
-        url: `/updateuserrole/${id}`,
-        method: 'PUT',
-        body: role,
-      }),
-      invalidatesTags: ['Users'],
-    }),
   }),
 });
 
@@ -126,7 +106,4 @@ export const {
   useGetSellerProductQuery,
   useDeleteProductMutation,
   useUpdateProductMutation,
-  useGetAllUsersQuery,
-  useDeleteUserMutation,
-  useUpdateUserRoleMutation,
 } = productApi;

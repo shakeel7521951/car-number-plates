@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import person from '../../assets/person1.jpeg';
 import { useLogoutMutation } from '../../Redux/userRoutes/userApi';
 import { useDispatch, useSelector } from 'react-redux';
 import { setProfile } from '../../Redux/userRoutes/userSlice';
@@ -40,7 +39,7 @@ const ProfileMenu = ({ onClose }) => {
   return (
     <div>
       <div className='flex items-center mb-4'>
-        <img src={person} alt='User' className='w-12 h-12 rounded-full' />
+        {/* <img src={person} alt='User' className='w-12 h-12 rounded-full' /> */}
         <div className='ml-3'>
           <h3 className='font-semibold text-lg'>{profile?.name || 'John'} </h3>
           <Link
@@ -48,7 +47,7 @@ const ProfileMenu = ({ onClose }) => {
             onClick={onClose}
             className='text-blue-500 hover:underline text-sm'
           >
-             {language === 'eng'?'View Profile':'عرض الملف الشخصي'}
+            {language === 'eng' ? 'View Profile' : 'عرض الملف الشخصي'}
           </Link>
         </div>
       </div>
@@ -94,7 +93,7 @@ const ProfileMenu = ({ onClose }) => {
           onClick={handleLogout}
           className='text-gray-700 hover:text-blue-500'
         >
-          {language === 'eng'?'Logout':'تسجيل الخروج'}
+          {language === 'eng' ? 'Logout' : 'تسجيل الخروج'}
         </button>
       </div>
     </div>

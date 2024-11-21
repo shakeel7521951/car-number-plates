@@ -14,6 +14,7 @@ export const apiSlice = createApi({
     },
     credentials: 'include',
   }),
+  tagTypes: ['Users'],
   endpoints: (builder) => ({
     login: builder.mutation({
       query: (credential) => ({
@@ -65,6 +66,32 @@ export const apiSlice = createApi({
         credentials: 'include',
       }),
     }),
+
+    // admin apis
+    getAllUsers: builder.query({
+      query: () => '/users',
+      providesTags: ['Users'],
+    }),
+
+    deleteUser: builder.mutation({
+      query: ({ id }) => ({
+        url: `/deleteuser/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['Users'],
+    }),
+    updateUserProfile: builder.mutation({
+      query: ({ id, updatedUserData }) => ({
+        url: `/updateuser/${id}`,
+        method: 'POST',
+        body: updatedUserData,
+      }),
+      invalidatesTags: ['Users'],
+    }),
+    // getSingleUser: builder.query({
+    //   query: (id) => `/user/${id}`,
+    //   providesTags: ['Users'],
+    // }),
   }),
 });
 
@@ -77,4 +104,8 @@ export const {
   useLogoutMutation,
   useUpdatePasswordMutation,
   useDeleteProfileMutation,
+  useDeleteUserMutation,
+  useGetAllUsersQuery,
+  useUpdateUserProfileMutation,
+  // useGetSingleUserQuery,
 } = apiSlice;
