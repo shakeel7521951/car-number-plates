@@ -11,7 +11,12 @@ import { toast } from 'react-toastify';
 const DashboardUser = () => {
   //api fetching
   const { data: AllUsers } = useGetAllUsersQuery();
+
   const users = AllUsers?.users;
+  const [loadProduct, setLoadProduct] = useState(6);
+
+  const comingData = users?.slice(0, loadProduct);
+  console.log('prodct', comingData);
   const [deleteUser] = useDeleteUserMutation();
   const [updateUserProfile] = useUpdateUserProfileMutation();
   // states used
@@ -81,7 +86,7 @@ const DashboardUser = () => {
 
           {/* User Rows */}
           <div className='divide-y divide-gray-200'>
-            {users?.map((user, index) => (
+            {comingData?.map((user, index) => (
               <div
                 key={user._id}
                 className='grid grid-cols-5 items-center bg-white hover:bg-gray-50'
@@ -112,6 +117,17 @@ const DashboardUser = () => {
           </div>
         </div>
       </div>
+      {users?.length > loadProduct && (
+        <button
+          className={`animated-button mt-4 px-4 bg-white py-4 ${
+            users?.length <= loadProduct && 'cursor-not-allowed'
+          }`}
+          onClick={() => setLoadProduct((prev) => prev + 6)}
+          disabled={users?.length <= loadProduct}
+        >
+          <span className='button-content '> LoadMore</span>
+        </button>
+      )}
 
       {isEditModalOpen && (
         <div className='fixed inset-0 bg-gray-700 bg-opacity-50 flex items-center justify-center z-50'>

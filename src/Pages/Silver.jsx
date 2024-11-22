@@ -11,7 +11,9 @@ const Silver = () => {
   const { language } = useSelector((state) => state.language); // Get language from Redux
   const [getNormalProduct, { data: filteredData, isLoading, error }] =
     useGetFilterProductMutation();
+  console.log('silver product', filteredData);
 
+  // const [reCall, setRecall] = useState(false);
   useEffect(() => {
     getNormalProduct('silver');
   }, [getNormalProduct]);
@@ -41,9 +43,9 @@ const Silver = () => {
       )
     : [];
 
-  useEffect(() => {
-    window.scroll(0, 0);
-  }, [currentPage]);
+  // useEffect(() => {
+  //   window.scroll(0, 0);
+  // }, [currentPage]);
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error fetching data: {error.message}</div>;
@@ -104,7 +106,12 @@ const Silver = () => {
 
       <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-between gap-4 max-w-[1500px] mx-auto'>
         {currentData?.map((plate) => (
-          <ExploreCard key={plate._id} {...plate} />
+          <ExploreCard
+            // reCall={reCall}
+            // setRecall={setRecall}
+            key={plate._id}
+            {...plate}
+          />
         ))}
       </div>
       {filteredData?.length > itemsPerPage && (

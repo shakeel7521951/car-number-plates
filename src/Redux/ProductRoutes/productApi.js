@@ -18,6 +18,7 @@ export const productApi = createApi({
 
   endpoints: (builder) => ({
     getAllProducts: builder.query({
+      // this api is working fine
       query: () => '/getAllProducts',
       providesTags: ['Products'],
       transformResponse: (response) => {
@@ -29,6 +30,7 @@ export const productApi = createApi({
       providesTags: (result, error, id) => [{ type: 'Products', id }],
     }),
     getFilterProduct: builder.mutation({
+      //// this api is not working fine
       query: (category) => ({
         url: '/filteredProducts',
         method: 'POST',

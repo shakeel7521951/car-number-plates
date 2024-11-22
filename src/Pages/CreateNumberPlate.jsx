@@ -10,7 +10,7 @@ const CreateNumberPlate = () => {
     category: '',
     plateNo: '',
     price: '',
-    discount: '',
+    discountpercent: '', // Can be empty or have a percentage value
   });
 
   const [errors, setErrors] = useState({});
@@ -35,12 +35,18 @@ const CreateNumberPlate = () => {
     if (!formData.price || isNaN(formData.price)) {
       newErrors.price = 'Valid actual price is required';
     }
-    if (
-      formData.discount &&
-      (isNaN(formData.discount) ||
-        parseFloat(formData.discount) >= parseFloat(formData.price))
-    ) {
-      newErrors.discount = 'Discount must be less than actual price';
+
+    // Validate discountpercent percentage (must be between 0 and 100, if provided)
+    if (formData.discountpercent) {
+      const discountpercentValue = parseFloat(formData.discountpercent);
+      if (
+        isNaN(discountpercentValue) ||
+        discountpercentValue < 0 ||
+        discountpercentValue > 100
+      ) {
+        newErrors.discountpercent =
+          'Discount must be a valid percentage between 0 and 100';
+      }
     }
 
     setErrors(newErrors);
@@ -49,6 +55,10 @@ const CreateNumberPlate = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // Default discountpercent to 0 if left empty
+    if (formData.discountpercent === '') {
+      formData.discountpercent = '0';
+    }
     if (!validateForm()) {
       toast.error('Please fill out all required fields correctly.');
       return;
@@ -134,23 +144,25 @@ const CreateNumberPlate = () => {
           )}
         </div>
 
-        {/* Discount */}
+        {/* discountpercent */}
         <div>
           <label className='block text-gray-700 font-medium mb-1'>
-            Discount Price (optional)
+            Discount Percentage (optional)
           </label>
           <input
             type='text'
-            name='discount'
-            value={formData.discount}
+            name='discountpercent'
+            value={formData.discountpercent}
             onChange={handleChange}
             className={`w-full px-4 py-2 border ${
-              errors.discount ? 'border-red-500' : 'border-gray-300'
+              errors.discountpercent ? 'border-red-500' : 'border-gray-300'
             } rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500`}
-            placeholder='Enter discount amount in QAR'
+            placeholder='Enter discountpercent percentage (0-100)'
           />
-          {errors.discount && (
-            <p className='text-red-500 text-sm mt-1'>{errors.discount}</p>
+          {errors.discountpercent && (
+            <p className='text-red-500 text-sm mt-1'>
+              {errors.discountpercent}
+            </p>
           )}
         </div>
 

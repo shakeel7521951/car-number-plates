@@ -44,15 +44,24 @@ const ExploreCard = ({
   price = 33322,
   image = plateImg,
   category = 'normal',
+  discountedPrice,
+  discountpercent,
 }) => {
   const [updateView] = useUpdateViewMutation();
   const [likeProduct] = useLikeProductMutation();
   const [dislikeProduct] = useDislikeProductMutation();
   const { profile } = useSelector((state) => state.user);
-  const { language } = useSelector((state) => state.language); // Get language from Redux
-  const [changeCategory, setChangeCategory] = useState(''); // Category state
+  const { language } = useSelector((state) => state.language);
+  const [changeCategory, setChangeCategory] = useState('');
 
-  // Update the category based on language
+  const [isLiked, setIsLiked] = useState(likes?.length);
+  const [totalLikes, setTotalLikes] = useState(likes?.length);
+  useEffect(() => {
+    if (profile && likes) {
+      setIsLiked(likes.includes(profile._id));
+    }
+  }, [profile, likes]);
+
   useEffect(() => {
     if (category === 'normal') {
       setChangeCategory(language === 'eng' ? 'Normal' : 'طبيعي');
@@ -70,18 +79,21 @@ const ExploreCard = ({
 
   const timeAgo = calculateTimeDifference(created_at, language); // Pass language to the function
 
-  // Check if the product is liked by the user
-  const isLiked = likes.includes(profile?._id);
-
   const handleImageClick = () => {
     updateView(_id);
   };
 
+  console.log('isLiked', isLiked);
   const handleLikeButtonClick = async () => {
     if (isLiked) {
-      await dislikeProduct(_id).unwrap();
+      const res = await dislikeProduct(_id).unwrap();
+      setIsLiked(false);
+      setTotalLikes(res.product.likes.length); // Update total likes
     } else {
-      await likeProduct(_id).unwrap();
+      const res = await likeProduct(_id).unwrap();
+
+      setIsLiked(true); // Update local state
+      setTotalLikes(res.product.likes.length); // Update total likes
     }
   };
 
@@ -98,7 +110,7 @@ const ExploreCard = ({
             <FaEye />
           </div>
           <div className='flex flex-col items-center'>
-            <span>{likes?.length}</span>
+            <span>{totalLikes}</span>
             <FaHeart
               onClick={handleLikeButtonClick}
               style={{
@@ -112,13 +124,7 @@ const ExploreCard = ({
 
       {/* Image for the number plate */}
       <div className='my-6'>
-        <Link to={`/single-card/${_id}`}>
-          {/* <img
-            src={image}
-            alt='NumberPlate'
-            className='w-full'
-            onClick={handleImageClick}
-          /> */}
+        <Link to={`/single-card/${_id}`} onClick={handleImageClick}>
           <PlateNumber plateNo={plateNo} />
         </Link>
       </div>
@@ -168,10 +174,10 @@ const ExploreCard = ({
 
       {/* Pricing last */}
       <div className='flex items-end justify-end gap-4 my-4'>
-        {discount > 0 && (
+        {discountpercent !== 0 && (
           <h1 className='line-through text-gray-600'>{price} Q.T</h1>
         )}
-        <h1 className='text-xl font-bold'>{price - discount} Q.T</h1>
+        <h1 className='text-xl font-bold'>{discountedPrice} Q.T</h1>
       </div>
     </main>
   );
