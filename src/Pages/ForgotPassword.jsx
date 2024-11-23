@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import image from '../assets/HomePage2.jpg';
+import { useSelector } from 'react-redux';
 
 const ForgotPassword = ({ setIsPopUpOpen }) => {
   const [email, setEmail] = useState('');
   const [otp, setOtp] = useState(['', '', '', '']);
+  const {language} = useSelector((state)=>state.language);
 
   const handleOtpChange = (e, index) => {
     const value = e.target.value;
@@ -40,7 +42,7 @@ const ForgotPassword = ({ setIsPopUpOpen }) => {
         {/* Form Section */}
         <div className='w-full md:w-1/2 p-4 lg:h-[600px] lg:flex lg:items-center lg:justify-center lg:flex-col'>
           <h2 className='text-2xl font-semibold mb-4 text-center'>
-            Forgot Password
+            {language==='eng'?'Forgot Password':'هل نسيت كلمة السر'}
           </h2>
           <form className='space-y-4 w-[90%]' onSubmit={handleSubmit}>
             <div>
@@ -49,12 +51,12 @@ const ForgotPassword = ({ setIsPopUpOpen }) => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className='w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:border-blue-500'
-                placeholder='Enter your email'
+                placeholder={`${language==='eng'?'Enter your email':'أدخل بريدك الإلكتروني'}`}
                 required
               />
             </div>
             <div className='w-full text-right text-blue-500'>
-              <button>Send Otp</button>
+              <button>{language==='eng'?'Send Otp':'إرسال مكتب المدعي العام'}</button>
             </div>
             <div className='flex space-x-2 items-center justify-center flex-wrap gap-4'>
               {/* OTP Input Fields */}
@@ -74,8 +76,8 @@ const ForgotPassword = ({ setIsPopUpOpen }) => {
             <button
               type='submit'
               className='w-full bg-[#050c2b] text-white p-2 rounded-md hover:bg-[#090d1d] transition-colors mt-4'
-            >
-              Verify
+            >{language==='eng'?' Verify':'يؤكد'}
+             
             </button>
           </form>
         </div>

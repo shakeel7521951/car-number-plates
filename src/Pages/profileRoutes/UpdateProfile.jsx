@@ -8,6 +8,7 @@ import { setProfile } from '../../Redux/userRoutes/userSlice';
 const UpdateProfile = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const {language} = useSelector((state)=>state.language);
   const [updateUser, { isLoading }] = useUpdateUserMutation();
   const { profile } = useSelector((state) => state.user);
   const [name, setName] = useState(profile?.name);
@@ -27,10 +28,10 @@ const UpdateProfile = () => {
   };
   return (
     <div className='max-w-3xl mx-auto bg-white shadow-md rounded-md p-6 mt-12'>
-      <h2 className='text-2xl font-bold mb-4'>Update Profile</h2>
+      <h2 className='text-2xl font-bold mb-4'>{language==='eng'?'Update Profile':'تحديث الملف الشخصي'}</h2>
       <form onSubmit={handleUpdate}>
         <div className='mb-4'>
-          <label className='block text-gray-700'>Name</label>
+          <label className={`block text-gray-700 ${language==='eng'?'text-left':'text-right'} `}>{language==='eng'?'Name':'اسم'}</label>
           <input
             type='text'
             defaultValue={profile?.name}
@@ -40,7 +41,7 @@ const UpdateProfile = () => {
           />
         </div>
         <div className='mb-4'>
-          <label className='block text-gray-700'>Role</label>
+          <label className={`block text-gray-700 ${language==='eng'?'text-left':'text-right'} `}>{language==='eng'?'Role':'دور'}</label>
           <select
             defaultValue={profile?.role}
             onChange={(e) => setRole(e.target.value)}
@@ -48,10 +49,10 @@ const UpdateProfile = () => {
             required
           >
             <option value='' disabled>
-              Select your role
+              {language==='eng'?'Select your role':'حدد دورك'}
             </option>
-            <option value='buyer'>Buyer</option>
-            <option value='seller'>Seller</option>
+            <option value='buyer'>{language==='eng'?'Buyer':'المشتري'}</option>
+            <option value='seller'>{language==='eng'?'Seller':'بائع'}</option>
           </select>
         </div>
         <div className='flex justify-between flex-wrap'>
@@ -60,12 +61,12 @@ const UpdateProfile = () => {
             className='px-4 py-2 animated-button'
             disabled={isLoading}
           >
-            <span className='button-content'>Save Changes</span>
+            <span className='button-content'>{language==='eng'?'Save Changes':'حفظ التغييرات'}</span>
           </button>
 
           <div className='animated-button px-4 py-2'>
             <Link to={'/update-password'} className='button-content'>
-              Update Password
+              {language==='eng'?'Update Password':'تحديث كلمة المرور'}
             </Link>
           </div>
 
@@ -74,7 +75,7 @@ const UpdateProfile = () => {
             type='button'
             className='px-4 py-2 animated-button'
           >
-            <span className='button-content'>Cancel</span>
+            <span className='button-content'>{language==='eng'?'Cancel':'يلغي'}</span>
           </Link>
         </div>
       </form>

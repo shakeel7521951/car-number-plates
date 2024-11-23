@@ -4,11 +4,12 @@ import { IoMdEye, IoMdEyeOff } from 'react-icons/io';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSignupMutation } from '../../Redux/userRoutes/userApi';
 import { toast } from 'react-toastify'; // Import Toastify
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setProfile } from '../../Redux/userRoutes/userSlice';
 
 const Register = () => {
   const [signup, { isLoading }] = useSignupMutation(); // Destructure mutation state
+  const {language} = useSelector((state)=>state.language)
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({

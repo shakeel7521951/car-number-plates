@@ -18,6 +18,7 @@ import PlateNumber from '../PlateNumber';
 
 const PlateDetailPage = () => {
   const { id } = useParams();
+  const { language } = useSelector((state) => state.language);
 
   const { data, isLoading } = useGetSingleProductQuery(id);
   const currentplateData = data?.product;
@@ -56,11 +57,11 @@ const PlateDetailPage = () => {
             <div className='w-[70%] mx-auto sm:w-[40%] flex flex-col gap-[6px]'>
               <div className='flex flex-col items-start justify-center'>
                 <p className='text-white ms:text-[21px] lg:text-[25px] font-bold'>
-                  Private Plate {currentplateData?.plateNo}
+                  {language==='eng'?'Private Plate':'لوحة خاصة'} {currentplateData?.plateNo}
                 </p>
                 <div className='bg-[#D9D9D9] rounded-2xl py-1 px-3 flex gap-[3px] justify-center items-center'>
                   <img src={person} alt='' className='w-[40px] rounded-full' />
-                  <p className='text-black'>Personal</p>
+                  <p className='text-black'>{language==='eng'?'Personal':'شخصي'}</p>
                 </div>
               </div>
               <div
@@ -70,25 +71,25 @@ const PlateDetailPage = () => {
                 }}
               >
                 <div className='flex flex-col items-center gap-[6px]'>
-                  <p className='text-[20px] font-sem'>Posted: {time}</p>
+                  <p className='text-[20px] font-sem'>{language==='eng'?'Posted:':'أرسلت:'} {time}</p>
                   <p className='text-[25px] font-bold'>
                     {currentplateData?.price - currentplateData?.discount} Q.R
                   </p>
                   <div className='py-2 px-4 flex justify-center gap-2 items-center rounded-full bg-[#D9D9D9] text-[#000]'>
                     <IoCartOutline />
-                    <p>For Sale</p>
+                    <p>{language==='eng'?'For Sale':'للبيع'}</p>
                   </div>
                   <div className='flex flex-col gap-[4px]'>
                     <p className='bg-[#B4F92B] text-black p-2 rounded-xl font-semibold'>
-                      Chat with Seller
+                      {language==='eng'?'Chat with Seller':'الدردشة مع البائع'}
                     </p>
                     <p className='bg-[#000] text-white py-2 px-6 rounded-xl font-semibold'>
-                      Book Now
+                     {language==='eng'?' Book Now':'احجز الآن'}
                     </p>
                   </div>
                 </div>
                 <div className='w-[100%] flex flex-col gap-[2px] items-start self-start'>
-                  <p className='font-bold'>Share This Page:</p>
+                  <p className='font-bold'>{language==='eng'?'Share This Page:':'مشاركة هذه الصفحة:'}</p>
                   <div className='flex justify-between w-[100%]'>
                     <img
                       src={whatsapp}
@@ -133,7 +134,7 @@ const PlateDetailPage = () => {
             setShowItems((prev) => prev + 6);
           }}
         >
-          <span className='button-content'>Load More</span>
+          <span className='button-content'>{language==='eng'?'Load More':'تحميل المزيد'}</span>
         </button>
       </div>
     </div>
