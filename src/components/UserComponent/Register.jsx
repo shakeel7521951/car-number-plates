@@ -96,14 +96,16 @@ const Register = () => {
 
         <div className='w-full md:w-1/2 p-8 md:p-10 flex flex-col'>
           <h1 className='text-xl text-center font-semibold text-[#050C2B] italic'>
-            "Complete your detail to access exclusive plate number in Qatar"
+          {language==='eng'?'"Complete your detail to access exclusive plate number in Qatar"':'"أكمل التفاصيل الخاصة بك للوصول إلى رقم اللوحة الحصري في قطر"'}
+            
           </h1>
           <h1 className='text-xl text-center font-semibold text-[#050C2B] mt-2 italic'>
-            "Enter your detail for seamless experience on Lusail Numbers"
+            {language==='eng'?'"Enter your detail for seamless experience on Lusail Numbers"':'"أدخل التفاصيل الخاصة بك لتجربة سلسة مع أرقام لوسيل"'}
+            
           </h1>
           <div className='w-full md:p-10 flex flex-col justify-center mt-6 md:mt-0'>
             <h2 className='text-2xl font-semibold mb-4 text-center text-[#050C2B]'>
-              Sign Up
+              {language==='eng'?'Sign Up':'اشتراك'}
             </h2>
             <form className='space-y-4' onSubmit={handleSubmit}>
               <div>
@@ -113,7 +115,7 @@ const Register = () => {
                   value={formData.name}
                   onChange={handleChange}
                   className='w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:border-blue-500'
-                  placeholder='Enter your name'
+                  placeholder={language==='eng'?'Enter your name':'أدخل اسمك'}
                 />
                 {errors.name && (
                   <p className='text-red-500 text-sm'>{errors.name}</p>
@@ -126,7 +128,7 @@ const Register = () => {
                   value={formData.email}
                   onChange={handleChange}
                   className='w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:border-blue-500'
-                  placeholder='Enter your email'
+                  placeholder={language==='eng'?'Enter your email':'أدخل بريدك الإلكتروني'}
                 />
                 {errors.email && (
                   <p className='text-red-500 text-sm'>{errors.email}</p>
@@ -139,7 +141,7 @@ const Register = () => {
                   value={formData.password}
                   onChange={handleChange}
                   className='w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:border-blue-500'
-                  placeholder='Enter your password'
+                  placeholder={`${language==='eng'?'Enter your password':'أدخل كلمة المرور الخاصة بك'}`}
                 />
                 <div
                   className='absolute right-3 top-3 cursor-pointer'
@@ -158,7 +160,7 @@ const Register = () => {
                   value={formData.confirmPassword}
                   onChange={handleChange}
                   className='w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:border-blue-500'
-                  placeholder='Confirm your password'
+                  placeholder={language==='eng'?'Confirm your password':'قم بتأكيد كلمة المرور الخاصة بك'}
                 />
                 <div
                   className='absolute right-3 top-3 cursor-pointer'
@@ -181,9 +183,9 @@ const Register = () => {
                   onChange={handleChange}
                   className='w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:border-blue-500'
                 >
-                  <option value=''>Select your role</option>
-                  <option value='seller'>Seller</option>
-                  <option value='buyer'>Buyer</option>
+                  <option value=''>{language==='eng'?'Select your role':'حدد دورك'}</option>
+                  <option value='seller'>{language==='eng'?'Seller':'بائع'}</option>
+                  <option value='buyer'>{language==='eng'?'Buyer':'المشتري'}</option>
                 </select>
                 {errors.role && (
                   <p className='text-red-500 text-sm'>{errors.role}</p>
@@ -195,7 +197,7 @@ const Register = () => {
                 type='submit'
                 className='w-full bg-[#050c2b] text-white p-2 rounded-md hover:bg-[#090d1d] transition-colors'
               >
-                Sign Up
+                {language==='eng'?'Sign Up':'اشتراك'}
               </button>
             </form>
 
@@ -206,9 +208,9 @@ const Register = () => {
               <hr className='w-full border-t border-gray-300' />
             </div>
             <button className='text-sm w-full text-center' onClick={() => {}}>
-              Already have an account?{' '}
+              {language==='eng'?'Already have an account?':'هل لديك حساب بالفعل؟'}{' '}
               <Link to={'/login'} className='text-blue-600 hover:underline'>
-                Login
+                {language==='eng'?'Login':'تسجيل الدخول'}
               </Link>
             </button>
           </div>
