@@ -1,108 +1,40 @@
 import React, { useState } from 'react';
-import user_image_1 from '../../assets/plateName.png';
-import user_image_2 from '../../assets/plateName.png';
-import user_image_3 from '../../assets/plateName.png';
 import { FaRegEdit } from 'react-icons/fa';
 import { MdDeleteOutline } from 'react-icons/md';
 import PieChartComponent from '../../components/RechartsCharts/PieChartComponent';
 import { generatePieData } from '../SellerDashboard';
-import { useGetAllOrdersQuery } from '../../Redux/OrderRoute/orderApi';
+import {
+  useGetAllOrdersQuery,
+  useUpdateOrderStatusMutation,
+} from '../../Redux/OrderRoute/orderApi';
+import { toast } from 'react-toastify';
 
 const DashboardOrder = () => {
-  const [ordersData, setOrdersData] = useState([
-    {
-      order_id: '0111',
-      buyer_name: 'Malik',
-      plate_no: '197500',
-      seller_name: 'Haroon',
-      price: '50,000',
-      status: 'Accepted',
-      picture: user_image_1,
-    },
-    {
-      order_id: '0112',
-      buyer_name: 'Malik',
-      plate_no: '197500',
-      seller_name: 'Haroon',
-      price: '50,000',
-      status: 'Rejected',
-      picture: user_image_2,
-    },
-    {
-      order_id: '0113',
-      buyer_name: 'Malik',
-      plate_no: '197500',
-      seller_name: 'Haroon',
-      price: '50,000',
-      status: 'Pending',
-      picture: user_image_3,
-    },
-    {
-      order_id: '0114',
-      buyer_name: 'Malik',
-      plate_no: '197500',
-      seller_name: 'Haroon',
-      price: '50,000',
-      status: 'Rejected',
-      picture: user_image_2,
-    },
-    {
-      order_id: '0115',
-      buyer_name: 'Malik',
-      plate_no: '197,500',
-      seller_name: 'Haroon',
-      price: '50,000',
-      status: 'Pending',
-      picture: user_image_3,
-    },
-  ]);
-
-  // My logic start here
-  const { data: orders, error, isLoading } = useGetAllOrdersQuery();
-  console.log('get all orders', orders);
-
+  const { data: orders, isLoading } = useGetAllOrdersQuery();
+  const [updatedOrders] = useUpdateOrderStatusMutation();
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
-  const [editedBuyerName, setEditedBuyerName] = useState('');
-  const [editedSellerName, setEditedSellerName] = useState('');
-  const [editedPlateNo, setEditedPlateNo] = useState('');
-  const [editedPrice, setEditedPrice] = useState('');
-  const [editedStatus, setEditedStatus] = useState('');
-  // const [editedOrderImage, setEditedOrderImage] = useState(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
-  const [editValues, setEditValues] = useState({
-    buyerName: '',
-    plateNoDetails: '',
-    sellerName: '',
-    price: '',
-    orderStatus: '',
-  });
+  const [detailOfOrder, setDetailOfOrder] = useState({});
 
   const openEditModal = (order) => {
-    console.log(order);
-    setEditValues(order);
+    setDetailOfOrder(order);
     setIsEditModalOpen(true);
   };
 
-  // Function to handle saving edited data
-  const handleEditSave = () => {
-    console.log('edit values ', editValues);
-
-    // const updatedOrders = ordersData.map((order) =>
-    //   order.order_id === selectedOrder.order_id
-    //     ? {
-    //         ...order,
-    //         buyer_name: editedBuyerName,
-    //         plate_no: editedPlateNo,
-    //         seller_name: editedSellerName,
-    //         price: editedPrice,
-    //         status: editedStatus, // Update status
-    //       }
-    //     : order
-    // );
-    // setOrdersData(updatedOrders);
-    // setIsEditModalOpen(false);
+  const handleEditSave = async () => {
+    try {
+      const resp = await updatedOrders({
+        id: detailOfOrder?._id,
+        orderStatus: detailOfOrder?.orderStatus,
+      }).unwrap();
+      toast.success(resp?.message);
+      setIsEditModalOpen(false);
+    } catch (error) {
+      toast.error(error?.data?.message);
+      console.log(error);
+    }
   };
 
   const openDeleteModal = (order) => {
@@ -112,16 +44,10 @@ const DashboardOrder = () => {
 
   // Function to delete the user
   const handleDeleteOrder = () => {
-    const updatedOrders = ordersData.filter(
-      (order) => order.order_id !== selectedOrder.order_id
-    );
-    setOrdersData(updatedOrders);
     setIsDeleteModalOpen(false);
   };
   const totalRevenue = 10000;
   const revenueFilled = 10000;
-  // const totalSales = 5000;
-  // const salesFilled = 3000;
   const totalListings = 2000;
   const listingsFilled = 1000;
   const totalPendingPayments = 500;
@@ -133,17 +59,11 @@ const DashboardOrder = () => {
       case 'Rejected':
         return 'text-[#F20000] border-[#F20000] border-[1px] px-[0px] py-[8px] text-center rounded-lg';
       case 'Pending':
-        return 'text-[#A2C3F4] border-[#A2C3F4] border-[1px] px-[0px] py-[8px] text-center rounded-lg';
+        return 'text-[#023047] border-[#023047] border-[1px] px-[0px] py-[8px] text-center rounded-lg';
       default:
         return 'text-gray-700 border-gray-200';
     }
   };
-
-  // console.log('Selected Order:', selectedOrder);
-  // console.log('Selected Order price:', editedPrice);
-  // console.log('Edited Image:', editedOrderImage);
-  // const price = Number(editedPrice.split(',').join(''));
-  // console.log(price);
 
   if (isLoading) return <h1>Loading.....</h1>;
 
@@ -268,13 +188,8 @@ const DashboardOrder = () => {
               <label>Buyer Name:</label>
               <input
                 type='text'
-                value={editValues?.buyerName}
-                onChange={(e) =>
-                  setEditValues({
-                    ...editValues,
-                    buyerName: e.target.value,
-                  })
-                }
+                value={detailOfOrder.buyerName}
+                readOnly
                 className='w-full border rounded-lg p-2 mt-1'
               />
             </div>
@@ -282,13 +197,8 @@ const DashboardOrder = () => {
               <label>Plate Number:</label>
               <input
                 type='number'
-                value={editValues?.plateNoDetails}
-                onChange={(e) =>
-                  setEditValues({
-                    ...editValues,
-                    plateNoDetails: e.target.value,
-                  })
-                }
+                value={detailOfOrder?.plateNoDetails}
+                readOnly
                 className='w-full border rounded-lg p-2 mt-1'
               />
             </div>
@@ -296,13 +206,8 @@ const DashboardOrder = () => {
               <label>Seller Name:</label>
               <input
                 type='text'
-                value={editValues?.sellerName}
-                onChange={(e) =>
-                  setEditValues({
-                    ...editValues,
-                    sellerName: e.target.value,
-                  })
-                }
+                value={detailOfOrder?.sellerName}
+                readOnly
                 className='w-full border rounded-lg p-2 mt-1'
               />
             </div>
@@ -310,21 +215,8 @@ const DashboardOrder = () => {
               <label>Price:</label>
               <input
                 type='number'
-                value={editValues?.discountedPrice || editValues?.price}
-                onChange={(e) => {
-                  const value = e.target.value;
-                  setEditValues({
-                    ...editValues,
-                    discountedPrice:
-                      editValues?.discountedPrice !== undefined
-                        ? value
-                        : undefined,
-                    price:
-                      editValues?.discountedPrice === undefined
-                        ? value
-                        : editValues?.price,
-                  });
-                }}
+                value={detailOfOrder?.discountedPrice || detailOfOrder?.price}
+                readOnly
                 className='w-full border rounded-lg p-2 mt-1'
               />
             </div>
@@ -332,10 +224,10 @@ const DashboardOrder = () => {
             <div className='mb-4'>
               <label>Status:</label>
               <select
-                value={editValues?.orderStatus}
+                value={detailOfOrder?.orderStatus || ''}
                 onChange={(e) =>
-                  setEditValues({
-                    ...editValues,
+                  setDetailOfOrder({
+                    ...detailOfOrder,
                     orderStatus: e.target.value,
                   })
                 }
