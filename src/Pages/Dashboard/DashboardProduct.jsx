@@ -22,6 +22,7 @@ const DashboardProduct = () => {
 
   const comingData = product?.slice(0, loadProduct); // Limit products based on loadProduct state
 
+  console.log('data', comingData);
   const [formData, setFormData] = useState({
     plateNo: '',
     price: '',
