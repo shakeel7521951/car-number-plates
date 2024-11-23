@@ -43,7 +43,8 @@ const Navbar = () => {
     if (
       profileMenuRef.current &&
       !profileMenuRef.current.contains(e.target) &&
-      !profileButtonRef.current.contains(e.target)
+      !profileButtonRef.current.contains(e.target) &&
+      !e.target.closest('a')
     ) {
       setIsProfileMenuOpen(false);
     }
@@ -68,6 +69,7 @@ const Navbar = () => {
     { path: '/vip', label: language === 'eng' ? 'VIP' : 'مميز' },
     { path: '/message', label: language === 'eng' ? 'Messages' : 'الرسائل' },
   ];
+  console.log('profile menu', isProfileMenuOpen);
 
   return (
     <nav className='p-2 relative'>
