@@ -10,8 +10,10 @@ import {
 import { toast } from 'react-toastify';
 import PlateNumber from '../PlateNumber';
 import UpdatePopup from '../components/SellerDashboard/UpdatePopup';
+import { useSelector } from 'react-redux';
 
 const MyListing = () => {
+  const {language} = useSelector((state)=>state.language);
   const [deleteModal, setDeleteModal] = useState(null);
   const [updateModal, setUpdateModal] = useState(null);
   const [deleteProduct, { isLoading: deleteLoader }] =
@@ -60,7 +62,7 @@ const MyListing = () => {
   return (
     <main className='px-2 sm:px-16 mt-12 font-bold relative'>
       <div className='flex items-center justify-between'>
-        <h1 className='text-3xl font-bold'>My Listing</h1>
+        <h1 className='text-3xl font-bold'>{language==='eng'?'My Listing':'قائمتي'}</h1>
         <Link to={'/createPlate'}>
           <CiCirclePlus size='40px' className='text-black' />
         </Link>
@@ -85,11 +87,11 @@ const MyListing = () => {
                   <PlateNumber plateNo={plateNo} />
                 </div>
                 <div className='flex flex-col'>
-                  <h1>Private Plate : {plateNo}</h1>
+                  <h1>{language==='eng'?'Private Plate :':'لوحة خاصة :'} {plateNo}</h1>
                   <h1>{discountedPrice} Q.T</h1>
                   <h1 className='flex items-center gap-2'>
                     <FaEye />
-                    <span>{views} views</span>
+                    <span>{views} {language==='eng'?'views':'وجهات النظر'}</span>
                   </h1>
                 </div>
               </div>
@@ -100,7 +102,7 @@ const MyListing = () => {
                     className='p-2 border border-1 border-black rounded'
                     onClick={() => setDeleteModal(_id)}
                   >
-                    Delete
+                    {language==='eng'?'Delete':'يمسح'}
                   </button>
                   <button
                     className='p-2 bg-black text-white rounded'
@@ -114,7 +116,7 @@ const MyListing = () => {
                       });
                     }}
                   >
-                    Update
+                    {language==='eng'?'Update':'تحديث'}
                   </button>
                 </div>
               </div>
@@ -126,20 +128,20 @@ const MyListing = () => {
       {deleteModal && (
         <div className='fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center'>
           <div className='bg-white p-6 rounded-lg'>
-            <h2 className='text-lg font-bold'>Confirm Delete</h2>
-            <p>Are you sure you want to delete this product?</p>
+            <h2 className='text-lg font-bold'>{language==='eng'?'Confirm Delete':'تأكيد الحذف'}</h2>
+            <p>{language==='eng'?"Are you sure you want to delete this product?":"هل أنت متأكد أنك تريد حذف هذا المنتج؟"}</p>
             <div className='flex justify-end gap-4 mt-4'>
               <button
                 className='px-4 py-2 bg-gray-300 rounded-lg'
                 onClick={() => setDeleteModal(null)}
               >
-                Cancel
+                {language==='eng'?'Cancel':'يلغي'}
               </button>
               <button
                 className='px-4 py-2 bg-red-500 text-white rounded-lg'
                 onClick={() => handleDelete(deleteModal)}
               >
-                Delete
+                {language==='eng'?'Delete':'يمسح'}
               </button>
             </div>
           </div>

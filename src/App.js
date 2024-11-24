@@ -28,7 +28,7 @@ import Register from './components/UserComponent/Register';
 import Profile from './Pages/profileRoutes/Profile';
 import UpdateProfile from './Pages/profileRoutes/UpdateProfile.jsx';
 import CreateNumberPlate from './Pages/CreateNumberPlate';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useProfileQuery } from './Redux/userRoutes/userApi.js';
 import { setProfile } from './Redux/userRoutes/userSlice.js';
 import ProtectedRoute from './Pages/ProtectedRoute.jsx';
