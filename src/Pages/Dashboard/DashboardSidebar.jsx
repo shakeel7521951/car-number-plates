@@ -8,7 +8,9 @@ import product from '../../assets/sidebar-icons/product.png';
 import shipment from '../../assets/sidebar-icons/shipment.png';
 import users from '../../assets/sidebar-icons/users.png';
 
-function DashboardSidebar() {
+function 
+
+DashboardSidebar() {
   const navigate = useNavigate();
 
   const sidebarArray = [

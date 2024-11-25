@@ -35,7 +35,7 @@ const SellerDashboard = () => {
               '#1D3B9C',
               '#ccc'
             )}
-            title='Revenue'
+            title={`${language==='eng'?'Revenue':'ربح'}`}
           />
         </div>
 
@@ -43,7 +43,7 @@ const SellerDashboard = () => {
         <div className='bg-white rounded-2xl shadow-md pt-4'>
           <PieChartComponent
             data={generatePieData(totalSales, salesFilled, '#8CFF00', '#ccc')}
-            title='Sales'
+            title={language==='eng'?'Sales':'مبيعات'}
           />
         </div>
 
@@ -55,7 +55,7 @@ const SellerDashboard = () => {
               '#A71414',
               '#ccc'
             )}
-            title='Listings'
+            title={language==='eng'?'Listings':'القوائم'}
           />
         </div>
 
@@ -67,7 +67,7 @@ const SellerDashboard = () => {
               '#98B5DE',
               '#ccc'
             )}
-            title='Pending Payments'
+            title={language==='eng'?'Pending Payments':'المدفوعات المعلقة'}
           />
         </div>
       </div>

@@ -9,13 +9,13 @@ const ProfileMenu = ({ onClose }) => {
   const { language } = useSelector((state) => state.language);
   const dispatch = useDispatch();
   const sellerProfile = [
-    { path: '/seller-dashboard', text: 'Seller-Dashboard' },
-    { path: '/listing', text: 'My Listing' },
+    { path: '/seller-dashboard', text: `${language==='eng'?'Seller-Dashboard':'لوحة تحكم البائع'}` },
+    { path: '/listing', text:`${language==='eng'?'My Listing':'قائمتي'}` },
   ];
   const adminRoute = [
-    { path: '/dashboard', text: 'Dashboard' },
-    { path: '/seller-dashboard', text: 'Seller-Dashboard' },
-    { path: '/listing', text: 'My Listing' },
+    { path: '/dashboard', text:`${language==='eng'?'Dashboard':'لوحة القيادة'}` },
+    { path: '/seller-dashboard', text:`${language==='eng'?'Seller-Dashboard':'لوحة تحكم البائع'}` },
+    { path: '/listing', text:`${language==='eng'?'My Listing':'قائمتي'}` },
   ];
   const { profile } = useSelector((state) => state.user);
   console.log(profile.role);
