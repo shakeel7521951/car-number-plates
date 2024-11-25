@@ -9,16 +9,30 @@ const ProfileMenu = ({ onClose }) => {
   const { language } = useSelector((state) => state.language);
   const dispatch = useDispatch();
   const sellerProfile = [
-    { path: '/seller-dashboard', text: `${language==='eng'?'Seller-Dashboard':'لوحة تحكم البائع'}` },
-    { path: '/listing', text:`${language==='eng'?'My Listing':'قائمتي'}` },
+    {
+      path: '/seller-dashboard',
+      text: `${language === 'eng' ? 'Seller-Dashboard' : 'لوحة تحكم البائع'}`,
+    },
+    {
+      path: '/listing',
+      text: `${language === 'eng' ? 'My Listing' : 'قائمتي'}`,
+    },
   ];
   const adminRoute = [
-    { path: '/dashboard', text:`${language==='eng'?'Dashboard':'لوحة القيادة'}` },
-    { path: '/seller-dashboard', text:`${language==='eng'?'Seller-Dashboard':'لوحة تحكم البائع'}` },
-    { path: '/listing', text:`${language==='eng'?'My Listing':'قائمتي'}` },
+    {
+      path: '/dashboard',
+      text: `${language === 'eng' ? 'Dashboard' : 'لوحة القيادة'}`,
+    },
+    {
+      path: '/seller-dashboard',
+      text: `${language === 'eng' ? 'Seller-Dashboard' : 'لوحة تحكم البائع'}`,
+    },
+    {
+      path: '/listing',
+      text: `${language === 'eng' ? 'My Listing' : 'قائمتي'}`,
+    },
   ];
   const { profile } = useSelector((state) => state.user);
-  console.log(profile.role);
   const userProfile = [{ path: '/history', text: 'Purchasing History' }];
   const [logout, { isLoading }] = useLogoutMutation();
   const userArray =
@@ -39,7 +53,6 @@ const ProfileMenu = ({ onClose }) => {
   return (
     <div>
       <div className='flex items-center mb-4'>
-        {/* <img src={person} alt='User' className='w-12 h-12 rounded-full' /> */}
         <div className='ml-3'>
           <h3 className='font-semibold text-lg'>{profile?.name || 'John'} </h3>
           <Link
@@ -67,31 +80,12 @@ const ProfileMenu = ({ onClose }) => {
             </li>
           );
         })}
-        {/* <li className='my-2'>
-          <Link
-            to='/dashboard'
-            onClick={onClose}
-            className='text-gray-700 hover:text-blue-500'
-          >
-            Dashboard
-          </Link>
-        </li>
-
-        <li className='my-2'>
-          <Link
-            to='/listing'
-            onClick={onClose}
-            className='text-gray-700 hover:text-blue-500'
-          >
-            My Listings
-          </Link>
-        </li> */}
       </ul>
       <div className='my-2'>
         <button
           disabled={isLoading}
           onClick={handleLogout}
-          className='text-gray-700 hover:text-blue-500'
+          className='logout-button text-gray-700 hover:text-blue-500'
         >
           {language === 'eng' ? 'Logout' : 'تسجيل الخروج'}
         </button>

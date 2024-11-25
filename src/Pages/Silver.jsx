@@ -11,7 +11,6 @@ const Silver = () => {
   const { language } = useSelector((state) => state.language); // Get language from Redux
   const [getNormalProduct, { data: filteredData, isLoading, error }] =
     useGetFilterProductMutation();
-  console.log('silver product', filteredData);
 
   // const [reCall, setRecall] = useState(false);
   useEffect(() => {

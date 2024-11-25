@@ -6,9 +6,9 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 const UpdatePassword = () => {
-  const [UpdatePassword, { isLoading }] = useUpdatePasswordMutation();
+  const [UpdatePassword] = useUpdatePasswordMutation();
   const navigate = useNavigate();
-  const {language} = useSelector((state)=>state.language);
+  const { language } = useSelector((state) => state.language);
   const [formData, setFormData] = useState({
     oldPassword: '',
     password: '',
@@ -26,7 +26,6 @@ const UpdatePassword = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { oldPassword, password, confirmPassword } = formData;
-    console.log(formData);
     if (password !== confirmPassword) {
       toast.error('Password is not Match ');
       return;
@@ -37,7 +36,6 @@ const UpdatePassword = () => {
         password,
         confirmPassword,
       }).unwrap();
-      console.log(res);
       toast.success(res?.message);
       navigate('/profile');
     } catch (error) {
@@ -62,7 +60,7 @@ const UpdatePassword = () => {
         <div className='w-full md:w-1/2 p-4 lg:h-[600px] flex items-center justify-center flex-col'>
           <div className='w-full max-w-md'>
             <h2 className='text-2xl font-semibold mb-4 text-center'>
-              {language==='eng'?'Update Password':'تحديث كلمة المرور'}
+              {language === 'eng' ? 'Update Password' : 'تحديث كلمة المرور'}
             </h2>
             <form className='space-y-4' onSubmit={handleSubmit}>
               {/* Current Password */}
@@ -73,7 +71,11 @@ const UpdatePassword = () => {
                   value={formData.oldPassword}
                   onChange={handleChange}
                   className='w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:border-blue-500'
-                  placeholder={`${language==='eng'?'Enter your current password':'أدخل كلمة المرور الحالية الخاصة بك'}`}
+                  placeholder={`${
+                    language === 'eng'
+                      ? 'Enter your current password'
+                      : 'أدخل كلمة المرور الحالية الخاصة بك'
+                  }`}
                   required
                 />
               </div>
@@ -86,7 +88,11 @@ const UpdatePassword = () => {
                   value={formData.password}
                   onChange={handleChange}
                   className='w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:border-blue-500'
-                  placeholder={`${language==='eng'?'Enter a new password':'أدخل كلمة مرور جديدة'}`}
+                  placeholder={`${
+                    language === 'eng'
+                      ? 'Enter a new password'
+                      : 'أدخل كلمة مرور جديدة'
+                  }`}
                   required
                 />
               </div>
@@ -99,7 +105,11 @@ const UpdatePassword = () => {
                   value={formData.confirmPassword}
                   onChange={handleChange}
                   className='w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:border-blue-500'
-                  placeholder={`${language==='eng'?'Confirm your new password':'قم بتأكيد كلمة المرور الجديدة'}`}
+                  placeholder={`${
+                    language === 'eng'
+                      ? 'Confirm your new password'
+                      : 'قم بتأكيد كلمة المرور الجديدة'
+                  }`}
                   required
                 />
               </div>
@@ -108,7 +118,7 @@ const UpdatePassword = () => {
                 type='submit'
                 className='w-full bg-[#050c2b] text-white p-2 rounded-md hover:bg-[#090d1d] transition-colors mt-4'
               >
-                {language==='eng'?'Update Password':'تحديث كلمة المرور'}
+                {language === 'eng' ? 'Update Password' : 'تحديث كلمة المرور'}
               </button>
             </form>
           </div>

@@ -15,10 +15,10 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux'; 
+import { useSelector } from 'react-redux';
 
 function Hero() {
-  const { language } = useSelector((state) => state.language); 
+  const { language } = useSelector((state) => state.language);
 
   const hero_data = [
     {
@@ -61,7 +61,9 @@ function Hero() {
                   language === 'ar' ? 'text-right' : 'text-left'
                 }`}
               >
-                {language === 'eng' ? 'CAR NUMBER PLATE' : 'لوحة أرقام السيارة'}
+                {language === 'eng'
+                  ? 'CAR NUMBERS PLATE'
+                  : 'لوحة أرقام السيارة'}
               </p>
               <div className='flex flex-col items-center mb-6'>
                 <p className='text-xl md:text-2xl font-medium'>
@@ -71,8 +73,15 @@ function Hero() {
                   {language === 'eng' ? '$160' : '160 ريال قطري'}
                 </p>
               </div>
-              <div className={`flex gap-4 flex-wrap ${language === 'ar' ? 'text-right' : 'text-left'}`}>
-                <Link to={'/explore'} className='animated-button bg-white px-4 py-3'>
+              <div
+                className={`flex gap-4 flex-wrap ${
+                  language === 'ar' ? 'text-right' : 'text-left'
+                }`}
+              >
+                <Link
+                  to={'/explore'}
+                  className='animated-button bg-white px-4 py-3'
+                >
                   <span className='button-content text-lg font-semibold'>
                     {language === 'eng' ? 'BOOK NOW' : 'احجز الآن'}
                   </span>

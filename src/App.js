@@ -69,7 +69,7 @@ const router = createBrowserRouter([
       { path: '/gold', element: <Golden /> },
       { path: '/vip', element: <Vip /> },
       { path: '/single-card/:id', element: <PlateDetailPage /> },
-      { path: '/message', element: <Chat /> },
+      { path: '/faqs', element: <Chat /> },
       { path: '/update-password', element: <UpdatePassword /> },
       { path: '/update-profile', element: <UpdateProfile /> },
       { path: '/forgot-password', element: <ForgotPassword /> },

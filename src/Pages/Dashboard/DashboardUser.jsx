@@ -10,7 +10,7 @@ import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
 
 const DashboardUser = () => {
-  const {language} = useSelector((state)=>state.language);
+  const { language } = useSelector((state) => state.language);
   //api fetching
   const { data: AllUsers } = useGetAllUsersQuery();
 
@@ -18,7 +18,6 @@ const DashboardUser = () => {
   const [loadProduct, setLoadProduct] = useState(6);
 
   const comingData = users?.slice(0, loadProduct);
-  console.log('prodct', comingData);
   const [deleteUser] = useDeleteUserMutation();
   const [updateUserProfile] = useUpdateUserProfileMutation();
   // states used
@@ -45,7 +44,6 @@ const DashboardUser = () => {
       if (response?.message) {
         toast.success(response.message);
         setIsEditModalOpen(false);
-        console.log('res', response);
       }
     } catch (error) {
       toast.error(error?.data?.message || 'Failed to update user profile');
@@ -73,17 +71,27 @@ const DashboardUser = () => {
   return (
     <div className='w-[82%] mx-auto'>
       <h1 className='text-xl font-semibold mb-4 lg:text-left text-center'>
-        {language==='eng'?'Users':'المستخدمين'}
+        {language === 'eng' ? 'Users' : 'المستخدمين'}
       </h1>
       <div className='overflow-x-auto'>
         <div className='min-w-[500px] bg-white rounded-3xl shadow-lg overflow-hidden p-2'>
           {/* Header */}
           <div className='grid grid-cols-5 bg-gray-100 rounded-xl border-[1px] border-black'>
-            <div className='p-4 font-medium'>{language==='eng'?'User ID':'معرف المستخدم'}</div>
-            <div className='p-4 font-medium'>{language==='eng'?'Name':'اسم'}</div>
-            <div className='p-4 font-medium'>{language==='eng'?'Email':'بريد إلكتروني'}</div>
-            <div className='p-4 font-medium'>{language==='eng'?"Role":'دور'}</div>
-            <div className='p-4 font-medium'>{language==='eng'?'Actions':'الإجراءات'}</div>
+            <div className='p-4 font-medium'>
+              {language === 'eng' ? 'User ID' : 'معرف المستخدم'}
+            </div>
+            <div className='p-4 font-medium'>
+              {language === 'eng' ? 'Name' : 'اسم'}
+            </div>
+            <div className='p-4 font-medium'>
+              {language === 'eng' ? 'Email' : 'بريد إلكتروني'}
+            </div>
+            <div className='p-4 font-medium'>
+              {language === 'eng' ? 'Role' : 'دور'}
+            </div>
+            <div className='p-4 font-medium'>
+              {language === 'eng' ? 'Actions' : 'الإجراءات'}
+            </div>
           </div>
 
           {/* User Rows */}
@@ -127,17 +135,22 @@ const DashboardUser = () => {
           onClick={() => setLoadProduct((prev) => prev + 6)}
           disabled={users?.length <= loadProduct}
         >
-          <span className='button-content '> {language==='eng'?'LoadMore':'تحميلالمزيد'}</span>
+          <span className='button-content '>
+            {' '}
+            {language === 'eng' ? 'LoadMore' : 'تحميلالمزيد'}
+          </span>
         </button>
       )}
 
       {isEditModalOpen && (
         <div className='fixed inset-0 bg-gray-700 bg-opacity-50 flex items-center justify-center z-50'>
           <div className='bg-white p-6 rounded-xl shadow-lg w-[400px]'>
-            <h2 className='text-lg font-semibold mb-4'>{language==='eng'?'Edit User':'تحرير المستخدم'}</h2>
+            <h2 className='text-lg font-semibold mb-4'>
+              {language === 'eng' ? 'Edit User' : 'تحرير المستخدم'}
+            </h2>
             <div className='mb-4 text-center'></div>
             <div className='mb-4'>
-              <label>{language==='eng'?'Name:':'اسم:'}</label>
+              <label>{language === 'eng' ? 'Name:' : 'اسم:'}</label>
               <input
                 type='text'
                 value={editUser?.name}
@@ -148,7 +161,7 @@ const DashboardUser = () => {
               />
             </div>
             <div className='mb-4'>
-              <label>{language==='eng'?'Email:':'بريد إلكتروني:'}</label>
+              <label>{language === 'eng' ? 'Email:' : 'بريد إلكتروني:'}</label>
               <input
                 type='email'
                 value={editUser?.email}
@@ -159,7 +172,7 @@ const DashboardUser = () => {
               />
             </div>
             <div className='mb-4'>
-              <label>{language==='eng'?'Role:':'دور:'}</label>
+              <label>{language === 'eng' ? 'Role:' : 'دور:'}</label>
               <select
                 value={editUser?.role}
                 onChange={(e) =>
@@ -167,9 +180,15 @@ const DashboardUser = () => {
                 }
                 className='w-full border rounded-lg p-2 mt-1'
               >
-                <option value='admin'>{language==='eng'?'Admin':'مسؤل'}</option>
-                <option value='seller'>{language==='eng'?'Seller':'بائع'}</option>
-                <option value='buyer'>{language==='eng'?'Buyer':'المشتري'}</option>
+                <option value='admin'>
+                  {language === 'eng' ? 'Admin' : 'مسؤل'}
+                </option>
+                <option value='seller'>
+                  {language === 'eng' ? 'Seller' : 'بائع'}
+                </option>
+                <option value='buyer'>
+                  {language === 'eng' ? 'Buyer' : 'المشتري'}
+                </option>
               </select>
             </div>
 
@@ -178,13 +197,13 @@ const DashboardUser = () => {
                 onClick={handleEditSave}
                 className='bg-green-500 text-white px-4 py-2 rounded-lg'
               >
-                {language==='eng'?'Save':'يحفظ'}
+                {language === 'eng' ? 'Save' : 'يحفظ'}
               </button>
               <button
                 onClick={() => setIsEditModalOpen(false)}
                 className='bg-gray-300 px-4 py-2 rounded-lg'
               >
-                {language==='eng'?'Cancel':'يلغي'}
+                {language === 'eng' ? 'Cancel' : 'يلغي'}
               </button>
             </div>
           </div>
@@ -195,20 +214,22 @@ const DashboardUser = () => {
         <div className='fixed inset-0 bg-gray-700 bg-opacity-50 flex items-center justify-center z-50'>
           <div className='bg-white p-6 rounded-xl shadow-lg'>
             <h2 className='text-lg font-semibold mb-4'>
-              {language==='eng'?'Are you sure you want to delete?':'هل أنت متأكد أنك تريد الحذف؟'}
+              {language === 'eng'
+                ? 'Are you sure you want to delete?'
+                : 'هل أنت متأكد أنك تريد الحذف؟'}
             </h2>
             <div className='flex justify-end gap-4'>
               <button
                 onClick={handleDeleteUser}
                 className='bg-red-500 text-white px-4 py-2 rounded-lg'
               >
-                {language==='eng'?'Delete':'يمسح'}
+                {language === 'eng' ? 'Delete' : 'يمسح'}
               </button>
               <button
                 onClick={() => setIsDeleteModalOpen(false)}
                 className='bg-gray-300 px-4 py-2 rounded-lg'
               >
-                {language==='eng'?'Cancel':'يلغي'}
+                {language === 'eng' ? 'Cancel' : 'يلغي'}
               </button>
             </div>
           </div>

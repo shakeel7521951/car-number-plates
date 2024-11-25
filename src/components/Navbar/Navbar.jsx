@@ -1,12 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { IoIosSearch } from 'react-icons/io';
 import { FaBars, FaTimes, FaPlus } from 'react-icons/fa';
 import logo from '../../assets/logo.png';
 import { Link } from 'react-router-dom';
 
 import { CiBellOn, CiHeart } from 'react-icons/ci';
 import person from '../../assets/user.png';
-import MessageBox from './MessageBox';
+// import MessageBox from './MessageBox';
 import ProfileMenu from './ProfileMenu';
 import { useDispatch, useSelector } from 'react-redux';
 import { setLanguage } from '../../Redux/ToggleLanguage';
@@ -14,18 +13,14 @@ import { setLanguage } from '../../Redux/ToggleLanguage';
 const Navbar = () => {
   const { profile } = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  // const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
-  // const [selectedLanguage, setSelectedLanguage] = useState('eng'); // Default language: English
 
   const { language } = useSelector((state) => state.language);
-  // console.log('lang', language);
   const toggleProfileMenu = () => {
     setIsProfileMenuOpen(!isProfileMenuOpen);
   };
 
-  // const dropdownRef = useRef(null);
   const mobileMenuRef = useRef(null);
   const profileMenuRef = useRef(null);
   const profileButtonRef = useRef(null);
@@ -44,7 +39,8 @@ const Navbar = () => {
       profileMenuRef.current &&
       !profileMenuRef.current.contains(e.target) &&
       !profileButtonRef.current.contains(e.target) &&
-      !e.target.closest('a')
+      !e.target.closest('a') &&
+      !e.target.closest('.logout-button')
     ) {
       setIsProfileMenuOpen(false);
     }
@@ -59,7 +55,6 @@ const Navbar = () => {
   const handleLanguageChange = (e) => {
     const value = e.target.value;
     dispatch(setLanguage(value));
-    // console.log('Selected Language:', value);
   };
 
   const menuLinks = [
@@ -67,21 +62,36 @@ const Navbar = () => {
     { path: '/silver', label: language === 'eng' ? 'Silver' : 'فضي' },
     { path: '/gold', label: language === 'eng' ? 'Gold' : 'ذهبي' },
     { path: '/vip', label: language === 'eng' ? 'VIP' : 'مميز' },
-    { path: '/message', label: language === 'eng' ? 'Messages' : 'الرسائل' },
+    { path: '/faqs', label: language === 'eng' ? 'FAQS' : 'أسئلة وأجوبة' },
   ];
-  console.log('profile menu', isProfileMenuOpen);
 
   return (
     <nav className='p-2 relative'>
       <div className='flex items-center justify-between md:justify-between'>
-        <div className=' w-32 h-24'>
+        <div className=' w-28 h-24'>
           <Link to='/'>
             <img src={logo} alt='Company logo' className='w-full h-full ' />
           </Link>
         </div>
 
         {/* Mobile Menu Icon */}
-        <div className='md:hidden flex gap-4'>
+        <div className='md:hidden flex gap-4 items-center'>
+          <div className='flex items-center ml-6'>
+            <select
+              id='language'
+              value={language}
+              onChange={handleLanguageChange}
+              className='p-3 w-max rounded-lg bg-gray-800 text-white text-base font-semibold border border-gray-600 focus:outline-none transition-all duration-300 hover:bg-gray-700 cursor-pointer'
+            >
+              <option value='eng' className='cursor-pointer'>
+                English
+              </option>
+              <option value='arabic' className='cursor-pointer'>
+                Arabic
+              </option>
+            </select>
+          </div>
+          {/* select here */}
           {profile && (
             <main>
               <div
@@ -128,8 +138,8 @@ const Navbar = () => {
         </div>
 
         {/* Sign In and Post Buttons */}
-        <main className='hidden md:flex'>
-          {profile?.role !== 'buyer' && (
+        <main className='hidden md:flex md:justify-center md:items-center'>
+          {profile && profile?.role !== 'buyer' && (
             <div className='hidden md:flex ml-3 justify-center items-center border-2 border-[#9FA2A0] rounded-md'>
               <Link
                 to={'/createPlate'}
@@ -140,48 +150,44 @@ const Navbar = () => {
               </Link>
             </div>
           )}
+
+          <div className='flex items-center ml-6'>
+            <select
+              id='language'
+              value={language}
+              onChange={handleLanguageChange}
+              className='p-3 w-max rounded-lg bg-gray-800 text-white text-base font-semibold border border-gray-600 focus:outline-none transition-all duration-300 hover:bg-gray-700 cursor-pointer'
+            >
+              <option value='eng' className='cursor-pointer'>
+                English
+              </option>
+              <option value='arabic' className='cursor-pointer'>
+                Arabic
+              </option>
+            </select>
+          </div>
+
           {!profile && (
-            <div className='animated-button ml-4 cursor-pointer bg-white px-4 py-3'>
-              <Link
-                to={'/login'}
-                className=' button-content  px-4 py-1 rounded-lg'
-              >
+            <Link
+              to={'/login'}
+              className='animated-button ml-4 cursor-pointer bg-white px-4 py-3'
+            >
+              <span to={'/login'} className=' button-content   rounded-lg'>
                 {language === 'eng' ? 'Sign In' : 'تسجيل الدخول'}
-              </Link>
-            </div>
+              </span>
+            </Link>
           )}
         </main>
       </div>
-      <div className='flex items-center justify-between '>
-        <div className='flex items-center mt-4'>
-          <label htmlFor='language' className='mr-2 text-white'></label>
-          <select
-            id='language'
-            value={language}
-            onChange={handleLanguageChange}
-            className='p-2 rounded bg-white text-black'
-          >
-            <option value='eng'>English</option>
-            <option value='arabic'>Arabic</option>
-          </select>
-        </div>
+      <div className='flex items-center justify-end '>
         {/* Search and Icons */}
         <div className='hidden md:flex ms-6 mr-4'>
-          <div className='flex justify-end m-0 w-[100%] md:w-[80%] mx-5'>
-            {/* <div className='w-full md:w-2/4 flex items-center relative md:ms-24 border border-black rounded-xl'>
-              <input
-                type='text'
-                placeholder='Search...'
-                className='w-full p-2 rounded-xl bg-[#EAEAEA]  placeholder-gray-400 focus:outline-none'
-              />
-              <IoIosSearch className='absolute right-2 text-2xl' />
-            </div> */}
-          </div>
+          <div className='flex justify-end m-0 w-[100%] md:w-[80%] mx-5'></div>
           {profile && (
             <div className='flex gap-4'>
               <CiHeart size='40px' />
               <CiBellOn size='40px' />
-              <MessageBox />
+              {/* <MessageBox /> */}
               <main>
                 <div
                   className='w-10 h-10 rounded-full cursor-pointer'

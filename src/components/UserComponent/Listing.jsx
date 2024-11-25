@@ -8,15 +8,14 @@ const Listing = ({ onClose }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(price, plateNumber);
     setPlateNumber('');
     setPrice('');
-    onClose(); // Close the modal after submission
+    onClose();
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 p-4">
-      <div className="bg-white w-full max-w-md p-6 rounded shadow-lg">
+    <div className='fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 p-4'>
+      <div className='bg-white w-full max-w-md p-6 rounded shadow-lg'>
         <h1
           className={`text-xl font-bold mb-4 ${
             language === 'ar' ? 'text-right' : 'text-left'
@@ -24,7 +23,7 @@ const Listing = ({ onClose }) => {
         >
           {language === 'eng' ? 'Add New Product' : 'إضافة منتج جديد'}
         </h1>
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
           <label
             className={`flex flex-col ${
               language === 'ar' ? 'text-right' : 'text-left'
@@ -32,10 +31,10 @@ const Listing = ({ onClose }) => {
           >
             {language === 'eng' ? 'Plate Number:' : 'رقم اللوحة:'}
             <input
-              type="text"
+              type='text'
               value={plateNumber}
               onChange={(e) => setPlateNumber(e.target.value)}
-              className="border border-gray-300 p-2 rounded mt-1"
+              className='border border-gray-300 p-2 rounded mt-1'
               required
             />
           </label>
@@ -46,10 +45,10 @@ const Listing = ({ onClose }) => {
           >
             {language === 'eng' ? 'Price:' : 'السعر:'}
             <input
-              type="number"
+              type='number'
               value={price}
               onChange={(e) => setPrice(e.target.value)}
-              className="border border-gray-300 p-2 rounded mt-1"
+              className='border border-gray-300 p-2 rounded mt-1'
               required
             />
           </label>
@@ -59,15 +58,15 @@ const Listing = ({ onClose }) => {
             }`}
           >
             <button
-              type="button"
+              type='button'
               onClick={onClose}
-              className="px-4 py-2 bg-gray-300 rounded"
+              className='px-4 py-2 bg-gray-300 rounded'
             >
               {language === 'eng' ? 'Cancel' : 'إلغاء'}
             </button>
             <button
-              type="submit"
-              className="px-4 py-2 bg-blue-500 text-white rounded"
+              type='submit'
+              className='px-4 py-2 bg-blue-500 text-white rounded'
             >
               {language === 'eng' ? 'Add Product' : 'إضافة المنتج'}
             </button>

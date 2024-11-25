@@ -10,7 +10,7 @@ import { FaEdit } from 'react-icons/fa';
 import UpdatePopup from '../../components/SellerDashboard/UpdatePopup';
 
 const DashboardProduct = () => {
-  const {language} = useSelector((state)=>state.language);
+  const { language } = useSelector((state) => state.language);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -19,11 +19,10 @@ const DashboardProduct = () => {
 
   const { product } = useSelector((state) => state.product); // Fetch products from Redux store
   const [deleteProduct] = useDeleteProductMutation();
-  const [updateProduct, { isLoading: isUpdating }] = useUpdateProductMutation();
+  const [updateProduct] = useUpdateProductMutation();
 
   const comingData = product?.slice(0, loadProduct); // Limit products based on loadProduct state
 
-  console.log('data', comingData);
   const [formData, setFormData] = useState({
     plateNo: '',
     price: '',
@@ -84,17 +83,27 @@ const DashboardProduct = () => {
   return (
     <div className='w-[90%] mx-auto'>
       <h1 className='text-xl font-semibold mb-4 lg:text-left text-center'>
-        {language==='eng'?'Products':'منتجات'}
+        {language === 'eng' ? 'Products' : 'منتجات'}
       </h1>
       <div className='overflow-x-auto'>
         <div className='min-w-[800px] bg-white rounded-3xl shadow-lg overflow-hidden p-2'>
           {/* Header */}
           <div className='grid grid-cols-5 bg-gray-100 rounded-xl border-[1px] border-black'>
-            <div className='p-4 font-medium'>{language==='eng'?'Item ID':'معرف العنصر'}</div>
-            <div className='p-4 font-medium'>{language==='eng'?'Owner Name':'اسم المالك'}</div>
-            <div className='p-4 font-medium'>{language==='eng'?'Plate No':'رقم اللوحة'}</div>
-            <div className='p-4 font-medium'>{language==='eng'?'Price':'سعر'}</div>
-            <div className='p-4 font-medium'>{language==='eng'?'Actions':"الإجراءات"}</div>
+            <div className='p-4 font-medium'>
+              {language === 'eng' ? 'Item ID' : 'معرف العنصر'}
+            </div>
+            <div className='p-4 font-medium'>
+              {language === 'eng' ? 'Owner Name' : 'اسم المالك'}
+            </div>
+            <div className='p-4 font-medium'>
+              {language === 'eng' ? 'Plate No' : 'رقم اللوحة'}
+            </div>
+            <div className='p-4 font-medium'>
+              {language === 'eng' ? 'Price' : 'سعر'}
+            </div>
+            <div className='p-4 font-medium'>
+              {language === 'eng' ? 'Actions' : 'الإجراءات'}
+            </div>
           </div>
 
           {/* Product Rows */}
@@ -139,7 +148,7 @@ const DashboardProduct = () => {
             className='bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600'
             onClick={handleLoadMore}
           >
-            {language==='eng'?'Load More':'تحميل المزيد'}
+            {language === 'eng' ? 'Load More' : 'تحميل المزيد'}
           </button>
         </div>
       )}
@@ -159,20 +168,22 @@ const DashboardProduct = () => {
         <div className='fixed inset-0 bg-gray-700 bg-opacity-50 flex items-center justify-center z-50'>
           <div className='bg-white p-6 rounded-xl shadow-lg'>
             <h2 className='text-lg font-semibold mb-4'>
-              {language==='eng'?'Are you sure you want to delete?':'هل أنت متأكد أنك تريد الحذف؟'}
+              {language === 'eng'
+                ? 'Are you sure you want to delete?'
+                : 'هل أنت متأكد أنك تريد الحذف؟'}
             </h2>
             <div className='flex justify-end gap-4'>
               <button
                 onClick={handleDeleteUser}
                 className='bg-red-500 text-white px-4 py-2 rounded-lg'
               >
-                {language==='eng'?'Delete':'يمسح'}
+                {language === 'eng' ? 'Delete' : 'يمسح'}
               </button>
               <button
                 onClick={() => setIsDeleteModalOpen(false)}
                 className='bg-gray-300 px-4 py-2 rounded-lg'
               >
-                {language==='eng'?'Cancel':'يلغي'}
+                {language === 'eng' ? 'Cancel' : 'يلغي'}
               </button>
             </div>
           </div>

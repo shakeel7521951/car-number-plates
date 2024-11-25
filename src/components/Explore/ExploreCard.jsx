@@ -9,8 +9,6 @@ import {
 import { useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 import PlateNumber from '../../PlateNumber';
-
-// Move the calculateTimeDifference function outside the component
 export const calculateTimeDifference = (createdAt, language) => {
   const createdDate = new Date(createdAt);
   const currentDate = new Date();
@@ -40,11 +38,12 @@ const ExploreCard = ({
   likes = [],
   plateNo = 124234,
   created_at,
-  discount = 44453,
+  // discount = 44453,
   price = 33322,
   image = plateImg,
   category = 'normal',
   discountedPrice,
+  availability,
   discountpercent,
 }) => {
   const [updateView] = useUpdateViewMutation();
@@ -53,7 +52,16 @@ const ExploreCard = ({
   const { profile } = useSelector((state) => state.user);
   const { language } = useSelector((state) => state.language);
   const [changeCategory, setChangeCategory] = useState('');
-
+  const availabilityStatus =
+    availability === 'active'
+      ? language === 'eng'
+        ? 'Active'
+        : 'نشط'
+      : availability !== 'active'
+      ? language === 'eng'
+        ? 'Sold'
+        : 'مباع'
+      : '';
   const [isLiked, setIsLiked] = useState(likes?.length);
   const [totalLikes, setTotalLikes] = useState(likes?.length);
   useEffect(() => {
@@ -83,7 +91,6 @@ const ExploreCard = ({
     updateView(_id);
   };
 
-  console.log('isLiked', isLiked);
   const handleLikeButtonClick = async () => {
     if (isLiked) {
       const res = await dislikeProduct(_id).unwrap();
@@ -151,9 +158,7 @@ const ExploreCard = ({
             <span className='text-gray-700'>{changeCategory || category}</span>
           </h1>
           <div className='text-end flex items-center flex-col'>
-            <h1 className='text-[#92905F]'>
-              {language === 'eng' ? 'Active' : 'نشط'}
-            </h1>
+            <h1 className='text-[#92905F]'>{availabilityStatus}</h1>
             <p className='text-[10px]'>
               {language === 'eng' ? 'Transfer By Metrash' : 'نقل عبر مترش'}
             </p>
