@@ -4,6 +4,7 @@ import { MdDeleteOutline } from 'react-icons/md';
 import PieChartComponent from '../../components/RechartsCharts/PieChartComponent';
 import { generatePieData } from '../SellerDashboard';
 import {
+  useDeleteOrderMutation,
   useGetAllOrdersQuery,
   useUpdateOrderStatusMutation,
 } from '../../Redux/OrderRoute/orderApi';
@@ -12,8 +13,9 @@ import { toast } from 'react-toastify';
 const DashboardOrder = () => {
   const { data: orders, isLoading } = useGetAllOrdersQuery();
   const [updatedOrders] = useUpdateOrderStatusMutation();
+  const [deleteOrder] = useDeleteOrderMutation();
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [selectedOrder, setSelectedOrder] = useState(null);
+  const [selectedId, setSelectedId] = useState(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const [detailOfOrder, setDetailOfOrder] = useState({});
@@ -37,14 +39,20 @@ const DashboardOrder = () => {
     }
   };
 
-  const openDeleteModal = (order) => {
-    setSelectedOrder(order);
+  const openDeleteModal = (id) => {
+    setSelectedId(id);
     setIsDeleteModalOpen(true);
   };
-
+  console.log('selectedid', selectedId);
   // Function to delete the user
-  const handleDeleteOrder = () => {
-    setIsDeleteModalOpen(false);
+  const handleDeleteOrder = async () => {
+    try {
+      const res = await deleteOrder(selectedId).unwrap();
+      toast.success(res?.message);
+      setIsDeleteModalOpen(false);
+    } catch (error) {
+      toast.error(error?.data?.message);
+    }
   };
   const totalRevenue = 10000;
   const revenueFilled = 10000;
@@ -139,13 +147,7 @@ const DashboardOrder = () => {
                   className='grid grid-cols-7 items-center bg-white hover:bg-gray-50'
                 >
                   <div className='p-4 text-gray-700'>{index + 1}</div>
-                  {/* <div className='p-4'>
-                    <img
-                      src={order.picture}
-                      alt=''
-                      className='w-14 h-14 rounded-lg object-cover'
-                    />
-                  </div> */}
+
                   <div className='p-4 text-gray-700'>{order?.buyerName}</div>
                   <div className='p-4 text-gray-700'>
                     {order?.plateNoDetails}
@@ -166,7 +168,7 @@ const DashboardOrder = () => {
                     </button>
                     <button
                       className='text-gray-600 hover:text-gray-800'
-                      onClick={() => openDeleteModal(order)}
+                      onClick={() => openDeleteModal(order?._id)}
                     >
                       <MdDeleteOutline className='w-7 h-7' />
                     </button>
