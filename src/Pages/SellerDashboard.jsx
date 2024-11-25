@@ -2,6 +2,7 @@ import React from 'react';
 import PieChartComponent from '../components/RechartsCharts/PieChartComponent';
 import SellerBarChart from '../components/RechartsCharts/SellerBarChart';
 import SellerDataCards from '../components/SellerDashboard/SellerDataCards';
+import { useSelector } from 'react-redux';
 export const generatePieData = (total, filled, colorFilled, colorRemaining) => {
   return [
     { name: 'Filled', value: filled, fill: colorFilled },
@@ -10,6 +11,7 @@ export const generatePieData = (total, filled, colorFilled, colorRemaining) => {
 };
 
 const SellerDashboard = () => {
+  const { language } = useSelector((state) => state.language);
   const totalRevenue = 10000;
   const revenueFilled = 10000;
   const totalSales = 5000;
@@ -21,7 +23,7 @@ const SellerDashboard = () => {
 
   return (
     <>
-      <h1 className='text-2xl font-bold mb-8'>Seller Dashboard</h1>
+      <h1 className='text-2xl font-bold mb-8'>{language==='eng'?'Seller Dashboard':'لوحة تحكم البائع'}</h1>
 
       <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 items-center justify-center px-8'>
         {/* Revenue Chart */}
@@ -71,7 +73,7 @@ const SellerDashboard = () => {
       </div>
       <div className='max-w-[95vw]  mx-auto mt-12 bg-white p-2 rounded-2xl '>
         <h1 className='text-center text-xl font-semibold my-6'>
-          Revenue & Sales
+          {language==='eng'?'Revenue & Sales':'الإيرادات والمبيعات'}
         </h1>
         <SellerBarChart />
       </div>

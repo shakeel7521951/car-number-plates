@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import { useCreatePlateMutation } from '../Redux/ProductRoutes/productApi';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const CreateNumberPlate = () => {
   const navigate = useNavigate();
+  const { language } = useSelector((state) => state.language);
   const [createProduct, { isLoading }] = useCreatePlateMutation();
   const [formData, setFormData] = useState({
     category: '',
@@ -75,29 +77,29 @@ const CreateNumberPlate = () => {
   return (
     <div className='max-w-lg mx-auto mt-12 p-6 bg-white shadow-lg rounded-lg'>
       <h2 className='text-2xl font-bold text-center text-gray-800 mb-6'>
-        Create New Number Plate
+        {language === 'eng' ? 'Create New Number Plate' : 'إنشاء لوحة أرقام جديدة'}
       </h2>
       <form onSubmit={handleSubmit} className='space-y-4'>
         {/* Category */}
         <div>
           <label className='block text-gray-700 font-medium mb-1'>
-            Category
+            {language === 'eng' ? 'Category' : 'فئة'}
           </label>
           <select
             name='category'
             value={formData.category}
             onChange={handleChange}
-            className={`w-full px-4 py-2 border ${
-              errors.category ? 'border-red-500' : 'border-gray-300'
-            } rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500`}
+            className={`w-full px-4 py-2 border ${errors.category ? 'border-red-500' : 'border-gray-300'
+              } rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500`}
           >
             <option value='' disabled>
-              Select category
+              {language === 'eng' ? 'Select category' : 'اختر الفئة'}
             </option>
-            <option value='normal'>Normal</option>
-            <option value='silver'>Silver</option>
-            <option value='gold'>Gold</option>
-            <option value='vip'>VIP</option>
+            <option value="normal">{language === 'eng' ? 'Normal' : 'عادي'}</option>
+            <option value="silver">{language === 'eng' ? 'Silver' : 'فضي'}</option>
+            <option value="gold">{language === 'eng' ? 'Gold' : 'ذهبي'}</option>
+            <option value="vip">{language === 'eng' ? 'VIP' : 'كبار الشخصيات'}</option>
+
           </select>
           {errors.category && (
             <p className='text-red-500 text-sm mt-1'>{errors.category}</p>
@@ -107,17 +109,16 @@ const CreateNumberPlate = () => {
         {/* Plate Number */}
         <div>
           <label className='block text-gray-700 font-medium mb-1'>
-            Plate Number
+            {language==='eng'?'Plate Number':'رقم اللوحة'}
           </label>
           <input
             type='text'
             name='plateNo'
             value={formData.plateNo}
             onChange={handleChange}
-            className={`w-full px-4 py-2 border ${
-              errors.plateNo ? 'border-red-500' : 'border-gray-300'
-            } rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500`}
-            placeholder='Enter plate number'
+            className={`w-full px-4 py-2 border ${errors.plateNo ? 'border-red-500' : 'border-gray-300'
+              } rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500`}
+            placeholder={`${language==='eng'?'Enter plate number':'أدخل رقم اللوحة'}`}
           />
           {errors.plateNo && (
             <p className='text-red-500 text-sm mt-1'>{errors.plateNo}</p>
@@ -127,17 +128,16 @@ const CreateNumberPlate = () => {
         {/* Actual Price */}
         <div>
           <label className='block text-gray-700 font-medium mb-1'>
-            Actual Price
+            {language==='eng'?'Actual Price':'السعر الفعلي'}
           </label>
           <input
             type='text'
             name='price'
             value={formData.price}
             onChange={handleChange}
-            className={`w-full px-4 py-2 border ${
-              errors.price ? 'border-red-500' : 'border-gray-300'
-            } rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500`}
-            placeholder='Enter actual price'
+            className={`w-full px-4 py-2 border ${errors.price ? 'border-red-500' : 'border-gray-300'
+              } rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500`}
+            placeholder={`${language==='eng'?'Enter actual price':'أدخل السعر الفعلي'}`}
           />
           {errors.price && (
             <p className='text-red-500 text-sm mt-1'>{errors.price}</p>
@@ -147,17 +147,16 @@ const CreateNumberPlate = () => {
         {/* discountpercent */}
         <div>
           <label className='block text-gray-700 font-medium mb-1'>
-            Discount Percentage (optional)
+            {language==='eng'?'Discount Percentage (optional)':'نسبة الخصم (اختياري)'}
           </label>
           <input
             type='text'
             name='discountpercent'
             value={formData.discountpercent}
             onChange={handleChange}
-            className={`w-full px-4 py-2 border ${
-              errors.discountpercent ? 'border-red-500' : 'border-gray-300'
-            } rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500`}
-            placeholder='Enter discountpercent percentage (0-100)'
+            className={`w-full px-4 py-2 border ${errors.discountpercent ? 'border-red-500' : 'border-gray-300'
+              } rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500`}
+            placeholder={`${language==='eng'?'Enter discountpercent percentage (0-100)':'أدخل نسبة الخصم (0-100)'}`}
           />
           {errors.discountpercent && (
             <p className='text-red-500 text-sm mt-1'>
@@ -172,7 +171,7 @@ const CreateNumberPlate = () => {
           type='submit'
           className='w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg transition duration-200'
         >
-          Create Number Plate
+          {language==='eng'?'Create Number Plate':'إنشاء لوحة أرقام'}
         </button>
       </form>
     </div>

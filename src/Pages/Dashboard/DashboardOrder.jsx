@@ -9,8 +9,10 @@ import {
   useUpdateOrderStatusMutation,
 } from '../../Redux/OrderRoute/orderApi';
 import { toast } from 'react-toastify';
+import { useSelector } from 'react-redux';
 
 const DashboardOrder = () => {
+  const {language} = useSelector((state)=>state.language)
   const { data: orders, isLoading } = useGetAllOrdersQuery();
   const [updatedOrders] = useUpdateOrderStatusMutation();
   const [deleteOrder] = useDeleteOrderMutation();
@@ -78,7 +80,7 @@ const DashboardOrder = () => {
   return (
     <div className='w-[90%]   mx-auto'>
       <h1 className='text-xl font-semibold mb-4 lg:text-left text-center'>
-        Orders
+        {language==='eng'?'Orders':'طلبات'}
       </h1>
 
       <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 items-center justify-center px-8 mb-3'>
@@ -91,7 +93,7 @@ const DashboardOrder = () => {
               '#1D3B9C',
               '#ccc'
             )}
-            title='Accepted'
+            title={`${language==='eng'?'Accepted':'مقبول'}`}
           />
         </div>
 
@@ -105,7 +107,7 @@ const DashboardOrder = () => {
               '#A71414',
               '#ccc'
             )}
-            title='Rejected'
+            title={`${language==='eng'?'Rejected':'مرفوض'}`}
           />
         </div>
 
@@ -117,7 +119,7 @@ const DashboardOrder = () => {
               '#98B5DE',
               '#ccc'
             )}
-            title='Pending'
+            title={`${language==='eng'?'Pending':'قيد الانتظار'}`}
           />
         </div>
       </div>
@@ -129,14 +131,14 @@ const DashboardOrder = () => {
           <div className='min-w-[700px] bg-white rounded-3xl shadow-lg shani p-2  '>
             {/* Header */}
             <div className='grid grid-cols-7 gap-1 bg-gray-100 rounded-xl border-[1px] border-black'>
-              <div className='p-4 font-medium'>Order ID</div>
+              <div className='p-4 font-medium'>{language==='eng'?'Order ID':'معرف الطلب'}</div>
               {/* <div className='p-4 font-medium'>Picture</div> */}
-              <div className='p-4 font-medium'>Buyer Name</div>
-              <div className='p-4 font-medium'>Plate No</div>
-              <div className='p-4 font-medium'>Seller Name</div>
-              <div className='p-4 font-medium'>Price</div>
-              <div className='p-4 font-medium'>Status</div>
-              <div className='p-4 font-medium'>Edit Status</div>
+              <div className='p-4 font-medium'>{language==='eng'?'Buyer Name':'اسم المشتري'}</div>
+              <div className='p-4 font-medium'>{language==='eng'?'Plate No':'رقم اللوحة'}</div>
+              <div className='p-4 font-medium'>{language==='eng'?'Seller Name':'اسم البائع'}</div>
+              <div className='p-4 font-medium'>{language==='eng'?'Price':'سعر'}</div>
+              <div className='p-4 font-medium'>{language==='eng'?'Status':'حالة'}</div>
+              <div className='p-4 font-medium'>{language==='eng'?'Edit Status':'تحرير الحالة'}</div>
             </div>
 
             {/* User Rows */}
@@ -184,10 +186,10 @@ const DashboardOrder = () => {
       {isEditModalOpen && (
         <div className='fixed inset-0 bg-gray-700 bg-opacity-50 flex items-center justify-center z-50'>
           <div className='bg-white p-6 rounded-xl shadow-lg w-[400px]'>
-            <h2 className='text-lg font-semibold mb-4'>Edit Order</h2>
+            <h2 className='text-lg font-semibold mb-4'>{language==='eng'?'Edit Order':'تحرير الطلب'}</h2>
 
             <div className='mb-4'>
-              <label>Buyer Name:</label>
+              <label>{language==='eng'?'Buyer Name:':'اسم المشتري:'}</label>
               <input
                 type='text'
                 value={detailOfOrder.buyerName}
@@ -196,7 +198,7 @@ const DashboardOrder = () => {
               />
             </div>
             <div className='mb-4'>
-              <label>Plate Number:</label>
+              <label>{language==='eng'?'Plate Number:':'رقم اللوحة:'}</label>
               <input
                 type='number'
                 value={detailOfOrder?.plateNoDetails}
@@ -205,7 +207,7 @@ const DashboardOrder = () => {
               />
             </div>
             <div className='mb-4'>
-              <label>Seller Name:</label>
+              <label>{language==='eng'?'Seller Name:':'اسم البائع:'}</label>
               <input
                 type='text'
                 value={detailOfOrder?.sellerName}
@@ -214,7 +216,7 @@ const DashboardOrder = () => {
               />
             </div>
             <div className='mb-4'>
-              <label>Price:</label>
+              <label>{language==='eng'?'Price:':'سعر:'}</label>
               <input
                 type='number'
                 value={detailOfOrder?.discountedPrice || detailOfOrder?.price}
@@ -224,7 +226,7 @@ const DashboardOrder = () => {
             </div>
             {/* Dropdown for Status */}
             <div className='mb-4'>
-              <label>Status:</label>
+              <label>{language==='eng'?'Status:':'حالة:'}</label>
               <select
                 value={detailOfOrder?.orderStatus || ''}
                 onChange={(e) =>
@@ -235,9 +237,9 @@ const DashboardOrder = () => {
                 }
                 className='w-full border rounded-lg p-2 mt-1'
               >
-                <option value='Accepted'>Accepted</option>
-                <option value='Rejected'>Rejected</option>
-                <option value='Pending'>Pending</option>
+                <option value='Accepted'>{language==='eng'?'Accepted':'مقبول'}</option>
+                <option value='Rejected'>{language==='eng'?'Rejected':'مرفوض'}</option>
+                <option value='Pending'>{language==='eng'?'Pending':'قيد الانتظار'}</option>
               </select>
             </div>
 
@@ -246,13 +248,13 @@ const DashboardOrder = () => {
                 onClick={handleEditSave}
                 className='bg-green-500 text-white px-4 py-2 rounded-lg'
               >
-                Save
+                {language==='eng'?'Save':'يحفظ'}
               </button>
               <button
                 onClick={() => setIsEditModalOpen(false)}
                 className='bg-gray-300 px-4 py-2 rounded-lg'
               >
-                Cancel
+                {language==='eng'?'Cancel':'يلغي'}
               </button>
             </div>
           </div>
@@ -264,20 +266,20 @@ const DashboardOrder = () => {
         <div className='fixed inset-0 bg-gray-700 bg-opacity-50 flex items-center justify-center z-50'>
           <div className='bg-white p-6 rounded-xl shadow-lg'>
             <h2 className='text-lg font-semibold mb-4'>
-              Are you sure you want to delete?
+              {language==='eng'?'Are you sure you want to delete?':'هل أنت متأكد أنك تريد الحذف؟'}
             </h2>
             <div className='flex justify-end gap-4'>
               <button
                 onClick={handleDeleteOrder}
                 className='bg-red-500 text-white px-4 py-2 rounded-lg'
               >
-                Delete
+                {language==='eng'?'Delete':'يمسح'}
               </button>
               <button
                 onClick={() => setIsDeleteModalOpen(false)}
                 className='bg-gray-300 px-4 py-2 rounded-lg'
               >
-                Cancel
+                {language==='eng'?'Cancel':'يلغي'}
               </button>
             </div>
           </div>
