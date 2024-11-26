@@ -35,6 +35,7 @@ import ProtectedRoute from './Pages/ProtectedRoute.jsx';
 import { setProduct } from './Redux/ProductRoutes/productSlice.js';
 import { useGetAllProductsQuery } from './Redux/ProductRoutes/productApi.js';
 import ResetPassword from './Pages/ResetPassword.jsx';
+import MyOrders from './Pages/MyOrders.jsx';
 
 // Layout for pages with Navbar and Footer
 const MainLayout = () => (
@@ -112,6 +113,10 @@ const router = createBrowserRouter([
             <SellerDashboard />
           </ProtectedRoute>
         ),
+      },
+      {
+        path: '/orders',
+        element: <MyOrders />,
       },
     ],
   },

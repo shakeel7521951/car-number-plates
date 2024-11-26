@@ -19,10 +19,9 @@ export const orderApi = createApi({
   endpoints: (builder) => ({
     // Create Order
     createOrder: builder.mutation({
-      query: ({ id, orderData }) => ({
+      query: ({ id }) => ({
         url: `/createOrder/${id}`,
         method: 'POST',
-        body: orderData,
       }),
       invalidatesTags: ['Orders'],
     }),
@@ -53,6 +52,10 @@ export const orderApi = createApi({
       }),
       providesTags: ['Orders'],
     }),
+    getSellerUser: builder.query({
+      query: () => '/user-orders',
+    }),
+    providesTags: ['Order'],
   }),
 });
 
@@ -61,4 +64,5 @@ export const {
   useUpdateOrderStatusMutation,
   useDeleteOrderMutation,
   useGetAllOrdersQuery,
+  useGetSellerUserQuery,
 } = orderApi;

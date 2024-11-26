@@ -15,14 +15,14 @@ import { useSelector } from 'react-redux';
 import { useState } from 'react';
 import PlateNumber from '../PlateNumber';
 import Loader from '../components/Explore/Loader';
+import { useCreateOrderMutation } from '../Redux/OrderRoute/orderApi';
 
 const PlateDetailPage = () => {
   const { id } = useParams();
   const { language } = useSelector((state) => state.language);
-
+  const { placeOrder } = useCreateOrderMutation();
   const { data, isLoading } = useGetSingleProductQuery(id);
   const currentplateData = data?.product;
-
   const { product } = useSelector((state) => state.product);
   const [showItems, setShowItems] = useState(6);
 
@@ -69,7 +69,7 @@ const PlateDetailPage = () => {
                     {language === 'eng' ? 'Posted:' : 'أرسلت:'} {time}
                   </p>
                   <p className='text-[25px] font-bold'>
-                    {currentplateData?.price - currentplateData?.discount} Q.R
+                    {currentplateData?.discountedPrice} Q.R
                   </p>
                   <div className='py-2 px-4 flex justify-center gap-2 items-center rounded-full bg-[#D9D9D9] text-[#000]'>
                     <IoCartOutline />

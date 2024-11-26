@@ -1,9 +1,6 @@
 import { useEffect, useState } from 'react';
 import image from '../assets/car_background.png';
-import {
-  useConfirmResetPasswordMutation,
-  useResetPasswordMutation,
-} from '../Redux/userRoutes/userApi';
+import { useConfirmResetPasswordMutation } from '../Redux/userRoutes/userApi';
 import { toast } from 'react-toastify';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';

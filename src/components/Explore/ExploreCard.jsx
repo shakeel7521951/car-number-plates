@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 import PlateNumber from '../../PlateNumber';
 import { toast } from 'react-toastify';
+import { useCreateOrderMutation } from '../../Redux/OrderRoute/orderApi';
 export const calculateTimeDifference = (createdAt, language) => {
   const createdDate = new Date(createdAt);
   const currentDate = new Date();
@@ -50,6 +51,8 @@ const ExploreCard = ({
   const [updateView] = useUpdateViewMutation();
   const [likeProduct] = useLikeProductMutation();
   const [dislikeProduct] = useDislikeProductMutation();
+  const [placeOrder] = useCreateOrderMutation();
+
   const { profile } = useSelector((state) => state.user);
   const { language } = useSelector((state) => state.language);
   const [changeCategory, setChangeCategory] = useState('');
@@ -106,6 +109,16 @@ const ExploreCard = ({
       }
     } else {
       toast.warn('Please Login to Like or Dislike the Plate Number');
+    }
+  };
+  const handlePlaceOrder = async () => {
+    console.log('je');
+    try {
+      const data = await placeOrder({ id: _id }).unwrap();
+      toast.success(data?.message);
+      console.log(data);
+    } catch (error) {
+      toast.error(error?.data?.message);
     }
   };
 
@@ -173,7 +186,10 @@ const ExploreCard = ({
 
       {/* Button div */}
       <div className='flex gap-12'>
-        <button className='flex border-white border items-center justify-center text-sm gap-2 px-2 rounded-2xl'>
+        <button
+          className='flex border-white border items-center justify-center text-sm gap-2 px-2 rounded-2xl'
+          onClick={handlePlaceOrder}
+        >
           <FaCartPlus className='text-base' />{' '}
           {language === 'eng' ? 'For Sale' : 'للتسوق'}
         </button>

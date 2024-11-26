@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useActionData } from 'react-router-dom';
 import { useLogoutMutation } from '../../Redux/userRoutes/userApi';
 import { useDispatch, useSelector } from 'react-redux';
 import { setProfile } from '../../Redux/userRoutes/userSlice';
@@ -33,14 +33,15 @@ const ProfileMenu = ({ onClose }) => {
     },
   ];
   const { profile } = useSelector((state) => state.user);
-  const userProfile = [{ path: '/history', text: 'Purchasing History' }];
+  const userProfile = [{ path: '/orders', text: 'My Orders' }];
   const [logout, { isLoading }] = useLogoutMutation();
   const userArray =
     profile?.role?.toLowerCase() === 'seller'
-      ? [...sellerProfile]
+      ? [...sellerProfile, ...userProfile] // Add userProfile for seller
       : profile?.role?.toLowerCase() === 'admin'
-      ? [...adminRoute]
-      : [...userProfile];
+      ? [...adminRoute, ...userProfile] // Add userProfile for admin
+      : [...userProfile]; // For other roles, just add userProfile
+
   const handleLogout = async () => {
     try {
       const response = await logout().unwrap();
