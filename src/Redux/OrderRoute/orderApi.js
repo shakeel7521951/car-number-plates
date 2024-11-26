@@ -27,7 +27,6 @@ export const orderApi = createApi({
       invalidatesTags: ['Orders'],
     }),
 
-    // Update Order Status
     updateOrderStatus: builder.mutation({
       query: ({ id, orderStatus }) => ({
         url: `/updateStatus/${id}`,

@@ -34,6 +34,7 @@ import { setProfile } from './Redux/userRoutes/userSlice.js';
 import ProtectedRoute from './Pages/ProtectedRoute.jsx';
 import { setProduct } from './Redux/ProductRoutes/productSlice.js';
 import { useGetAllProductsQuery } from './Redux/ProductRoutes/productApi.js';
+import ResetPassword from './Pages/ResetPassword.jsx';
 
 // Layout for pages with Navbar and Footer
 const MainLayout = () => (
@@ -70,7 +71,14 @@ const router = createBrowserRouter([
       { path: '/vip', element: <Vip /> },
       { path: '/single-card/:id', element: <PlateDetailPage /> },
       { path: '/faqs', element: <Chat /> },
-      { path: '/update-password', element: <UpdatePassword /> },
+      {
+        path: '/update-password',
+        element: (
+          <ProtectedRoute allowedRoles={['seller', 'admin', 'buyer']}>
+            <UpdatePassword />
+          </ProtectedRoute>
+        ),
+      },
       { path: '/update-profile', element: <UpdateProfile /> },
       { path: '/forgot-password', element: <ForgotPassword /> },
       // { path: '/loader', element: <Loader /> },
@@ -81,6 +89,10 @@ const router = createBrowserRouter([
             <CreateNumberPlate />
           </ProtectedRoute>
         ),
+      },
+      {
+        path: '/reset-password',
+        element: <ResetPassword />,
       },
       { path: '/profile', element: <Profile /> },
 

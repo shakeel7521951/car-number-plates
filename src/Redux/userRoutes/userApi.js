@@ -88,14 +88,30 @@ export const apiSlice = createApi({
       }),
       invalidatesTags: ['Users'],
     }),
-    // getSingleUser: builder.query({
-    //   query: (id) => `/user/${id}`,
-    //   providesTags: ['Users'],
-    // }),
+    forgotPasswordOtp: builder.mutation({
+      query: (email) => ({
+        url: '/forgetPassword',
+        method: 'POST',
+        body: email,
+      }),
+    }),
+    verifyOtp: builder.mutation({
+      query: ({ email, otp }) => ({
+        url: '/verifyOTP',
+        method: 'POST',
+        body: { email, otp },
+      }),
+    }),
+    confirmResetPassword: builder.mutation({
+      query: ({ newPassword, email }) => ({
+        url: '/resetPassword',
+        method: 'PUT',
+        body: { newPassword, email },
+      }),
+    }),
   }),
 });
 
-// Export hooks for each endpoint
 export const {
   useLoginMutation,
   useSignupMutation,
@@ -107,5 +123,7 @@ export const {
   useDeleteUserMutation,
   useGetAllUsersQuery,
   useUpdateUserProfileMutation,
-  // useGetSingleUserQuery,
+  useForgotPasswordOtpMutation,
+  useVerifyOtpMutation,
+  useConfirmResetPasswordMutation,
 } = apiSlice;

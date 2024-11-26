@@ -1,32 +1,33 @@
-import { useState } from 'react';
-import image from '../assets/gold.jpg';
-import { useUpdatePasswordMutation } from '../Redux/userRoutes/userApi';
+import { useEffect, useState } from 'react';
+import image from '../assets/car_background.png';
+import {
+  useConfirmResetPasswordMutation,
+  useResetPasswordMutation,
+} from '../Redux/userRoutes/userApi';
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
-const UpdatePassword = () => {
-  const [UpdatePassword] = useUpdatePasswordMutation();
+const ResetPassword = () => {
+  const location = useLocation();
   const navigate = useNavigate();
+  const [updatePassword] = useConfirmResetPasswordMutation();
+  console.log(location);
+  useEffect(() => {
+    if (!location?.state) {
+      navigate(-1);
+    }
+  }, [location, navigate]);
+
   const { language } = useSelector((state) => state.language);
+
   const [formData, setFormData] = useState({
-    oldPassword: '',
     password: '',
     confirmPassword: '',
   });
 
-  const [showPassword, setShowPassword] = useState({
-    oldPassword: false,
-    password: false,
-    confirmPassword: false,
-  });
-
-  const togglePasswordVisibility = (field) => {
-    setShowPassword((prev) => ({
-      ...prev,
-      [field]: !prev[field],
-    }));
-  };
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -36,24 +37,47 @@ const UpdatePassword = () => {
     }));
   };
 
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { oldPassword, password, confirmPassword } = formData;
+    const { password, confirmPassword } = formData;
+
     if (password !== confirmPassword) {
-      toast.error('Password is not Match ');
+      toast.error(
+        language === 'eng'
+          ? 'Passwords do not match!'
+          : 'كلمات المرور غير متطابقة!'
+      );
+      return;
+    } else if (password.length < 8) {
+      toast.error('Password should be at least 8 characters long');
       return;
     }
+
     try {
-      const res = await UpdatePassword({
-        oldPassword,
-        password,
-        confirmPassword,
+      // console.log(password, confirmPassword);
+      const res = await updatePassword({
+        newPassword: password,
+        email: location?.state?.email,
       }).unwrap();
-      toast.success(res?.message);
-      navigate('/profile');
+      toast.success(
+        res?.message ||
+          (language === 'eng'
+            ? 'Password reset successfully!'
+            : 'تم إعادة تعيين كلمة المرور بنجاح!')
+      );
+      navigate('/login');
     } catch (error) {
-      console.log(error);
-      toast.error(error?.data?.message || 'Error while updating password');
+      console.error(error);
+      toast.error(
+        error?.data?.message ||
+          (language === 'eng'
+            ? 'Error resetting password!'
+            : 'خطأ في إعادة تعيين كلمة المرور!')
+      );
     }
   };
 
@@ -64,7 +88,7 @@ const UpdatePassword = () => {
         <div className='hidden md:block w-1/2 p-4 h-[100vh]'>
           <img
             src={image}
-            alt='Car Update Password'
+            alt='Reset Password'
             className='w-full h-full object-cover rounded-lg'
           />
         </div>
@@ -73,61 +97,39 @@ const UpdatePassword = () => {
         <div className='w-full md:w-1/2 p-4 lg:h-[600px] flex items-center justify-center flex-col'>
           <div className='w-full max-w-md'>
             <h2 className='text-2xl font-semibold mb-4 text-center'>
-              {language === 'eng' ? 'Update Password' : 'تحديث كلمة المرور'}
+              {language === 'eng'
+                ? 'Reset Password'
+                : 'إعادة تعيين كلمة المرور'}
             </h2>
             <form className='space-y-4' onSubmit={handleSubmit}>
-              {/* Current Password */}
-              <div className='relative'>
-                <input
-                  type={showPassword.oldPassword ? 'text' : 'password'}
-                  name='oldPassword'
-                  value={formData.oldPassword}
-                  onChange={handleChange}
-                  className='w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:border-blue-500'
-                  placeholder={`${
-                    language === 'eng'
-                      ? 'Enter your current password'
-                      : 'أدخل كلمة المرور الحالية الخاصة بك'
-                  }`}
-                  required
-                />
-                <button
-                  type='button'
-                  onClick={() => togglePasswordVisibility('oldPassword')}
-                  className='absolute right-2 top-2 text-gray-600 focus:outline-none'
-                >
-                  {showPassword.oldPassword ? '👁️' : '🙈'}
-                </button>
-              </div>
-
               {/* New Password */}
               <div className='relative'>
                 <input
-                  type={showPassword.password ? 'text' : 'password'}
+                  type={showPassword ? 'text' : 'password'}
                   name='password'
                   value={formData.password}
                   onChange={handleChange}
                   className='w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:border-blue-500'
                   placeholder={`${
                     language === 'eng'
-                      ? 'Enter a new password'
-                      : 'أدخل كلمة مرور جديدة'
+                      ? 'Enter your new password'
+                      : 'أدخل كلمة المرور الجديدة الخاصة بك'
                   }`}
                   required
                 />
                 <button
                   type='button'
-                  onClick={() => togglePasswordVisibility('password')}
-                  className='absolute right-2 top-2 text-gray-600 focus:outline-none'
+                  className='absolute right-2 top-2 text-gray-500'
+                  onClick={togglePasswordVisibility}
                 >
-                  {showPassword.password ? '👁️' : '🙈'}
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
                 </button>
               </div>
 
               {/* Confirm New Password */}
               <div className='relative'>
                 <input
-                  type={showPassword.confirmPassword ? 'text' : 'password'}
+                  type={showPassword ? 'text' : 'password'}
                   name='confirmPassword'
                   value={formData.confirmPassword}
                   onChange={handleChange}
@@ -141,10 +143,10 @@ const UpdatePassword = () => {
                 />
                 <button
                   type='button'
-                  onClick={() => togglePasswordVisibility('confirmPassword')}
-                  className='absolute right-2 top-2 text-gray-600 focus:outline-none'
+                  className='absolute right-2 top-2 text-gray-500'
+                  onClick={togglePasswordVisibility}
                 >
-                  {showPassword.confirmPassword ? '👁️' : '🙈'}
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
                 </button>
               </div>
 
@@ -152,7 +154,9 @@ const UpdatePassword = () => {
                 type='submit'
                 className='w-full bg-[#050c2b] text-white p-2 rounded-md hover:bg-[#090d1d] transition-colors mt-4'
               >
-                {language === 'eng' ? 'Update Password' : 'تحديث كلمة المرور'}
+                {language === 'eng'
+                  ? 'Reset Password'
+                  : 'إعادة تعيين كلمة المرور'}
               </button>
             </form>
           </div>
@@ -162,4 +166,4 @@ const UpdatePassword = () => {
   );
 };
 
-export default UpdatePassword;
+export default ResetPassword;
