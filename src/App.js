@@ -73,6 +73,7 @@ const router = createBrowserRouter([
       { path: '/update-password', element: <UpdatePassword /> },
       { path: '/update-profile', element: <UpdateProfile /> },
       { path: '/forgot-password', element: <ForgotPassword /> },
+      // { path: '/loader', element: <Loader /> },
       {
         path: '/createPlate',
         element: (

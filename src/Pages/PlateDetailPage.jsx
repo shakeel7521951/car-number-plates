@@ -2,7 +2,6 @@ import plate_her0_image from '../assets/HomepageImg.jpg';
 import whatsapp from '../assets/social-icons/whtsapp.png';
 import facebook from '../assets/social-icons/fb.png';
 import twitter from '../assets/social-icons/twitter.png';
-import numberPlate from '../assets/plateName.png';
 import pin from '../assets/social-icons/pin.png';
 import ExploreCard, {
   calculateTimeDifference,
@@ -15,6 +14,7 @@ import { useGetSingleProductQuery } from '../Redux/ProductRoutes/productApi';
 import { useSelector } from 'react-redux';
 import { useState } from 'react';
 import PlateNumber from '../PlateNumber';
+import Loader from '../components/Explore/Loader';
 
 const PlateDetailPage = () => {
   const { id } = useParams();
@@ -26,9 +26,7 @@ const PlateDetailPage = () => {
   const { product } = useSelector((state) => state.product);
   const [showItems, setShowItems] = useState(6);
 
-  if (isLoading) {
-    return <h1>Loading...</h1>;
-  }
+  if (isLoading) return <Loader />;
 
   const mappingData = product?.slice(0, showItems);
   const time = calculateTimeDifference(currentplateData?.created_at);
@@ -42,14 +40,7 @@ const PlateDetailPage = () => {
           className='absolute top-0 left-0 w-full h-full object-cover'
         />
         {currentplateData && (
-          // make this conteent to the centter
-
           <div className='relative z-10 w-[90%] sm:w-[80%] h-[80%] flex items-center justify-center mx-auto pt-10'>
-            {/* <img
-              src={numberPlate}
-              alt=''
-              className='w-[55%] h-[100%] hidden sm:block'
-            /> */}
             <div className='w-[55%] h-[100%] hidden sm:block'>
               <PlateNumber plateNo={currentplateData?.plateNo} />
             </div>
@@ -57,11 +48,14 @@ const PlateDetailPage = () => {
             <div className='w-[70%] mx-auto sm:w-[40%] flex flex-col gap-[6px]'>
               <div className='flex flex-col items-start justify-center'>
                 <p className='text-white ms:text-[21px] lg:text-[25px] font-bold'>
-                  {language==='eng'?'Private Plate':'لوحة خاصة'} {currentplateData?.plateNo}
+                  {language === 'eng' ? 'Private Plate' : 'لوحة خاصة'}{' '}
+                  {currentplateData?.plateNo}
                 </p>
                 <div className='bg-[#D9D9D9] rounded-2xl py-1 px-3 flex gap-[3px] justify-center items-center'>
                   <img src={person} alt='' className='w-[40px] rounded-full' />
-                  <p className='text-black'>{language==='eng'?'Personal':'شخصي'}</p>
+                  <p className='text-black'>
+                    {language === 'eng' ? 'Personal' : 'شخصي'}
+                  </p>
                 </div>
               </div>
               <div
@@ -71,25 +65,33 @@ const PlateDetailPage = () => {
                 }}
               >
                 <div className='flex flex-col items-center gap-[6px]'>
-                  <p className='text-[20px] font-sem'>{language==='eng'?'Posted:':'أرسلت:'} {time}</p>
+                  <p className='text-[20px] font-sem'>
+                    {language === 'eng' ? 'Posted:' : 'أرسلت:'} {time}
+                  </p>
                   <p className='text-[25px] font-bold'>
                     {currentplateData?.price - currentplateData?.discount} Q.R
                   </p>
                   <div className='py-2 px-4 flex justify-center gap-2 items-center rounded-full bg-[#D9D9D9] text-[#000]'>
                     <IoCartOutline />
-                    <p>{language==='eng'?'For Sale':'للبيع'}</p>
+                    <p>{language === 'eng' ? 'For Sale' : 'للبيع'}</p>
                   </div>
                   <div className='flex flex-col gap-[4px]'>
                     <p className='bg-[#B4F92B] text-black p-2 rounded-xl font-semibold'>
-                      {language==='eng'?'Chat with Seller':'الدردشة مع البائع'}
+                      {language === 'eng'
+                        ? 'Chat with Seller'
+                        : 'الدردشة مع البائع'}
                     </p>
                     <p className='bg-[#000] text-white py-2 px-6 rounded-xl font-semibold'>
-                     {language==='eng'?' Book Now':'احجز الآن'}
+                      {language === 'eng' ? ' Book Now' : 'احجز الآن'}
                     </p>
                   </div>
                 </div>
                 <div className='w-[100%] flex flex-col gap-[2px] items-start self-start'>
-                  <p className='font-bold'>{language==='eng'?'Share This Page:':'مشاركة هذه الصفحة:'}</p>
+                  <p className='font-bold'>
+                    {language === 'eng'
+                      ? 'Share This Page:'
+                      : 'مشاركة هذه الصفحة:'}
+                  </p>
                   <div className='flex justify-between w-[100%]'>
                     <img
                       src={whatsapp}
@@ -134,7 +136,9 @@ const PlateDetailPage = () => {
             setShowItems((prev) => prev + 6);
           }}
         >
-          <span className='button-content'>{language==='eng'?'Load More':'تحميل المزيد'}</span>
+          <span className='button-content'>
+            {language === 'eng' ? 'Load More' : 'تحميل المزيد'}
+          </span>
         </button>
       </div>
     </div>

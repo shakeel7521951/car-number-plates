@@ -10,6 +10,7 @@ import {
 } from '../../Redux/OrderRoute/orderApi';
 import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
+import Loader from '../../components/Explore/Loader';
 
 const DashboardOrder = () => {
   const { language } = useSelector((state) => state.language);
@@ -74,7 +75,7 @@ const DashboardOrder = () => {
     }
   };
 
-  if (isLoading) return <h1>Loading.....</h1>;
+  if (isLoading) return <Loader />;
 
   return (
     <div className='w-[90%]   mx-auto'>

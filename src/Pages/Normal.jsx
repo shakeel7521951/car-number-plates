@@ -4,6 +4,7 @@ import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import normal from '../assets/HomepageImg.jpg';
 import { useGetFilterProductMutation } from '../Redux/ProductRoutes/productApi';
 import { useSelector } from 'react-redux';
+import Loader from '../components/Explore/Loader';
 
 const Normal = () => {
   const { language } = useSelector((state) => state.language); // Get language from Redux
@@ -41,7 +42,7 @@ const Normal = () => {
     getNormalProduct('normal');
   }, [getNormalProduct]);
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <Loader />;
   if (error) return <div>Error fetching data: {error.message}</div>;
 
   return (

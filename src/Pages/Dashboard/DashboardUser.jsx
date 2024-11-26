@@ -59,7 +59,6 @@ const DashboardUser = () => {
   // Function to delete the user
   const handleDeleteUser = async () => {
     try {
-      console.log('check id', selectedId);
       const res = await deleteUser({ id: selectedId }).unwrap();
       toast.success(res?.message);
     } catch (error) {

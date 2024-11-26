@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setProfile } from '../../Redux/userRoutes/userSlice';
 
 const Register = () => {
-  const [signup, { isLoading }] = useSignupMutation(); // Destructure mutation state
+  const [signup, { isLoading }] = useSignupMutation();
   const { language } = useSelector((state) => state.language);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -77,9 +77,6 @@ const Register = () => {
       }
     }
   };
-  if (isLoading) {
-    <h1>Loading...</h1>;
-  }
 
   return (
     <div className='flex items-center justify-center bg-[#caba99] mx-auto lg:max-w-[95vw] my-2'>

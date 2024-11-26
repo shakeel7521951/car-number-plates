@@ -9,6 +9,7 @@ import {
 import { useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 import PlateNumber from '../../PlateNumber';
+import { toast } from 'react-toastify';
 export const calculateTimeDifference = (createdAt, language) => {
   const createdDate = new Date(createdAt);
   const currentDate = new Date();
@@ -92,15 +93,19 @@ const ExploreCard = ({
   };
 
   const handleLikeButtonClick = async () => {
-    if (isLiked) {
-      const res = await dislikeProduct(_id).unwrap();
-      setIsLiked(false);
-      setTotalLikes(res.product.likes.length); // Update total likes
-    } else {
-      const res = await likeProduct(_id).unwrap();
+    if (profile) {
+      if (isLiked) {
+        const res = await dislikeProduct(_id).unwrap();
+        setIsLiked(false);
+        setTotalLikes(res.product.likes.length); // Update total likes
+      } else {
+        const res = await likeProduct(_id).unwrap();
 
-      setIsLiked(true); // Update local state
-      setTotalLikes(res.product.likes.length); // Update total likes
+        setIsLiked(true); // Update local state
+        setTotalLikes(res.product.likes.length); // Update total likes
+      }
+    } else {
+      toast.warn('Please Login to Like or Dislike the Plate Number');
     }
   };
 
