@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
 const MyOrders = () => {
-  const { data } = useGetSellerUserQuery();
+  const { data: orders } = useGetSellerUserQuery();
   const { language } = useSelector((state) => state.language);
   const [deleteOrder] = useDeleteOrderMutation();
 
@@ -29,7 +29,7 @@ const MyOrders = () => {
       toast.error(error?.data?.message);
     }
   };
-  console.log(data);
+  // console.log(data);
 
   return (
     <div className='overflow-x-auto mt-12 mx-12'>
@@ -63,7 +63,7 @@ const MyOrders = () => {
 
         {/* User Rows */}
         <div className='divide-y divide-gray-200'>
-          {data?.products?.map((order, index) => (
+          {orders?.products?.map((order, index) => (
             <div
               key={order._id}
               className='grid grid-cols-7 items-center bg-white hover:bg-gray-50'

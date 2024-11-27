@@ -14,7 +14,7 @@ export const orderApi = createApi({
     },
     credentials: 'include',
   }),
-  tagTypes: ['Orders'],
+  tagTypes: ['Orders'], // Use 'Orders' consistently
 
   endpoints: (builder) => ({
     // Create Order
@@ -26,6 +26,7 @@ export const orderApi = createApi({
       invalidatesTags: ['Orders'],
     }),
 
+    // Update Order Status
     updateOrderStatus: builder.mutation({
       query: ({ id, orderStatus }) => ({
         url: `/updateStatus/${id}`,
@@ -41,7 +42,7 @@ export const orderApi = createApi({
         url: `/deleteOrder/${id}`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['Orders'],
+      invalidatesTags: ['Orders'], // Invalidates the cache for Orders
     }),
 
     // Get All Orders
@@ -50,12 +51,17 @@ export const orderApi = createApi({
         url: `/getAllOrders`,
         method: 'GET',
       }),
-      providesTags: ['Orders'],
+      providesTags: ['Orders'], // Associates this query with Orders
     }),
+
+    // Get Seller's Orders
     getSellerUser: builder.query({
-      query: () => '/user-orders',
+      query: () => ({
+        url: `/user-orders`,
+        method: 'GET',
+      }),
+      providesTags: ['Orders'], // Correctly associates with Orders
     }),
-    providesTags: ['Order'],
   }),
 });
 
