@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useRouteError } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
 import img from '../assets/HomePage2.jpg';
@@ -25,10 +25,10 @@ const VerifySignupOtp = () => {
 
   const handleVerifyOtp = async (e) => {
     e.preventDefault();
-    console.log('otp', otp.join(''));
+    const userOtp = otp.join('');
     try {
       const result = await getVerifyOtp({
-        userOtp: otp.join(''),
+        otp: userOtp,
         email: location?.email,
       }).unwrap();
       console.log(result);

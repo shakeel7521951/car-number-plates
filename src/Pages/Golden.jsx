@@ -5,6 +5,7 @@ import normal from '../assets/gold.jpg';
 import { useGetFilterProductMutation } from '../Redux/ProductRoutes/productApi';
 import { useSelector } from 'react-redux';
 import Loader from '../components/Explore/Loader';
+import NoProductFound from '../components/NoProductFound';
 
 const Gold = () => {
   const { language } = useSelector((state) => state.language); // Get language from Redux
@@ -100,12 +101,15 @@ const Gold = () => {
         {language === 'eng' ? 'Number Of Plates:' : 'عدد اللوحات:'}{' '}
         {filteredData?.length || 0}
       </p>
-
-      <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-between gap-4 max-w-[1500px] mx-auto'>
-        {currentData?.map((plate) => (
-          <ExploreCard key={plate._id} {...plate} />
-        ))}
-      </div>
+      {filteredData?.length > 0 ? (
+        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-between gap-4 max-w-[1500px] mx-auto'>
+          {currentData?.map((plate) => (
+            <ExploreCard key={plate._id} {...plate} />
+          ))}
+        </div>
+      ) : (
+        <NoProductFound />
+      )}
       {filteredData?.length > itemsPerPage && (
         <div className='flex justify-center items-center mt-10 space-x-2'>
           <button

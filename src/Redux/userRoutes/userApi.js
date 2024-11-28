@@ -110,10 +110,11 @@ export const apiSlice = createApi({
       }),
     }),
     verifyUserOtp: builder.mutation({
-      query: ({ email, userOtp }) => ({
+      query: ({ email, otp }) => ({
         url: '/verify-otp',
         method: 'POST',
-        body: { email, userOtp },
+        body: { email, otp },
+        credentials: 'include',
       }),
     }),
   }),
