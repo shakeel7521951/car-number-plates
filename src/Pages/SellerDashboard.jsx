@@ -23,7 +23,9 @@ const SellerDashboard = () => {
 
   return (
     <>
-      <h1 className='text-2xl font-bold mb-8'>{language==='eng'?'Seller Dashboard':'لوحة تحكم البائع'}</h1>
+      <h1 className='text-2xl font-bold mb-8 ml-12'>
+        {language === 'eng' ? 'Seller Dashboard' : 'لوحة تحكم البائع'}
+      </h1>
 
       <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 items-center justify-center px-8'>
         {/* Revenue Chart */}
@@ -35,7 +37,7 @@ const SellerDashboard = () => {
               '#1D3B9C',
               '#ccc'
             )}
-            title={`${language==='eng'?'Revenue':'ربح'}`}
+            title={`${language === 'eng' ? 'Revenue' : 'ربح'}`}
           />
         </div>
 
@@ -43,7 +45,7 @@ const SellerDashboard = () => {
         <div className='bg-white rounded-2xl shadow-md pt-4'>
           <PieChartComponent
             data={generatePieData(totalSales, salesFilled, '#8CFF00', '#ccc')}
-            title={language==='eng'?'Sales':'مبيعات'}
+            title={language === 'eng' ? 'Sales' : 'مبيعات'}
           />
         </div>
 
@@ -55,7 +57,7 @@ const SellerDashboard = () => {
               '#A71414',
               '#ccc'
             )}
-            title={language==='eng'?'Listings':'القوائم'}
+            title={language === 'eng' ? 'Listings' : 'القوائم'}
           />
         </div>
 
@@ -67,13 +69,15 @@ const SellerDashboard = () => {
               '#98B5DE',
               '#ccc'
             )}
-            title={language==='eng'?'Pending Payments':'المدفوعات المعلقة'}
+            title={
+              language === 'eng' ? 'Pending Payments' : 'المدفوعات المعلقة'
+            }
           />
         </div>
       </div>
       <div className='max-w-[95vw]  mx-auto mt-12 bg-white p-2 rounded-2xl '>
         <h1 className='text-center text-xl font-semibold my-6'>
-          {language==='eng'?'Revenue & Sales':'الإيرادات والمبيعات'}
+          {language === 'eng' ? 'Revenue & Sales' : 'الإيرادات والمبيعات'}
         </h1>
         <SellerBarChart />
       </div>

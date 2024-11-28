@@ -1,4 +1,7 @@
-const NoProductFound = () => {
+const NoProductFound = ({
+  title = 'No Products Found',
+  message = 'products.',
+}) => {
   return (
     <div className='flex flex-col items-center justify-center h-64 bg-white border border-gray-200 rounded-lg shadow-md my-6'>
       <div className='p-4 bg-gray-100 rounded-full'>
@@ -17,14 +20,13 @@ const NoProductFound = () => {
           />
         </svg>
       </div>
-      <h1 className='text-2xl font-semibold text-gray-800 mt-4'>
-        No Products Found
-      </h1>
+      <h1 className='text-2xl font-semibold text-gray-800 mt-4'>{title}</h1>
       <p className='text-gray-500 mt-2 text-center'>
-        Sorry, we couldn’t find any products. Try adjusting your search or check
-        back later.
+        {' '}
+        Sorry, we couldn’t find any {message}
       </p>
     </div>
   );
 };
+
 export default NoProductFound;

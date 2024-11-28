@@ -121,17 +121,17 @@ export const apiSlice = createApi({
 });
 
 export const {
-  useLoginMutation,
+  useLoginMutation, //
   useSignupMutation,
   useUpdateUserMutation,
-  useProfileQuery,
-  useLogoutMutation,
+  useProfileQuery, //
+  useLogoutMutation, //
   useUpdatePasswordMutation,
-  useDeleteProfileMutation,
-  useDeleteUserMutation,
-  useGetAllUsersQuery,
+  useDeleteProfileMutation, //
+  useDeleteUserMutation, //
+  useGetAllUsersQuery, //
   useUpdateUserProfileMutation,
-  useForgotPasswordOtpMutation,
+  useForgotPasswordOtpMutation, //
   useVerifyOtpMutation,
   useConfirmResetPasswordMutation,
   useVerifyUserOtpMutation,

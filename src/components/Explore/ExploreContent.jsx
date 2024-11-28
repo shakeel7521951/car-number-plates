@@ -3,6 +3,7 @@ import ExploreCard from './ExploreCard';
 import Rectangle_50 from '../../assets/exploreCar.jpg';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { useSelector } from 'react-redux';
+import NoProductFound from '../NoProductFound';
 
 const ExploreContent = () => {
   const { profile } = useSelector((state) => state.user);
@@ -98,11 +99,15 @@ const ExploreContent = () => {
           : `عدد الأرقام: ${totalProducts}`}
       </p>
 
-      <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-between gap-4 max-w-[1500px] mx-auto'>
-        {currentReceivedData?.map((plate) => (
-          <ExploreCard key={plate._id} {...plate} />
-        ))}
-      </div>
+      {receivedData?.length > 0 ? (
+        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-between gap-4 max-w-[1500px] mx-auto'>
+          {currentReceivedData?.map((plate) => (
+            <ExploreCard key={plate._id} {...plate} />
+          ))}
+        </div>
+      ) : (
+        <NoProductFound />
+      )}
 
       {totalProducts > itemsPerPage && ( // Render pagination only if total products exceed items per page
         <div className='flex justify-center items-center mt-10 space-x-2'>

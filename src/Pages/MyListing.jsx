@@ -70,68 +70,72 @@ const MyListing = () => {
           <CiCirclePlus size='40px' className='text-black' />
         </Link>
       </div>
-      <div className='flex flex-col gap-4 mt-12'>
-        {sellerProducts?.map(
-          ({
-            _id,
-            views,
-            plateNo,
-            price,
-            discountpercent,
-            discountedPrice,
-            availability,
-          }) => (
-            <div
-              className='border bottom-1 border-black p-4 flex flex-col sm:flex-row justify-between'
-              key={_id}
-            >
-              <div className='flex gap-4'>
-                <div className='w-32 sm:w-40'>
-                  <PlateNumber plateNo={plateNo} />
+      {sellerProducts?.length > 0 ? (
+        <div className='flex flex-col gap-4 mt-12'>
+          {sellerProducts?.map(
+            ({
+              _id,
+              views,
+              plateNo,
+              price,
+              discountpercent,
+              discountedPrice,
+              availability,
+            }) => (
+              <div
+                className='border bottom-1 border-black p-4 flex flex-col sm:flex-row justify-between'
+                key={_id}
+              >
+                <div className='flex gap-4'>
+                  <div className='w-32 sm:w-40'>
+                    <PlateNumber plateNo={plateNo} />
+                  </div>
+                  <div className='flex flex-col'>
+                    <h1>
+                      {language === 'eng' ? 'Private Plate :' : 'لوحة خاصة :'}{' '}
+                      {plateNo}
+                    </h1>
+                    <h1>{discountedPrice} Q.T</h1>
+                    <h1 className='flex items-center gap-2'>
+                      <FaEye />
+                      <span>
+                        {views} {language === 'eng' ? 'views' : 'وجهات النظر'}
+                      </span>
+                    </h1>
+                  </div>
                 </div>
-                <div className='flex flex-col'>
-                  <h1>
-                    {language === 'eng' ? 'Private Plate :' : 'لوحة خاصة :'}{' '}
-                    {plateNo}
-                  </h1>
-                  <h1>{discountedPrice} Q.T</h1>
-                  <h1 className='flex items-center gap-2'>
-                    <FaEye />
-                    <span>
-                      {views} {language === 'eng' ? 'views' : 'وجهات النظر'}
-                    </span>
-                  </h1>
+                <div className='flex flex-col items-end justify-end'>
+                  <div className='flex gap-4 mt-2'>
+                    <button
+                      disabled={deleteLoader}
+                      className='p-2 border border-1 border-black rounded'
+                      onClick={() => setDeleteModal(_id)}
+                    >
+                      {language === 'eng' ? 'Delete' : 'يمسح'}
+                    </button>
+                    <button
+                      className='p-2 bg-black text-white rounded'
+                      onClick={() => {
+                        setUpdateModal(_id);
+                        setFormData({
+                          plateNo,
+                          price,
+                          discountpercent,
+                          availability,
+                        });
+                      }}
+                    >
+                      {language === 'eng' ? 'Update' : 'تحديث'}
+                    </button>
+                  </div>
                 </div>
               </div>
-              <div className='flex flex-col items-end justify-end'>
-                <div className='flex gap-4 mt-2'>
-                  <button
-                    disabled={deleteLoader}
-                    className='p-2 border border-1 border-black rounded'
-                    onClick={() => setDeleteModal(_id)}
-                  >
-                    {language === 'eng' ? 'Delete' : 'يمسح'}
-                  </button>
-                  <button
-                    className='p-2 bg-black text-white rounded'
-                    onClick={() => {
-                      setUpdateModal(_id);
-                      setFormData({
-                        plateNo,
-                        price,
-                        discountpercent,
-                        availability,
-                      });
-                    }}
-                  >
-                    {language === 'eng' ? 'Update' : 'تحديث'}
-                  </button>
-                </div>
-              </div>
-            </div>
-          )
-        )}
-      </div>
+            )
+          )}
+        </div>
+      ) : (
+        <h1 className=''>No Listing Yet click the plus icon to add one </h1>
+      )}
 
       {deleteModal && (
         <div className='fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center'>

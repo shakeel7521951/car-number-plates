@@ -11,6 +11,7 @@ import {
 import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
 import Loader from '../../components/Explore/Loader';
+import NoProductFound from '../../components/NoProductFound';
 
 const DashboardOrder = () => {
   const { language } = useSelector((state) => state.language);
@@ -156,42 +157,46 @@ const DashboardOrder = () => {
             </div>
 
             {/* User Rows */}
-            <div className='divide-y divide-gray-200'>
-              {orders?.findOrders?.map((order, index) => (
-                <div
-                  key={order._id}
-                  className='grid grid-cols-7 items-center bg-white hover:bg-gray-50'
-                >
-                  <div className='p-4 text-gray-700'>{index + 1}</div>
+            {orders?.length > 0 ? (
+              <div className='divide-y divide-gray-200'>
+                {orders?.findOrders?.map((order, index) => (
+                  <div
+                    key={order._id}
+                    className='grid grid-cols-7 items-center bg-white hover:bg-gray-50'
+                  >
+                    <div className='p-4 text-gray-700'>{index + 1}</div>
 
-                  <div className='p-4 text-gray-700'>{order?.buyerName}</div>
-                  <div className='p-4 text-gray-700'>
-                    {order?.plateNoDetails}
+                    <div className='p-4 text-gray-700'>{order?.buyerName}</div>
+                    <div className='p-4 text-gray-700'>
+                      {order?.plateNoDetails}
+                    </div>
+                    <div className='p-4 text-gray-700'>{order?.sellerName}</div>
+                    <div className='p-4 text-gray-700'>
+                      {order?.discountedPrice || order?.price}
+                    </div>
+                    <div className={` ${getStatusStyles(order?.orderStatus)}`}>
+                      {order?.orderStatus}
+                    </div>
+                    <div className='p-4 flex space-x-1'>
+                      <button
+                        className='text-gray-600 hover:text-gray-800'
+                        onClick={() => openEditModal(order)}
+                      >
+                        <FaRegEdit className='w-6 h-7' />
+                      </button>
+                      <button
+                        className='text-gray-600 hover:text-gray-800'
+                        onClick={() => openDeleteModal(order?._id)}
+                      >
+                        <MdDeleteOutline className='w-7 h-7' />
+                      </button>
+                    </div>
                   </div>
-                  <div className='p-4 text-gray-700'>{order?.sellerName}</div>
-                  <div className='p-4 text-gray-700'>
-                    {order?.discountedPrice || order?.price}
-                  </div>
-                  <div className={` ${getStatusStyles(order?.orderStatus)}`}>
-                    {order?.orderStatus}
-                  </div>
-                  <div className='p-4 flex space-x-1'>
-                    <button
-                      className='text-gray-600 hover:text-gray-800'
-                      onClick={() => openEditModal(order)}
-                    >
-                      <FaRegEdit className='w-6 h-7' />
-                    </button>
-                    <button
-                      className='text-gray-600 hover:text-gray-800'
-                      onClick={() => openDeleteModal(order?._id)}
-                    >
-                      <MdDeleteOutline className='w-7 h-7' />
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            ) : (
+              <NoProductFound title='No Orders Yet' />
+            )}
           </div>
         </div>
       </div>
