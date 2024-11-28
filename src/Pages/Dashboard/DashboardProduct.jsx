@@ -8,6 +8,7 @@ import {
 import { toast } from 'react-toastify';
 import { FaEdit } from 'react-icons/fa';
 import UpdatePopup from '../../components/SellerDashboard/UpdatePopup';
+import NoProductFound from '../../components/NoProductFound';
 
 const DashboardProduct = () => {
   const { language } = useSelector((state) => state.language);
@@ -106,38 +107,41 @@ const DashboardProduct = () => {
             </div>
           </div>
 
-          {/* Product Rows */}
-          <div className='divide-y divide-gray-200'>
-            {comingData?.map((product, index) => (
-              <div
-                key={product?._id}
-                className='grid grid-cols-5 items-center bg-white hover:bg-gray-50'
-              >
-                <div className='p-4 text-gray-700'>{index + 1}</div>
-                <div className='p-4 text-gray-700'>{product?.sellerName}</div>
-                <div className='p-4 text-gray-700 break-words'>
-                  {product?.plateNo}
+          {product?.length > 0 ? (
+            <div className='divide-y divide-gray-200'>
+              {comingData?.map((product, index) => (
+                <div
+                  key={product?._id}
+                  className='grid grid-cols-5 items-center bg-white hover:bg-gray-50'
+                >
+                  <div className='p-4 text-gray-700'>{index + 1}</div>
+                  <div className='p-4 text-gray-700'>{product?.sellerName}</div>
+                  <div className='p-4 text-gray-700 break-words'>
+                    {product?.plateNo}
+                  </div>
+                  <div className='p-4 text-gray-700'>
+                    {product?.discountedPrice.toFixed(2)}
+                  </div>
+                  <div className='flex gap-4'>
+                    <button
+                      className='text-gray-600 hover:text-gray-800'
+                      onClick={() => openEditModal(product)}
+                    >
+                      <FaEdit className='w-7 h-7' />
+                    </button>
+                    <button
+                      className='text-gray-600 hover:text-gray-800'
+                      onClick={() => openDeleteModal(product?._id)}
+                    >
+                      <MdDeleteOutline className='w-7 h-7' />
+                    </button>
+                  </div>
                 </div>
-                <div className='p-4 text-gray-700'>
-                  {product?.discountedPrice.toFixed(2)}
-                </div>
-                <div className='flex gap-4'>
-                  <button
-                    className='text-gray-600 hover:text-gray-800'
-                    onClick={() => openEditModal(product)}
-                  >
-                    <FaEdit className='w-7 h-7' />
-                  </button>
-                  <button
-                    className='text-gray-600 hover:text-gray-800'
-                    onClick={() => openDeleteModal(product?._id)}
-                  >
-                    <MdDeleteOutline className='w-7 h-7' />
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          ) : (
+            <NoProductFound />
+          )}
         </div>
       </div>
 

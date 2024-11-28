@@ -195,7 +195,7 @@ const DashboardOrder = () => {
                 ))}
               </div>
             ) : (
-              <NoProductFound title='No Orders Yet' />
+              <NoProductFound title='No Orders Yet' message='order' />
             )}
           </div>
         </div>
