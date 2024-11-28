@@ -18,6 +18,7 @@ const Register = () => {
     password: '',
     confirmPassword: '',
     role: '',
+    image: null, // State to store the selected image
   });
 
   const [errors, setErrors] = useState({});
@@ -38,7 +39,7 @@ const Register = () => {
 
     if (!password) {
       newErrors.password = 'Password is required';
-    } else if (password.length < 6) {
+    } else if (password.length < 8) {
       newErrors.password = 'Password must be at least 6 characters long';
     }
 
@@ -53,24 +54,46 @@ const Register = () => {
   };
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
+    const { name, value, files } = e.target;
 
+    // If the input is for an image, update file in the state
+    if (name === 'image') {
+      setFormData({
+        ...formData,
+        image: files[0],
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+    }
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
       try {
         const { confirmPassword, ...data } = formData;
-        const result = await signup(data).unwrap();
-        toast.success('Signup successful:', result?.message);
+
+        // Prepare form data for the API
+        const formDataToSend = new FormData();
+        for (const key in data) {
+          if (data[key]) formDataToSend.append(key, data[key]);
+        }
+
+        // Convert FormData to a plain object for logging
+        const formDataObject = {};
+        formDataToSend.forEach((value, key) => {
+          formDataObject[key] = value instanceof File ? value.name : value;
+        });
+
+        const result = await signup(formDataToSend).unwrap();
+        toast.success('Enter your otp from provided Email');
         dispatch(setProfile(result?.user));
 
-        navigate('/explore');
+        navigate('/verfiy-opt', { state: { user: result?.user } });
       } catch (err) {
-        console.log('err', err);
+        console.log('Error:', err);
         toast.error(
           `Signup failed: ${err?.data?.message || 'An error occurred'}`
         );
@@ -208,6 +231,22 @@ const Register = () => {
                 {errors.role && (
                   <p className='text-red-500 text-sm'>{errors.role}</p>
                 )}
+              </div>
+
+              {/* Image Upload */}
+              <div>
+                <label className='block text-sm font-medium text-gray-700'>
+                  {language === 'eng'
+                    ? 'Upload Profile Image'
+                    : 'تحميل صورة الملف الشخصي'}
+                </label>
+                <input
+                  type='file'
+                  name='image'
+                  accept='image/*'
+                  onChange={handleChange}
+                  className='mt-1 block w-full text-sm text-gray-500 border border-gray-300 rounded-md cursor-pointer focus:outline-none focus:border-blue-500'
+                />
               </div>
 
               <button

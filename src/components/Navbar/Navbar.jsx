@@ -100,7 +100,7 @@ const Navbar = () => {
                 ref={profileButtonRef} // Add ref to the profile button
               >
                 <img
-                  src={person}
+                  src={profile?.imageUrl || person}
                   alt='Person'
                   className='object-cover w-full h-full rounded-full'
                 />
@@ -195,7 +195,7 @@ const Navbar = () => {
                   ref={profileButtonRef} // Profile button ref
                 >
                   <img
-                    src={person}
+                    src={profile?.imageUrl || profile}
                     alt='Person'
                     className='object-cover w-full h-full rounded-full'
                   />
@@ -243,6 +243,18 @@ const Navbar = () => {
               {link.label}
             </Link>
           ))}
+          <div className='mt-12'>
+            {!profile && (
+              <Link
+                to={'/login'}
+                className='animated-button  cursor-pointer bg-white px-4 py-3'
+              >
+                <span to={'/login'} className=' button-content   rounded-lg'>
+                  {language === 'eng' ? 'Sign In' : 'تسجيل الدخول'}
+                </span>
+              </Link>
+            )}{' '}
+          </div>
         </div>
       </div>
     </nav>

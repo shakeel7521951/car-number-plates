@@ -36,8 +36,8 @@ import { setProduct } from './Redux/ProductRoutes/productSlice.js';
 import { useGetAllProductsQuery } from './Redux/ProductRoutes/productApi.js';
 import ResetPassword from './Pages/ResetPassword.jsx';
 import MyOrders from './Pages/MyOrders.jsx';
+import VerifySignupOpt from './Pages/VerifySignupOtp.jsx';
 
-// Layout for pages with Navbar and Footer
 const MainLayout = () => (
   <>
     <Navbar />
@@ -72,6 +72,7 @@ const router = createBrowserRouter([
       { path: '/vip', element: <Vip /> },
       { path: '/single-card/:id', element: <PlateDetailPage /> },
       { path: '/faqs', element: <Chat /> },
+
       {
         path: '/update-password',
         element: (
@@ -143,6 +144,10 @@ const router = createBrowserRouter([
   {
     path: '/register',
     element: <Register />,
+  },
+  {
+    path: '/verfiy-opt',
+    element: <VerifySignupOpt />,
   },
 ]);
 

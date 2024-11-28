@@ -63,34 +63,40 @@ const MyOrders = () => {
 
         {/* User Rows */}
         <div className='divide-y divide-gray-200'>
-          {orders?.products?.map((order, index) => (
-            <div
-              key={order._id}
-              className='grid grid-cols-7 items-center bg-white hover:bg-gray-50'
-            >
-              <div className='p-4 text-gray-700'>{index + 1}</div>
-
-              <div className='p-4 text-gray-700'>{order?.buyerName}</div>
-              <div className='p-4 text-gray-700'>{order?.plateNoDetails}</div>
-              <div className='p-4 text-gray-700'>{order?.sellerName}</div>
-              <div className='p-4 text-gray-700'>
-                {order?.discountedPrice || order?.price}
-              </div>
+          {orders ? (
+            orders?.products?.map((order, index) => (
               <div
-              // className={` ${getStatusStyles(order?.orderStatus)}`}
+                key={order._id}
+                className='grid grid-cols-7 items-center bg-white hover:bg-gray-50'
               >
-                {order?.orderStatus}
-              </div>
-              <div className='p-4 flex space-x-1'>
-                <button
-                  className='text-gray-600 hover:text-gray-800'
-                  onClick={() => openDeleteModal(order?._id)}
+                <div className='p-4 text-gray-700'>{index + 1}</div>
+
+                <div className='p-4 text-gray-700'>{order?.buyerName}</div>
+                <div className='p-4 text-gray-700'>{order?.plateNoDetails}</div>
+                <div className='p-4 text-gray-700'>{order?.sellerName}</div>
+                <div className='p-4 text-gray-700'>
+                  {order?.discountedPrice || order?.price}
+                </div>
+                <div
+                // className={` ${getStatusStyles(order?.orderStatus)}`}
                 >
-                  <MdDeleteOutline className='w-7 h-7' />
-                </button>
+                  {order?.orderStatus}
+                </div>
+                <div className='p-4 flex space-x-1'>
+                  <button
+                    className='text-gray-600 hover:text-gray-800'
+                    onClick={() => openDeleteModal(order?._id)}
+                  >
+                    <MdDeleteOutline className='w-7 h-7' />
+                  </button>
+                </div>
               </div>
-            </div>
-          ))}
+            ))
+          ) : (
+            <h1 className='text-center text-2xl my-8 text-gray-500'>
+              You have no orders yet
+            </h1>
+          )}
         </div>
       </div>
       {isDeleteModalOpen && (

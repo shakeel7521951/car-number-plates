@@ -109,6 +109,13 @@ export const apiSlice = createApi({
         body: { newPassword, email },
       }),
     }),
+    verifyUserOtp: builder.mutation({
+      query: ({ email, userOtp }) => ({
+        url: '/verify-otp',
+        method: 'POST',
+        body: { email, userOtp },
+      }),
+    }),
   }),
 });
 
@@ -126,4 +133,5 @@ export const {
   useForgotPasswordOtpMutation,
   useVerifyOtpMutation,
   useConfirmResetPasswordMutation,
+  useVerifyUserOtpMutation,
 } = apiSlice;

@@ -25,8 +25,15 @@ const Profile = () => {
   };
   return (
     <>
-      <div className='max-w-md mx-auto bg-white shadow-md rounded-md p-6'>
-        <div className='flex items-center'>
+      <div className='max-w-md mx-auto bg-white shadow-md rounded-md p-6 flex flex-col justify-between'>
+        <div className='w-16 h-16 mx-auto rounded-full'>
+          <img
+            src={profile?.imageUrl}
+            alt='Profile'
+            className='w-full h-full object-cover rounded-full'
+          />
+        </div>
+        <div className='flex items-center text-center mx-auto mt-6'>
           <div>
             <h2 className='text-xl font-bold text-gray-800'>
               {language === 'eng' ? ' Hello,' : 'مرحبًا،'} {profile?.name}!
