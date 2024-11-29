@@ -42,7 +42,7 @@ const DashboardOrder = () => {
       console.log(error);
     }
   };
-
+  console.log('orders', orders);
   const openDeleteModal = (id) => {
     setSelectedId(id);
     setIsDeleteModalOpen(true);
@@ -157,7 +157,7 @@ const DashboardOrder = () => {
             </div>
 
             {/* User Rows */}
-            {orders?.length > 0 ? (
+            {orders?.findOrders?.length > 0 ? (
               <div className='divide-y divide-gray-200'>
                 {orders?.findOrders?.map((order, index) => (
                   <div

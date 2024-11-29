@@ -17,6 +17,7 @@ import PlateNumber from '../PlateNumber';
 import Loader from '../components/Explore/Loader';
 import { useCreateOrderMutation } from '../Redux/OrderRoute/orderApi';
 import NoProductFound from '../components/NoProductFound';
+import { toast } from 'react-toastify';
 
 const PlateDetailPage = () => {
   const { id } = useParams();
@@ -32,6 +33,14 @@ const PlateDetailPage = () => {
   const mappingData = product?.slice(0, showItems);
   const time = calculateTimeDifference(currentplateData?.created_at);
 
+  const handleOrder = async (id) => {
+    try {
+      const data = await placeOrder({ id }).unwrap();
+      toast.success(data?.message);
+    } catch (error) {
+      toast.error(error?.data?.message);
+    }
+  };
   return (
     <div>
       <div className='relative w-full h-screen'>
@@ -76,7 +85,10 @@ const PlateDetailPage = () => {
                     <IoCartOutline />
                     <span>{language === 'eng' ? 'For Sale' : 'للبيع'}</span>
                   </button>
-                  <button className='flex flex-col gap-[4px]'>
+                  <button
+                    className='flex flex-col gap-[4px]'
+                    onClick={() => handleOrder(currentplateData?._id)}
+                  >
                     <span className='bg-[#000] text-white py-2 px-6 rounded-xl font-semibold'>
                       {language === 'eng' ? ' Book Now' : 'احجز الآن'}
                     </span>

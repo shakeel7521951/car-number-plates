@@ -3,7 +3,7 @@ import Car from '../../assets/HomepageImg.jpg';
 import { IoMdEye, IoMdEyeOff } from 'react-icons/io';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSignupMutation } from '../../Redux/userRoutes/userApi';
-import { toast } from 'react-toastify'; // Import Toastify
+import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
 import { setProfile } from '../../Redux/userRoutes/userSlice';
 
@@ -18,7 +18,7 @@ const Register = () => {
     password: '',
     confirmPassword: '',
     role: '',
-    image: null, // State to store the selected image
+    image: null,
   });
 
   const [errors, setErrors] = useState({});
@@ -56,7 +56,6 @@ const Register = () => {
   const handleChange = (e) => {
     const { name, value, files } = e.target;
 
-    // If the input is for an image, update file in the state
     if (name === 'image') {
       setFormData({
         ...formData,
@@ -75,13 +74,11 @@ const Register = () => {
       try {
         const { confirmPassword, ...data } = formData;
 
-        // Prepare form data for the API
         const formDataToSend = new FormData();
         for (const key in data) {
           if (data[key]) formDataToSend.append(key, data[key]);
         }
 
-        // Convert FormData to a plain object for logging
         const formDataObject = {};
         formDataToSend.forEach((value, key) => {
           formDataObject[key] = value instanceof File ? value.name : value;

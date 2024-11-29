@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux'; // Import Redux to get language state
+import { useSelector } from 'react-redux';
 
 const Listing = ({ onClose }) => {
   const [plateNumber, setPlateNumber] = useState('');
   const [price, setPrice] = useState('');
-  const { language } = useSelector((state) => state.language); // Get language from Redux
+  const { language } = useSelector((state) => state.language);
 
   const handleSubmit = (e) => {
     e.preventDefault();

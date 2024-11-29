@@ -37,10 +37,10 @@ const ProfileMenu = ({ onClose }) => {
   const [logout, { isLoading }] = useLogoutMutation();
   const userArray =
     profile?.role?.toLowerCase() === 'seller'
-      ? [...sellerProfile, ...userProfile] // Add userProfile for seller
+      ? [...sellerProfile, ...userProfile]
       : profile?.role?.toLowerCase() === 'admin'
-      ? [...adminRoute, ...userProfile] // Add userProfile for admin
-      : [...userProfile]; // For other roles, just add userProfile
+      ? [...adminRoute, ...userProfile]
+      : [...userProfile];
 
   const handleLogout = async () => {
     try {

@@ -7,35 +7,6 @@ import { useSelector } from 'react-redux';
 function Dashboard() {
   const { language } = useSelector((state) => state.language);
 
-  // Orders data with language conditions
-  const orders = [
-    {
-      id: 1,
-      title: language === 'eng' ? 'Total Order' : 'إجمالي الطلبات',
-      count: 1925,
-      startColor: '#432ab1',
-    },
-    {
-      id: 2,
-      title: language === 'eng' ? 'Total Sales' : 'إجمالي المبيعات',
-      count: 450,
-      startColor: '#e70000',
-    },
-    {
-      id: 3,
-      title: language === 'eng' ? 'Revenue' : 'الإيرادات',
-      count: 1480,
-      startColor: '#d3b144',
-    },
-    {
-      id: 4,
-      title: language === 'eng' ? 'Total Visitor' : 'إجمالي الزوار',
-      count: 72,
-      startColor: '#053d26',
-    },
-  ];
-
-  // Chart Data
   const totalRevenue = 10000;
   const revenueFilled = 10000;
   const totalSales = 5000;
@@ -48,14 +19,14 @@ function Dashboard() {
   return (
     <>
       {/* Dashboard Title */}
-      <p className="text-lg font-medium ms-8 mt-4 sm:mt-6">
+      <p className='text-lg font-medium ms-8 my-4 sm:my-6'>
         {language === 'eng' ? 'Dashboard' : 'لوحة القيادة'}
       </p>
 
       {/* Cards and Pie Charts */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 items-center justify-center px-8">
+      <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 items-center justify-center px-8'>
         {/* Revenue Chart */}
-        <div className="bg-gradient-to-b from-[#c3e78a] to-white rounded-2xl shadow-md pt-4">
+        <div className='bg-gradient-to-b from-[#c3e78a] to-white rounded-2xl shadow-md pt-4'>
           <PieChartComponent
             data={generatePieData(
               totalRevenue,
@@ -68,20 +39,15 @@ function Dashboard() {
         </div>
 
         {/* Sales Chart */}
-        <div className="bg-gradient-to-b from-[#c3e78a] to-white rounded-2xl shadow-md pt-4">
+        <div className='bg-gradient-to-b from-[#c3e78a] to-white rounded-2xl shadow-md pt-4'>
           <PieChartComponent
-            data={generatePieData(
-              totalSales,
-              salesFilled,
-              '#8CFF00',
-              '#ccc'
-            )}
+            data={generatePieData(totalSales, salesFilled, '#8CFF00', '#ccc')}
             title={language === 'eng' ? 'Total Sales' : 'إجمالي المبيعات'}
           />
         </div>
 
         {/* Listings Chart */}
-        <div className="bg-gradient-to-b from-[#c3e78a] to-white rounded-2xl shadow-md pt-4">
+        <div className='bg-gradient-to-b from-[#c3e78a] to-white rounded-2xl shadow-md pt-4'>
           <PieChartComponent
             data={generatePieData(
               totalListings,
@@ -94,7 +60,7 @@ function Dashboard() {
         </div>
 
         {/* Visitors Chart */}
-        <div className="bg-gradient-to-b from-[#c3e78a] to-white rounded-2xl shadow-md pt-4">
+        <div className='bg-gradient-to-b from-[#c3e78a] to-white rounded-2xl shadow-md pt-4'>
           <PieChartComponent
             data={generatePieData(
               totalPendingPayments,
@@ -108,7 +74,7 @@ function Dashboard() {
       </div>
 
       {/* Line Chart */}
-      <div className="h-[60vh] w-full lg:w-[84%] xl:w-[70%] 2xl:w-[65%] bg-white rounded-xl shadow-2xl z-50 my-5 m-auto">
+      <div className='h-[60vh] w-full lg:w-[84%] xl:w-[70%] 2xl:w-[65%] bg-white rounded-xl shadow-2xl z-50 my-5 m-auto'>
         <Chart />
       </div>
     </>

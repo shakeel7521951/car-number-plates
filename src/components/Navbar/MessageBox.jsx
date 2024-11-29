@@ -31,7 +31,6 @@ const MessageBox = () => {
       msg.message.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  // Close message box if clicked outside
   const handleClickOutside = (e) => {
     if (messageBoxRef.current && !messageBoxRef.current.contains(e.target)) {
       setIsMessageDialogOpen(false);

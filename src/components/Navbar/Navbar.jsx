@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 
 import { CiBellOn, CiHeart } from 'react-icons/ci';
 import person from '../../assets/user.png';
-// import MessageBox from './MessageBox';
 import ProfileMenu from './ProfileMenu';
 import { useDispatch, useSelector } from 'react-redux';
 import { setLanguage } from '../../Redux/ToggleLanguage';
@@ -97,7 +96,7 @@ const Navbar = () => {
               <div
                 className='w-10 h-10 rounded-full cursor-pointer'
                 onClick={toggleProfileMenu}
-                ref={profileButtonRef} // Add ref to the profile button
+                ref={profileButtonRef}
               >
                 <img
                   src={profile?.imageUrl || person}
@@ -180,7 +179,7 @@ const Navbar = () => {
         </main>
       </div>
       <div className='flex items-center justify-end '>
-        {/* Search and Icons */}
+        {/*  Icons */}
         <div className='hidden md:flex ms-6 mr-4'>
           <div className='flex justify-end m-0 w-[100%] md:w-[80%] mx-5'></div>
           {profile && (
@@ -226,7 +225,7 @@ const Navbar = () => {
           className={`fixed top-0 right-0 h-full bg-[#050C2B] w-2/5 max-w-xs z-30 p-5 transform transition-transform duration-300 ${
             isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
           }`}
-          ref={mobileMenuRef} // Mobile menu ref
+          ref={mobileMenuRef}
         >
           <button
             onClick={() => setIsMobileMenuOpen(false)}

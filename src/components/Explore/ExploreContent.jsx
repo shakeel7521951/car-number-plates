@@ -109,7 +109,7 @@ const ExploreContent = () => {
         <NoProductFound />
       )}
 
-      {totalProducts > itemsPerPage && ( // Render pagination only if total products exceed items per page
+      {totalProducts > itemsPerPage && (
         <div className='flex justify-center items-center mt-10 space-x-2'>
           <button
             onClick={handlePreviousPage}

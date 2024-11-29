@@ -62,7 +62,7 @@ const MyOrders = () => {
 
         {/* User Rows */}
         <div className='divide-y divide-gray-200'>
-          {orders ? (
+          {orders?.products?.length > 0 ? (
             orders?.products?.map((order, index) => (
               <div
                 key={order._id}

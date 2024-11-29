@@ -10,7 +10,6 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 
-// Updated data with months and price range
 const data = [
   { name: 'January', price: 1200, uv: 1500 },
   { name: 'February', price: 2000, uv: 2100 },

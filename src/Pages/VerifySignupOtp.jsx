@@ -10,7 +10,7 @@ const VerifySignupOtp = () => {
   const navigate = useNavigate();
   const [otp, setOtp] = useState(['', '', '', '']);
   const [getVerifyOtp, { isLoading }] = useVerifyUserOtpMutation();
-
+  console.log(location);
   const handleOtpChange = (e, index) => {
     const value = e.target.value;
 
