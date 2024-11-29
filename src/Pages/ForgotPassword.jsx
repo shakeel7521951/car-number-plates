@@ -37,7 +37,6 @@ const ForgotPassword = ({ setIsPopUpOpen }) => {
       }
       const response = await forgotPasswordOtp({ email }).unwrap();
       toast.success(response?.message);
-      console.log(response); // Debugging purposes
       setShowOtpBox(true);
     } catch (error) {
       toast.error(error?.data?.message);

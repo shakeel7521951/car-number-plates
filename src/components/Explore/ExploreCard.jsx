@@ -11,6 +11,7 @@ import { useState, useEffect } from 'react';
 import PlateNumber from '../../PlateNumber';
 import { toast } from 'react-toastify';
 import { useCreateOrderMutation } from '../../Redux/OrderRoute/orderApi';
+
 export const calculateTimeDifference = (createdAt, language) => {
   const createdDate = new Date(createdAt);
   const currentDate = new Date();
@@ -40,7 +41,6 @@ const ExploreCard = ({
   likes = [],
   plateNo = 124234,
   created_at,
-  // discount = 44453,
   price = 33322,
   image = plateImg,
   category = 'normal',
@@ -89,7 +89,7 @@ const ExploreCard = ({
     }
   }, [category, language]);
 
-  const timeAgo = calculateTimeDifference(created_at, language); // Pass language to the function
+  const timeAgo = calculateTimeDifference(created_at, language);
 
   const handleImageClick = () => {
     updateView(_id);
@@ -100,23 +100,21 @@ const ExploreCard = ({
       if (isLiked) {
         const res = await dislikeProduct(_id).unwrap();
         setIsLiked(false);
-        setTotalLikes(res.product.likes.length); // Update total likes
+        setTotalLikes(res.product.likes.length);
       } else {
         const res = await likeProduct(_id).unwrap();
 
-        setIsLiked(true); // Update local state
-        setTotalLikes(res.product.likes.length); // Update total likes
+        setIsLiked(true);
+        setTotalLikes(res.product.likes.length);
       }
     } else {
       toast.warn('Please Login to Like or Dislike the Plate Number');
     }
   };
   const handlePlaceOrder = async () => {
-    console.log('je');
     try {
       const data = await placeOrder({ id: _id }).unwrap();
       toast.success(data?.message);
-      console.log(data);
     } catch (error) {
       toast.error(error?.data?.message);
     }
@@ -124,7 +122,6 @@ const ExploreCard = ({
 
   return (
     <main className='bg-[#FFD200] shadow-2xl border-[#EFF312] border-2 px-4 rounded-md text-black'>
-      {/* Starting div */}
       <div className='flex items-center justify-between mt-4'>
         <h1 className='text-lg font-semibold'>
           {language === 'eng' ? 'Plate Number' : 'رقم اللوحة'}
@@ -147,7 +144,6 @@ const ExploreCard = ({
         </aside>
       </div>
 
-      {/* Image for the number plate */}
       <div className='my-6'>
         <Link to={`/single-card/${_id}`} onClick={handleImageClick}>
           <PlateNumber plateNo={plateNo} />
@@ -160,7 +156,6 @@ const ExploreCard = ({
               ? `Private Plate ${plateNo}`
               : `اللوحة الخاصة ${plateNo}`}
           </h1>
-          {/* Profile Div */}
           <div className='border border-white justify-between gap-4 items-center rounded-full flex w-max p-2 my-4 cursor-pointer'>
             <div className='w-8 h-8 rounded-full'>
               <img src={image} alt='' className='w-full h-full rounded-full' />
@@ -184,7 +179,6 @@ const ExploreCard = ({
         </div>
       </main>
 
-      {/* Button div */}
       <div className='flex gap-12'>
         <button
           className='flex border-white border items-center justify-center text-sm gap-2 px-2 rounded-2xl'
@@ -198,7 +192,6 @@ const ExploreCard = ({
         </button>
       </div>
 
-      {/* Pricing last */}
       <div className='flex items-end justify-end gap-4 my-4'>
         {discountpercent !== 0 && (
           <h1 className='line-through text-gray-600'>{price} Q.T</h1>

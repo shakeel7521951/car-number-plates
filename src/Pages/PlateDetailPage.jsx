@@ -16,11 +16,12 @@ import { useState } from 'react';
 import PlateNumber from '../PlateNumber';
 import Loader from '../components/Explore/Loader';
 import { useCreateOrderMutation } from '../Redux/OrderRoute/orderApi';
+import NoProductFound from '../components/NoProductFound';
 
 const PlateDetailPage = () => {
   const { id } = useParams();
   const { language } = useSelector((state) => state.language);
-  const { placeOrder } = useCreateOrderMutation();
+  const [placeOrder] = useCreateOrderMutation();
   const { data, isLoading } = useGetSingleProductQuery(id);
   const currentplateData = data?.product;
   const { product } = useSelector((state) => state.product);
@@ -71,20 +72,15 @@ const PlateDetailPage = () => {
                   <p className='text-[25px] font-bold'>
                     {currentplateData?.discountedPrice} Q.R
                   </p>
-                  <div className='py-2 px-4 flex justify-center gap-2 items-center rounded-full bg-[#D9D9D9] text-[#000]'>
+                  <button className='py-2 px-4 flex justify-center gap-2 items-center rounded-full bg-[#D9D9D9] text-[#000]'>
                     <IoCartOutline />
-                    <p>{language === 'eng' ? 'For Sale' : 'للبيع'}</p>
-                  </div>
-                  <div className='flex flex-col gap-[4px]'>
-                    <p className='bg-[#B4F92B] text-black p-2 rounded-xl font-semibold'>
-                      {language === 'eng'
-                        ? 'Chat with Seller'
-                        : 'الدردشة مع البائع'}
-                    </p>
-                    <p className='bg-[#000] text-white py-2 px-6 rounded-xl font-semibold'>
+                    <span>{language === 'eng' ? 'For Sale' : 'للبيع'}</span>
+                  </button>
+                  <button className='flex flex-col gap-[4px]'>
+                    <span className='bg-[#000] text-white py-2 px-6 rounded-xl font-semibold'>
                       {language === 'eng' ? ' Book Now' : 'احجز الآن'}
-                    </p>
-                  </div>
+                    </span>
+                  </button>
                 </div>
                 <div className='w-[100%] flex flex-col gap-[2px] items-start self-start'>
                   <p className='font-bold'>
@@ -121,16 +117,22 @@ const PlateDetailPage = () => {
         )}
       </div>
       {/* plate detail likes section */}
-      <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-between gap-4 p-14'>
-        {mappingData?.map((data_elem, data_index) => {
-          return <ExploreCard {...data_elem} key={data_index} />;
-        })}
+      {product?.length > 0 ? (
+        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-between gap-4 p-14'>
+          {mappingData?.map((data_elem, data_index) => {
+            return <ExploreCard {...data_elem} key={data_index} />;
+          })}
+        </div>
+      ) : (
+        <NoProductFound />
+      )}
+      <div className=' flex items-center justify-center'>
         <button
           className={`${
             showItems >= product?.length
               ? ' cursor-not-allowed'
               : 'animated-button'
-          } bg-white p-2 rounded-xl font-semibold mx-auto text-center`}
+          } bg-white p-2 rounded-xl font-semibold   text-center`}
           disabled={showItems >= product?.length}
           onClick={() => {
             setShowItems((prev) => prev + 6);

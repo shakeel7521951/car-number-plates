@@ -42,13 +42,13 @@ const DashboardShipment = () => {
     const updatedOrders = paymentsData.map((order) =>
       order.order_id === selectedPayment.order_id
         ? {
-          ...order,
-          buyer_name: editedBuyerName,
-          plate_no: editedPlateNo,
-          seller_name: editedSellerName,
-          price: editedPrice,
-          bank_acc: editedBankAcc, // Update status
-        }
+            ...order,
+            buyer_name: editedBuyerName,
+            plate_no: editedPlateNo,
+            seller_name: editedSellerName,
+            price: editedPrice,
+            bank_acc: editedBankAcc, // Update status
+          }
         : order
     );
     setpaymentsData(updatedOrders);
@@ -96,7 +96,6 @@ const DashboardShipment = () => {
     },
   ];
 
-
   const openDeleteModal = (order) => {
     setSelectedPayment(order);
     setIsDeleteModalOpen(true);
@@ -123,14 +122,12 @@ const DashboardShipment = () => {
     }
   };
 
-  console.log('Selected Order:', selectedPayment);
-  console.log('Selected Order price:', editedPrice);
-  // console.log("Edited Image:", editedOrderImage);
   const price = Number(editedPrice.split(',').join(''));
-  console.log(price);
   return (
     <div className='w-[82%] mx-auto'>
-      <h1 className='text-xl font-semibold mb-4 lg:text-left text-center'>{language === 'eng' ? 'Number Transfer' : 'نقل الرقم'}</h1>
+      <h1 className='text-xl font-semibold mb-4 lg:text-left text-center'>
+        {language === 'eng' ? 'Number Transfer' : 'نقل الرقم'}
+      </h1>
 
       <div className='flex flex-wrap justify-around gap-4 p-2'>
         {data.map((item) => (
@@ -157,15 +154,30 @@ const DashboardShipment = () => {
         <div className='min-w-[700px] bg-white rounded-3xl shadow-lg overflow-hidden p-2'>
           {/* Header */}
           <div className='grid grid-cols-8 bg-gray-100 rounded-xl border-[1px] border-black'>
-            <div className="p-4 font-medium">{language === 'eng' ? 'Order ID' : 'معرف الطلب'}</div>
-            <div className="p-4 font-medium">{language === 'eng' ? 'Picture' : 'الصورة'}</div>
-            <div className="p-4 font-medium">{language === 'eng' ? 'Buyer Name' : 'اسم المشتري'}</div>
-            <div className="p-4 font-medium">{language === 'eng' ? 'Plate No' : 'رقم اللوحة'}</div>
-            <div className="p-4 font-medium">{language === 'eng' ? 'Seller Name' : 'اسم البائع'}</div>
-            <div className="p-4 font-medium">{language === 'eng' ? 'Price' : 'السعر'}</div>
-            <div className="p-4 font-medium">{language === 'eng' ? 'Delivery Status' : 'حالة التوصيل'}</div>
-            <div className="p-4 font-medium">{language === 'eng' ? 'Edit Status' : 'تعديل الحالة'}</div>
-
+            <div className='p-4 font-medium'>
+              {language === 'eng' ? 'Order ID' : 'معرف الطلب'}
+            </div>
+            <div className='p-4 font-medium'>
+              {language === 'eng' ? 'Picture' : 'الصورة'}
+            </div>
+            <div className='p-4 font-medium'>
+              {language === 'eng' ? 'Buyer Name' : 'اسم المشتري'}
+            </div>
+            <div className='p-4 font-medium'>
+              {language === 'eng' ? 'Plate No' : 'رقم اللوحة'}
+            </div>
+            <div className='p-4 font-medium'>
+              {language === 'eng' ? 'Seller Name' : 'اسم البائع'}
+            </div>
+            <div className='p-4 font-medium'>
+              {language === 'eng' ? 'Price' : 'السعر'}
+            </div>
+            <div className='p-4 font-medium'>
+              {language === 'eng' ? 'Delivery Status' : 'حالة التوصيل'}
+            </div>
+            <div className='p-4 font-medium'>
+              {language === 'eng' ? 'Edit Status' : 'تعديل الحالة'}
+            </div>
           </div>
 
           {/* User Rows */}
@@ -215,15 +227,20 @@ const DashboardShipment = () => {
         </div>
       </div>
 
-
       {/* Edit User Modal */}
       {isEditModalOpen && (
         <div className='fixed inset-0 bg-gray-700 bg-opacity-50 flex items-center justify-center z-50'>
           <div className='bg-white p-6 rounded-xl shadow-lg w-[400px]'>
-            <h2 className='text-lg font-semibold mb-4'>{language === 'eng' ? 'Edit Payment Details' : 'تحرير تفاصيل الدفع'}</h2>
+            <h2 className='text-lg font-semibold mb-4'>
+              {language === 'eng'
+                ? 'Edit Payment Details'
+                : 'تحرير تفاصيل الدفع'}
+            </h2>
 
             <div className='mb-4'>
-              <label>{language === 'eng' ? 'Buyer Name:' : 'اسم المشتري:'}</label>
+              <label>
+                {language === 'eng' ? 'Buyer Name:' : 'اسم المشتري:'}
+              </label>
               <input
                 type=''
                 value={editedBuyerName}
@@ -232,7 +249,9 @@ const DashboardShipment = () => {
               />
             </div>
             <div className='mb-4'>
-              <label>{language === 'eng' ? 'Plate Number:' : 'رقم اللوحة:'}</label>
+              <label>
+                {language === 'eng' ? 'Plate Number:' : 'رقم اللوحة:'}
+              </label>
               <input
                 type='number'
                 value={editedPlateNo}
@@ -241,7 +260,9 @@ const DashboardShipment = () => {
               />
             </div>
             <div className='mb-4'>
-              <label>{language === 'eng' ? 'Seller Name:' : 'اسم البائع:'}</label>
+              <label>
+                {language === 'eng' ? 'Seller Name:' : 'اسم البائع:'}
+              </label>
               <input
                 type='text'
                 value={editedSellerName}
@@ -260,7 +281,9 @@ const DashboardShipment = () => {
             </div>
 
             <div className='mb-4'>
-              <label>{language === 'eng' ? 'Bank Account:' : 'الحساب البنكي:'}</label>
+              <label>
+                {language === 'eng' ? 'Bank Account:' : 'الحساب البنكي:'}
+              </label>
               <input
                 type='text'
                 value={editedBankAcc}
@@ -292,7 +315,9 @@ const DashboardShipment = () => {
         <div className='fixed inset-0 bg-gray-700 bg-opacity-50 flex items-center justify-center z-50'>
           <div className='bg-white p-6 rounded-xl shadow-lg'>
             <h2 className='text-lg font-semibold mb-4'>
-              {language === 'eng' ? 'Are you sure you want to delete?' : 'هل أنت متأكد أنك تريد الحذف؟'}
+              {language === 'eng'
+                ? 'Are you sure you want to delete?'
+                : 'هل أنت متأكد أنك تريد الحذف؟'}
             </h2>
             <div className='flex justify-end gap-4'>
               <button

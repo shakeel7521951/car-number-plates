@@ -9,7 +9,6 @@ const HomeCards = () => {
   const { language } = useSelector((state) => state.language);
 
   const subData = product?.slice(0, 3);
-  console.log(subData);
   return (
     <div className='mt-5 p-10'>
       <h1 className='text-white text-center text-[30px] md:text-[40px] font-bold'>

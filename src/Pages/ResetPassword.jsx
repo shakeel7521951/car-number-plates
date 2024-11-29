@@ -10,7 +10,6 @@ const ResetPassword = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [updatePassword] = useConfirmResetPasswordMutation();
-  console.log(location);
   useEffect(() => {
     if (!location?.state) {
       navigate(-1);
@@ -55,7 +54,6 @@ const ResetPassword = () => {
     }
 
     try {
-      // console.log(password, confirmPassword);
       const res = await updatePassword({
         newPassword: password,
         email: location?.state?.email,

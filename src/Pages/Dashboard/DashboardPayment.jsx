@@ -100,11 +100,7 @@ const DashboardPayment = () => {
     }
   };
 
-  // console.log("Selected Order:", selectedPayment);
-  // console.log("Selected Order price:", editedPrice);
-  // console.log("Edited Image:", editedOrderImage);
   const price = Number(editedPrice.split(',').join(''));
-  // console.log(price);
   return (
     <div className='w-[90%] mx-auto'>
       <h1

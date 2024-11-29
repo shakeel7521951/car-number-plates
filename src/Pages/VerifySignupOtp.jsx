@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useLocation, useNavigate, useRouteError } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
 import img from '../assets/HomePage2.jpg';
@@ -10,7 +10,6 @@ const VerifySignupOtp = () => {
   const navigate = useNavigate();
   const [otp, setOtp] = useState(['', '', '', '']);
   const [getVerifyOtp, { isLoading }] = useVerifyUserOtpMutation();
-  console.log(location);
 
   const handleOtpChange = (e, index) => {
     const value = e.target.value;
@@ -31,7 +30,6 @@ const VerifySignupOtp = () => {
         otp: userOtp,
         email: location?.email,
       }).unwrap();
-      console.log(result);
       toast.success(result?.message);
       navigate('/explore');
     } catch (error) {

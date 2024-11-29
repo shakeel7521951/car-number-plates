@@ -29,7 +29,6 @@ const MyOrders = () => {
       toast.error(error?.data?.message);
     }
   };
-  // console.log(data);
 
   return (
     <div className='overflow-x-auto mt-12 mx-12'>
