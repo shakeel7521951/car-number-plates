@@ -62,7 +62,7 @@ function Hero() {
                 }`}
               >
                 {language === 'eng'
-                  ? 'CAR NUMBERS PLATE'
+                  ? `LUSAIL NUMBERS PLATE`
                   : 'لوحة أرقام السيارة'}
               </p>
               <div className='flex flex-col items-center mb-6'>
