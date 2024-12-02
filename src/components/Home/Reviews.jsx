@@ -63,7 +63,7 @@ const Reviews = () => {
         {reviewsData.map((testimonial) => (
           <div
             key={testimonial.id}
-            className='text-white border-2 border-[#FFEA01B2] shadow-2xl rounded-[20px] p-6 flex flex-col items-center text-center'
+            className='text-white border-2 border-[#FFEA01B2] shadow-2xl rounded-[20px] p-6 flex flex-col items-center text-center transition-transform duration-300 ease-in-out hover:scale-[1.02] hover:shadow-[0_8px_16px_rgba(0,0,0,0.3)] '
           >
             {/* Five Stars */}
             <div className='my-4 text-yellow-500 flex text-3xl gap-2'>

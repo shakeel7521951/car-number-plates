@@ -90,7 +90,6 @@ const ExploreCard = ({
   }, [category, language]);
 
   const timeAgo = calculateTimeDifference(created_at, language);
-
   const handleImageClick = () => {
     updateView(_id);
   };

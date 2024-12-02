@@ -31,7 +31,7 @@ const PlateDetailPage = () => {
   if (isLoading) return <Loader />;
 
   const mappingData = product?.slice(0, showItems);
-  const time = calculateTimeDifference(currentplateData?.created_at);
+  const time = calculateTimeDifference(currentplateData?.created_at, language);
 
   const handleOrder = async (id) => {
     try {

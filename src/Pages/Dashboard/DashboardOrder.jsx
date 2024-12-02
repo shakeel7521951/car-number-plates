@@ -42,7 +42,6 @@ const DashboardOrder = () => {
       console.log(error);
     }
   };
-  console.log('orders', orders);
   const openDeleteModal = (id) => {
     setSelectedId(id);
     setIsDeleteModalOpen(true);
