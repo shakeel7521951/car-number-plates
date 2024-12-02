@@ -121,7 +121,7 @@ const ExploreCard = ({
   };
 
   return (
-    <main className='bg-[#FFD200] shadow-2xl border-[#EFF312] border-2 px-4 rounded-md text-black'>
+    <main className='bg-[#FFD200] shadow-2xl border-[#EFF312] border-2 px-4 rounded-md text-black transition-transform duration-300 ease-in-out hover:scale-[1.02] hover:shadow-[0_8px_16px_rgba(0,0,0,0.3)]'>
       <div className='flex items-center justify-between mt-4'>
         <h1 className='text-lg font-semibold'>
           {language === 'eng' ? 'Plate Number' : 'رقم اللوحة'}
