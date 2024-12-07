@@ -7,8 +7,9 @@ import Footer from './components/Footer';
 import Home from './Pages/Home';
 import Explore from './Pages/Explore';
 import Normal from './Pages/Normal';
-import Silver from './Pages/Silver';
 import Golden from './Pages/Golden';
+import Silver from './Pages/Silver';
+import Message from './Pages/Message.jsx';
 import Vip from './Pages/Vip';
 import SellerDashboard from './Pages/SellerDashboard';
 import UpdatePassword from './Pages/UpdatePassword';
@@ -72,6 +73,7 @@ const router = createBrowserRouter([
       { path: '/vip', element: <Vip /> },
       { path: '/single-card/:id', element: <PlateDetailPage /> },
       { path: '/faqs', element: <Chat /> },
+      { path: '/chat', element: <Message /> },
 
       {
         path: '/update-password',

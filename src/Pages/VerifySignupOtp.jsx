@@ -6,6 +6,7 @@ import img from '../assets/HomePage2.jpg';
 import { useVerifyUserOtpMutation } from '../Redux/userRoutes/userApi';
 const VerifySignupOtp = () => {
   const location = useLocation()?.state?.user;
+  console.log(location);
   const { language } = useSelector((state) => state.language);
   const navigate = useNavigate();
   const [otp, setOtp] = useState(['', '', '', '']);

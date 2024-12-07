@@ -1,6 +1,6 @@
 import { FaCartPlus, FaClock, FaEye, FaHeart } from 'react-icons/fa';
 import plateImg from '../../assets/plateName.png';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   useDislikeProductMutation,
   useLikeProductMutation,
@@ -47,6 +47,7 @@ const ExploreCard = ({
   discountedPrice,
   availability,
   discountpercent,
+  seller,
 }) => {
   const [updateView] = useUpdateViewMutation();
   const [likeProduct] = useLikeProductMutation();
@@ -56,6 +57,7 @@ const ExploreCard = ({
   const { profile } = useSelector((state) => state.user);
   const { language } = useSelector((state) => state.language);
   const [changeCategory, setChangeCategory] = useState('');
+  const navigate = useNavigate();
   const availabilityStatus =
     availability === 'active'
       ? language === 'eng'
@@ -155,7 +157,12 @@ const ExploreCard = ({
               ? `Private Plate ${plateNo}`
               : `اللوحة الخاصة ${plateNo}`}
           </h1>
-          <div className='border border-white justify-between gap-4 items-center rounded-full flex w-max p-2 my-4 cursor-pointer'>
+          <div
+            className='border border-white justify-between gap-4 items-center rounded-full flex w-max p-2 my-4 cursor-pointer'
+            onClick={() => {
+              navigate('/chat', { state: { seller } });
+            }}
+          >
             <div className='w-8 h-8 rounded-full'>
               <img src={image} alt='' className='w-full h-full rounded-full' />
             </div>
