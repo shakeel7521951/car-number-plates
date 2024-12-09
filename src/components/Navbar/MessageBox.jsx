@@ -2,35 +2,49 @@ import { useState, useRef, useEffect } from 'react';
 import person from '../../assets/person1.jpeg';
 import { IoMdMail } from 'react-icons/io';
 import { Link } from 'react-router-dom';
+import { io } from 'socket.io-client'; // Import Socket.IO client
+import { useSelector } from 'react-redux';
+import { useGetNotificationQuery } from '../../Redux/messageRoute/messageApi';
 
 const MessageBox = () => {
   const [isMessageDialogOpen, setIsMessageDialogOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
-
+  const [notifications, setNotifications] = useState([]);
+  const [notificationCount, setNotificationCount] = useState(0);
   const messageBoxRef = useRef(null);
+  const { profile } = useSelector((state) => state.user);
+  console.log('profiile', profile);
+  // if(profile?._id === )
+  const {
+    data: notificationsData,
+    error,
+    isLoading,
+  } = useGetNotificationQuery();
 
-  const messages = [
-    { id: 1, name: 'John Doe', message: 'Hey! How are you?', avatar: person },
-    {
-      id: 2,
-      name: 'Jane Smith',
-      message: 'Please check the latest updates.',
-      avatar: person,
-    },
-    {
-      id: 3,
-      name: 'Alice Johnson',
-      message: 'Are you joining the meeting?',
-      avatar: person,
-    },
-  ];
+  // console.log(
+  //   'outside data',
+  //   notificationsData?.notifications[0]?.message?.buyerId
+  // );
+  // Establish socket connection on component mount
+  useEffect(() => {
+    // Assuming your backend is running at 'http://localhost:5000'
+    const socket = io('http://localhost:5000');
+    // console.log('get notifgication query', notificationsData);
+    // Listen for new notifications from the server
+    socket.on('notification', (notification) => {
+      // console.log('New Notification:', notification); // Log notification data to console
+      setNotifications((prevNotifications) => [
+        ...prevNotifications,
+        notification,
+      ]);
+    });
 
-  const filteredMessages = messages.filter(
-    (msg) =>
-      msg.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      msg.message.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+    // Clean up the socket connection on component unmount
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
 
+  // Close the dropdown when clicked outside
   const handleClickOutside = (e) => {
     if (messageBoxRef.current && !messageBoxRef.current.contains(e.target)) {
       setIsMessageDialogOpen(false);
@@ -44,66 +58,38 @@ const MessageBox = () => {
     };
   }, []);
 
+  // if (profile?._id === notifications?.userId) {
+  //   // console.log('mathc');
+  //   setNotificationCount(1);
+  // }
+
   return (
     <div className='relative' ref={messageBoxRef}>
-      {/* Message Icon with Notification Badge */}
+      {/* Message Icon, clicking toggles the message dialog */}
       <div className='relative'>
         <IoMdMail
           size='40px'
           onClick={() => setIsMessageDialogOpen(!isMessageDialogOpen)}
           className='cursor-pointer'
         />
-        <span className='absolute top-0 right-0 bg-red-500 text-white rounded-full px-2 text-xs'>
-          {messages.length}
-        </span>
+        <span>{notificationsData?.notifications?.length}</span>
       </div>
 
-      {/* Message Dialog */}
+      {/* Dropdown/Message Dialog */}
       {isMessageDialogOpen && (
-        <div className='absolute top-full right-0 mt-2 bg-white p-4 rounded-lg shadow-lg w-72 z-20'>
-          {/* Header with Search */}
-          <div className='flex flex-col space-y-2'>
-            <div className='flex justify-between items-center'>
-              <h2 className='text-lg font-bold'>Messages</h2>
-              <button
-                onClick={() => setIsMessageDialogOpen(false)}
-                className='text-gray-500'
-              >
-                ✕
-              </button>
-            </div>
-            <input
-              type='text'
-              placeholder='Search messages...'
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className='w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-200'
-            />
-          </div>
-
-          {/* Message List */}
-          <ul className='mt-4 max-h-64 overflow-y-auto'>
-            {filteredMessages.map((msg) => (
+        <div className='absolute top-12 right-0 z-40 bg-white shadow-lg p-4 rounded-md w-60'>
+          <h3 className='font-semibold'>Messages received</h3>
+          <div className='space-y-2'>
+            {/* Render notifications */}
+            {notificationsData?.notifications?.map((notification, index) => (
               <Link
-                to={'/message'}
-                key={msg.id}
-                className='flex items-center mb-4'
+                key={index}
+                to={`/chat?sellerId=${notification?.userId}&buyerId=${notificationsData?.notifications[0]?.message?.buyerId}`}
               >
-                <img
-                  src={msg.avatar}
-                  alt={msg.name}
-                  className='w-8 h-8 rounded-full mr-3'
-                />
-                <div>
-                  <h3 className='font-semibold'>{msg.name}</h3>
-                  <p className='text-sm text-gray-600'>{msg.message}</p>
-                </div>
+                <h1>You recieved message</h1>
               </Link>
             ))}
-            {filteredMessages.length === 0 && (
-              <p className='text-sm text-gray-500'>No messages found.</p>
-            )}
-          </ul>
+          </div>
         </div>
       )}
     </div>

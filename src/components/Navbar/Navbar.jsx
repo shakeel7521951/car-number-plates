@@ -8,6 +8,7 @@ import person from '../../assets/user.png';
 import ProfileMenu from './ProfileMenu';
 import { useDispatch, useSelector } from 'react-redux';
 import { setLanguage } from '../../Redux/ToggleLanguage';
+import MessageBox from './MessageBox';
 
 const Navbar = () => {
   const { profile } = useSelector((state) => state.user);
@@ -186,7 +187,7 @@ const Navbar = () => {
             <div className='flex gap-4'>
               <CiHeart size='40px' />
               <CiBellOn size='40px' />
-              {/* <MessageBox /> */}
+              <MessageBox />
               <main>
                 <div
                   className='w-10 h-10 rounded-full cursor-pointer'
