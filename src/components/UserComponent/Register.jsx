@@ -251,7 +251,13 @@ const Register = () => {
                 type='submit'
                 className='w-full bg-[#050c2b] text-white p-2 rounded-md hover:bg-[#090d1d] transition-colors'
               >
-                {language === 'eng' ? 'Sign Up' : 'اشتراك'}
+                {isLoading
+                  ? language === 'eng'
+                    ? 'Signing up...'
+                    : 'جارٍ الاشتراك...'
+                  : language === 'eng'
+                  ? 'Sign Up'
+                  : 'اشتراك'}
               </button>
             </form>
 
