@@ -160,9 +160,7 @@ const ExploreCard = ({
           <div
             className='border border-white justify-between gap-4 items-center rounded-full flex w-max p-2 my-4 cursor-pointer'
             onClick={() => {
-              navigate(`/chat?sellerId=${seller}&buyerId=${profile?._id}`, {
-                state: { seller },
-              });
+              navigate(`/chat?sellerId=${seller}`);
             }}
           >
             <div className='w-8 h-8 rounded-full'>

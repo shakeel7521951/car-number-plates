@@ -1,18 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import {
   useGetMessageQuery,
-  useGetNotificationsQuery,
   useSendMessageMutation,
 } from '../Redux/messageRoute/messageApi';
 import { useLocation } from 'react-router-dom';
-import { toast } from 'react-toastify';
 
 // Message component to display each message
 const Message = ({ message, isOwnMessage }) => {
-  const { profile } = useSelector((state) => state.user); // Assuming profile is in user slice of Redux
-  // const { getNotification } = useGetNotificationsQuery();
-  // console.log(getNotification);
   return (
     <div
       className={`flex w-full py-2 px-4 ${
@@ -27,7 +22,7 @@ const Message = ({ message, isOwnMessage }) => {
         }`}
       >
         <p className='text-sm break-words'>{message.content}</p>
-        <span className='block text-xs text-gray-500 mt-1 text-right'>
+        <span className='block text-xs mt-1 text-right'>
           {message.timestamp}
         </span>
       </div>
@@ -35,18 +30,13 @@ const Message = ({ message, isOwnMessage }) => {
   );
 };
 
-const Chat = ({ senderId, receiverId }) => {
+const Chat = () => {
   const [inputText, setInputText] = useState('');
-  const { profile } = useSelector((state) => state.user); // Assuming profile is in user slice of Redux
+  const { profile } = useSelector((state) => state.user);
   const location = useLocation();
-  // console.log('login id', profile?._id);
-  const productCreator = location?.state?.seller;
-  // console.log('sellerid', productCreator);
 
-  //  const location = useLocation();
-  const sellerId = new URLSearchParams(location.search).get('sellerId');
-  const buyerId = new URLSearchParams(location.search).get('buyerId');
-  //  const { profile } = useSelector((state) => state.user); // Assuming profile is in user slice of Redux
+  const sellerIdParam = new URLSearchParams(location.search).get('sellerId');
+  const buyerIdParam = new URLSearchParams(location.search).get('buyerId');
 
   const {
     data: messages,
@@ -54,20 +44,11 @@ const Chat = ({ senderId, receiverId }) => {
     isError,
     error,
   } = useGetMessageQuery({
-    senderId: sellerId || productCreator,
-    receiverId: buyerId || profile?._id,
+    receiverId: profile?.role === 'seller' ? buyerIdParam : sellerIdParam,
   });
-  // const {
-  //   data: messages,
-  //   isLoading,
-  //   isError,
-  //   error,
-  // } = useGetMessageQuery({
-  //   senderId: sellerId,
-  //   receiverId: profile?._id,
-  // });
+
   const [sendMessage] = useSendMessageMutation();
-  // console.log('from db', messages);
+  console.log('from db', messages);
   // Handle input changes
   const handleInputChange = (e) => {
     setInputText(e.target.value);
@@ -77,54 +58,44 @@ const Chat = ({ senderId, receiverId }) => {
   const handleSendMessage = async (e) => {
     if (e.key === 'Enter' && inputText.trim()) {
       const newMessage = {
-        senderId: sellerId || productCreator,
-        receiverId: buyerId || profile?._id,
+        receiverId: profile?.role === 'seller' ? buyerIdParam : sellerIdParam,
         content: inputText,
-        timestamp: new Date().toLocaleTimeString([], {
-          hour: '2-digit',
-          minute: '2-digit',
-        }),
       };
 
-      // console.log('new message', newMessage);
       try {
-        const res = await sendMessage(newMessage).unwrap(); // Send the message using RTK Query mutation
+        await sendMessage(newMessage).unwrap();
 
-        setInputText(''); // Clear input after sending
+        setInputText('');
       } catch (error) {
         console.error('Failed to send message:', error);
       }
     }
   };
 
-  // Show loading or error messages
   if (isLoading) return <p>Loading messages...</p>;
   if (isError) return <p>Error loading messages: {error.message}</p>;
 
   return (
     <div className='flex flex-col space-y-3 p-4 max-w-md mx-auto'>
-      {/* Display all messages */}
-      {/* {console.log('message', messages)} */}
       {messages && messages.length > 0 ? (
         messages.map((msg, index) => (
           <Message
             key={index}
             message={msg}
-            isOwnMessage={msg.sender === profile?._id}
+            isOwnMessage={msg?.receiver === profile?._id}
           />
         ))
       ) : (
         <p>No messages yet...</p>
       )}
 
-      {/* Input field for typing a message */}
       <div className='flex mt-4'>
         <input
           type='text'
           className='flex-1 p-2 border rounded-lg border-gray-300 focus:outline-none'
           value={inputText}
           onChange={handleInputChange}
-          onKeyDown={handleSendMessage} // Handle Enter key press
+          onKeyDown={handleSendMessage}
           placeholder='Type a message...'
         />
       </div>
