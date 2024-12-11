@@ -5,25 +5,35 @@ import { io } from 'socket.io-client'; // Import Socket.IO client
 import { useSelector } from 'react-redux';
 import { useGetNotificationQuery } from '../../Redux/messageRoute/messageApi';
 import { GoDotFill } from 'react-icons/go';
+import { toast } from 'react-toastify';
 
 const MessageBox = () => {
   const [isMessageDialogOpen, setIsMessageDialogOpen] = useState(false);
   const [notifications, setNotifications] = useState([]);
-  // const [notificationCount, setNotificationCount] = useState(0);
+  const [liveNotification, setLiveNotifications] = useState('');
   const messageBoxRef = useRef(null);
   const { profile } = useSelector((state) => state.user);
 
   const { data: notificationsData } = useGetNotificationQuery();
   console.log('notifications data', notificationsData);
+
   useEffect(() => {
-    const socket = io('http://localhost:5000');
+    const socket = io('http://localhost:5000', {
+      transports: ['websocket'], // Ensure WebSocket is being used
+    });
+
+    socket.on('connect', () => {
+      console.log('Socket connected:', socket.id);
+    });
 
     socket.on('notification', (notification) => {
-      console.log('New notification from socket:', notification);
-      setNotifications((prevNotifications) => [
-        ...prevNotifications,
-        notification,
-      ]);
+      console.log('Received notification:', notification);
+      setLiveNotifications(notification);
+      setNotifications((prev) => [...prev, notification]);
+    });
+
+    socket.on('connect_error', (err) => {
+      console.error('Socket connection error:', err);
     });
 
     return () => {
@@ -31,9 +41,21 @@ const MessageBox = () => {
     };
   }, []);
 
+  // Combine live notifications with the fetched notifications
+  const combinedNotifications = [
+    ...(notificationsData?.notifications || []),
+    ...notifications,
+  ];
+
+  // Use effect to trigger toast notification
   useEffect(() => {
-    console.log('notififcation from socket ', notifications);
-  }, [notifications]);
+    if (liveNotification && profile?.name !== liveNotification?.senderName) {
+      toast.success(
+        `You received a message from ${liveNotification?.senderName}`
+      );
+    }
+  }, [liveNotification, profile?.name]);
+
   // Close the dropdown when clicked outside
   const handleClickOutside = (e) => {
     if (messageBoxRef.current && !messageBoxRef.current.contains(e.target)) {
@@ -56,7 +78,7 @@ const MessageBox = () => {
           onClick={() => setIsMessageDialogOpen(!isMessageDialogOpen)}
           className='cursor-pointer'
         />
-        <span className='absolute -top-2  -right-2 '>
+        <span className='absolute -top-2 -right-2'>
           <GoDotFill className='w-full h-full color-[#FFD200]' />
         </span>
       </div>
@@ -65,8 +87,8 @@ const MessageBox = () => {
         <div className='absolute top-12 right-0 z-40 bg-white shadow-lg p-4 rounded-md w-60'>
           <h3 className='font-semibold'>Messages received</h3>
           <div className='space-y-2'>
-            {/* Render notifications */}
-            {notificationsData?.notifications?.map(
+            {/* Render combined notifications */}
+            {combinedNotifications.map(
               (notification, index) =>
                 profile?.name !== notification?.senderName && ( // Check if profile name is not equal to sender's name
                   <Link
