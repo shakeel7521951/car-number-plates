@@ -19,7 +19,7 @@ const MessageBox = () => {
     const socket = io('http://localhost:5000');
 
     socket.on('notification', (notification) => {
-      console.log('starting', notification);
+      console.log('New notification from socket:', notification);
       setNotifications((prevNotifications) => [
         ...prevNotifications,
         notification,
@@ -66,32 +66,35 @@ const MessageBox = () => {
           <h3 className='font-semibold'>Messages received</h3>
           <div className='space-y-2'>
             {/* Render notifications */}
-            {notificationsData?.notifications?.map((notification, index) => (
-              <Link
-                key={index}
-                to={
-                  profile?.role === 'seller'
-                    ? `/chat?buyerId=${notification?.buyerId}`
-                    : `/chat?sellerId=${notification?.sellerId}`
-                }
-                className='flex items-center space-x-3 p-2 rounded-md hover:bg-gray-100'
-              >
-                {/* Notification item */}
-                <img
-                  src={notification?.senderImage}
-                  alt={notification?.senderName}
-                  className='w-10 h-10 rounded-full object-cover'
-                />
-                <div className='flex flex-col'>
-                  <span className='font-semibold'>
-                    {notification?.senderName}
-                  </span>
-                  <span className='text-sm text-gray-500'>
-                    {notification?.message}
-                  </span>
-                </div>
-              </Link>
-            ))}
+            {notificationsData?.notifications?.map(
+              (notification, index) =>
+                profile?.name !== notification?.senderName && ( // Check if profile name is not equal to sender's name
+                  <Link
+                    key={index}
+                    to={
+                      profile?.role === 'seller'
+                        ? `/chat?buyerId=${notification?.buyerId}`
+                        : `/chat?sellerId=${notification?.sellerId}`
+                    }
+                    className='flex items-center space-x-3 p-2 rounded-md hover:bg-gray-100'
+                  >
+                    {/* Notification item */}
+                    <img
+                      src={notification?.senderImage}
+                      alt={notification?.senderName}
+                      className='w-10 h-10 rounded-full object-cover'
+                    />
+                    <div className='flex flex-col'>
+                      <span className='font-semibold'>
+                        {notification?.senderName}
+                      </span>
+                      <span className='text-sm text-gray-500'>
+                        {notification?.message}
+                      </span>
+                    </div>
+                  </Link>
+                )
+            )}
           </div>
         </div>
       )}
