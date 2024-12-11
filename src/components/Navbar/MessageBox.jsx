@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { io } from 'socket.io-client'; // Import Socket.IO client
 import { useSelector } from 'react-redux';
 import { useGetNotificationQuery } from '../../Redux/messageRoute/messageApi';
+import { GoDotFill } from 'react-icons/go';
 
 const MessageBox = () => {
   const [isMessageDialogOpen, setIsMessageDialogOpen] = useState(false);
@@ -13,12 +14,12 @@ const MessageBox = () => {
   const { profile } = useSelector((state) => state.user);
 
   const { data: notificationsData } = useGetNotificationQuery();
-  console.log('notifications data', notificationsData?.notifications?.[0]);
-
+  console.log('notifications data', notificationsData);
   useEffect(() => {
     const socket = io('http://localhost:5000');
 
     socket.on('notification', (notification) => {
+      console.log('starting', notification);
       setNotifications((prevNotifications) => [
         ...prevNotifications,
         notification,
@@ -30,6 +31,9 @@ const MessageBox = () => {
     };
   }, []);
 
+  useEffect(() => {
+    console.log('notififcation from socket ', notifications);
+  }, [notifications]);
   // Close the dropdown when clicked outside
   const handleClickOutside = (e) => {
     if (messageBoxRef.current && !messageBoxRef.current.contains(e.target)) {
@@ -52,7 +56,9 @@ const MessageBox = () => {
           onClick={() => setIsMessageDialogOpen(!isMessageDialogOpen)}
           className='cursor-pointer'
         />
-        <span>{notificationsData?.notifications?.length}</span>
+        <span className='absolute -top-2  -right-2 '>
+          <GoDotFill className='w-full h-full color-[#FFD200]' />
+        </span>
       </div>
 
       {isMessageDialogOpen && (
@@ -68,12 +74,22 @@ const MessageBox = () => {
                     ? `/chat?buyerId=${notification?.buyerId}`
                     : `/chat?sellerId=${notification?.sellerId}`
                 }
+                className='flex items-center space-x-3 p-2 rounded-md hover:bg-gray-100'
               >
-                {console.log(
-                  'butersdklfahsdguhdiewnkvjher',
-                  notification?.buyerId
-                )}
-                <h1>You recieved message</h1>
+                {/* Notification item */}
+                <img
+                  src={notification?.senderImage}
+                  alt={notification?.senderName}
+                  className='w-10 h-10 rounded-full object-cover'
+                />
+                <div className='flex flex-col'>
+                  <span className='font-semibold'>
+                    {notification?.senderName}
+                  </span>
+                  <span className='text-sm text-gray-500'>
+                    {notification?.message}
+                  </span>
+                </div>
               </Link>
             ))}
           </div>
