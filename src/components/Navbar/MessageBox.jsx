@@ -3,7 +3,10 @@ import { IoMdMail } from 'react-icons/io';
 import { Link } from 'react-router-dom';
 import { io } from 'socket.io-client'; // Import Socket.IO client
 import { useSelector } from 'react-redux';
-import { useGetNotificationQuery } from '../../Redux/messageRoute/messageApi';
+import {
+  useDeleteNotificationMutation,
+  useGetNotificationQuery,
+} from '../../Redux/messageRoute/messageApi';
 import { GoDotFill } from 'react-icons/go';
 import { toast } from 'react-toastify';
 
@@ -13,7 +16,7 @@ const MessageBox = () => {
   const [liveNotification, setLiveNotifications] = useState('');
   const messageBoxRef = useRef(null);
   const { profile } = useSelector((state) => state.user);
-
+  const [deleteNotification] = useDeleteNotificationMutation();
   const { data: notificationsData } = useGetNotificationQuery();
   console.log('notifications data', notificationsData);
 
@@ -70,6 +73,23 @@ const MessageBox = () => {
     };
   }, []);
 
+  const handleNotification = async (id) => {
+    try {
+      const res = await deleteNotification(id).unwrap();
+      console.log(res?.message);
+
+      // Update the state to remove the deleted notification
+      setNotifications((prev) =>
+        prev.filter(
+          (notification) =>
+            notification?.buyerId !== id && notification?.sellerId !== id
+        )
+      );
+    } catch (error) {
+      console.log(error?.message);
+    }
+  };
+
   return (
     <div className='relative' ref={messageBoxRef}>
       <div className='relative'>
@@ -103,6 +123,13 @@ const MessageBox = () => {
                         : `/chat?sellerId=${notification?.sellerId}`
                     }
                     className='flex items-center space-x-3 p-2 rounded-md hover:bg-gray-100'
+                    onClick={() =>
+                      handleNotification(
+                        profile?.role === 'seller'
+                          ? notification?.buyerId
+                          : notification?.sellerId
+                      )
+                    }
                   >
                     {/* Notification item */}
                     <img

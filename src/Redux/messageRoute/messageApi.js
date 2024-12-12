@@ -43,6 +43,14 @@ export const messageApi = createApi({
         method: 'GET',
       }),
     }),
+    deleteNotification: builder.mutation({
+      query: (id) => ({
+        url: '/clear-notifications',
+        method: 'POST',
+        body: { secondPartyId: id },
+      }),
+      invalidatesTags: ['Message'],
+    }),
   }),
 });
 
@@ -51,4 +59,5 @@ export const {
   useSendMessageMutation,
   useGetMessageQuery,
   useGetNotificationQuery,
+  useDeleteNotificationMutation,
 } = messageApi;
