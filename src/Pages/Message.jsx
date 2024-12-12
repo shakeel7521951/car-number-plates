@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import {
   useGetMessageQuery,
@@ -26,8 +26,8 @@ const Message = ({ message, isOwnMessage }) => {
             : 'bg-gray-100 text-gray-800 self-start'
         }`}
       >
-        <p className="text-sm break-words">{message.content}</p>
-        <span className="block mt-1 text-xs text-right">
+        <p className='text-sm break-words'>{message.content}</p>
+        <span className='block mt-1 text-xs text-right'>
           {formattedTimestamp}
         </span>
       </div>
@@ -35,12 +35,13 @@ const Message = ({ message, isOwnMessage }) => {
   );
 };
 
-
 const Chat = () => {
   const [inputText, setInputText] = useState('');
   const [messages, setMessages] = useState([]);
   const { profile } = useSelector((state) => state.user);
   const location = useLocation();
+  const messagesEndRef = useRef(null);
+  const debounceTimeoutRef = useRef(null);
 
   const sellerIdParam = new URLSearchParams(location.search).get('sellerId');
   const buyerIdParam = new URLSearchParams(location.search).get('buyerId');
@@ -72,62 +73,70 @@ const Chat = () => {
     };
   }, [initialMessages]);
 
-  console.log('Messages from db', messages);
+  useEffect(() => {
+    // Scroll to the bottom when messages update
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [messages]);
 
-  // Handle input changes
   const handleInputChange = (e) => {
     setInputText(e.target.value);
   };
 
-  // Handle sending a new message
-  const handleSendMessage = async (e) => {
+  const debounceSendMessage = (newMessage) => {
+    if (debounceTimeoutRef.current) {
+      clearTimeout(debounceTimeoutRef.current);
+    }
+
+    debounceTimeoutRef.current = setTimeout(async () => {
+      try {
+        await sendMessage(newMessage).unwrap();
+        setInputText('');
+      } catch (error) {
+        console.error('Failed to send message:', error);
+      }
+    }, 300); // 300ms debounce delay
+  };
+
+  const handleSendMessage = (e) => {
     if (e.key === 'Enter' && inputText.trim()) {
       const newMessage = {
         receiverId: profile?.role === 'seller' ? buyerIdParam : sellerIdParam,
         content: inputText,
       };
-
-      try {
-        await sendMessage(newMessage).unwrap();
-
-        // Manually append the new message to the state after sending
-        // setMessages((prevMessages) => [
-        //   ...prevMessages,
-        //   { ...newMessage, timestamp: new Date() },
-        // ]);
-
-        setInputText('');
-      } catch (error) {
-        console.error('Failed to send message:', error);
-      }
+      debounceSendMessage(newMessage);
     }
   };
-console.log("messages final console",messages)
+
   if (isLoading) return <p>Loading messages...</p>;
   if (isError) return <p>Error loading messages: {error.message}</p>;
 
   return (
-    <div className="flex flex-col max-w-md p-4 mx-auto space-y-3">
-      {messages && messages.length > 0 ? (
-        messages.map((msg, index) => (
-          <Message
-            key={index}
-            message={msg}
-            isOwnMessage={msg?.receiver === profile?._id}
-          />
-        ))
-      ) : (
-        <p>No messages yet...</p>
-      )}
+    <div className='flex flex-col h-screen max-w-md mx-auto bg-white'>
+      <div className='flex-1 overflow-y-auto p-4 space-y-3'>
+        {messages && messages.length > 0 ? (
+          messages.map((msg, index) => (
+            <Message
+              key={index}
+              message={msg}
+              isOwnMessage={msg?.receiver === profile?._id}
+            />
+          ))
+        ) : (
+          <p>No messages yet...</p>
+        )}
+        <div ref={messagesEndRef} />
+      </div>
 
-      <div className="flex mt-4">
+      <div className='sticky bottom-0 bg-white p-4 shadow-md'>
         <input
-          type="text"
-          className="flex-1 p-2 border border-gray-300 rounded-lg focus:outline-none"
+          type='text'
+          className='w-full p-2 border border-gray-300 rounded-lg focus:outline-none'
           value={inputText}
           onChange={handleInputChange}
           onKeyDown={handleSendMessage}
-          placeholder="Type a message..."
+          placeholder='Type a message...'
         />
       </div>
     </div>

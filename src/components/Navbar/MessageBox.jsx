@@ -84,8 +84,12 @@ const MessageBox = () => {
       </div>
 
       {isMessageDialogOpen && (
-        <div className='absolute top-12 right-0 z-40 bg-white shadow-lg p-4 rounded-md w-60'>
-          <h3 className='font-semibold'>Messages received</h3>
+        <div className='absolute top-12 right-0 z-40 bg-white shadow-lg p-4 rounded-md w-60 max-h-80 overflow-y-auto'>
+          {combinedNotifications.length <= 0 ? (
+            <h3 className='font-semibold'>No message yet</h3>
+          ) : (
+            <h3 className='font-semibold'>Messages received</h3>
+          )}
           <div className='space-y-2'>
             {/* Render combined notifications */}
             {combinedNotifications.map(
@@ -111,7 +115,7 @@ const MessageBox = () => {
                         {notification?.senderName}
                       </span>
                       <span className='text-sm text-gray-500'>
-                        {notification?.message}
+                        {notification?.message?.slice(0, 20)}...{' '}
                       </span>
                     </div>
                   </Link>

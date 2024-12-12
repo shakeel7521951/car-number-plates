@@ -1,10 +1,11 @@
 import React from 'react';
 import image from '../../assets/silver.jpg';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 const Summary = () => {
   const { language } = useSelector((state) => state.language);
-
+  const { profile } = useSelector((state) => state.user);
   return (
     <main className='py-12 rounded-2xl shadow-2xl bg-white text-black mx-4'>
       <div
@@ -83,11 +84,13 @@ const Summary = () => {
             : 'justify-center pl-8 sm:justify-start'
         } mt-4`}
       >
-        <div className='bg-[#FFEA01B2] rounded-[15px] flex items-center justify-center cursor-pointer animated-button px-8 py-3'>
-          <button className='button-content text-xl'>
-            {language === 'eng' ? 'Join Now' : 'انضم الآن'}
-          </button>
-        </div>
+        {!profile && (
+          <div className='bg-[#FFEA01B2] rounded-[15px] flex items-center justify-center cursor-pointer animated-button px-8 py-3'>
+            <Link to={'/login'} className='button-content text-xl'>
+              {language === 'eng' ? 'Join Now' : 'انضم الآن'}
+            </Link>
+          </div>
+        )}
       </div>
     </main>
   );
