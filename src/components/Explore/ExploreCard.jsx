@@ -157,19 +157,25 @@ const ExploreCard = ({
               ? `Private Plate ${plateNo}`
               : `اللوحة الخاصة ${plateNo}`}
           </h1>
-          <div
-            className='border border-white justify-between gap-4 items-center rounded-full flex w-max p-2 my-4 cursor-pointer'
-            onClick={() => {
-              navigate(`/chat?sellerId=${seller}`);
-            }}
-          >
-            <div className='w-8 h-8 rounded-full'>
-              <img src={image} alt='' className='w-full h-full rounded-full' />
+          {profile?.role !== 'seller' && (
+            <div
+              className='border border-white justify-between gap-4 items-center rounded-full flex w-max p-2 my-4 cursor-pointer'
+              onClick={() => {
+                navigate(`/chat?sellerId=${seller}`);
+              }}
+            >
+              <div className='w-8 h-8 rounded-full'>
+                <img
+                  src={image}
+                  alt=''
+                  className='w-full h-full rounded-full'
+                />
+              </div>
+              <h1 className='text-lg pr-4 font-semibold'>
+                {language === 'eng' ? 'Personal' : 'شخصي'}
+              </h1>
             </div>
-            <h1 className='text-lg pr-4 font-semibold'>
-              {language === 'eng' ? 'Personal' : 'شخصي'}
-            </h1>
-          </div>
+          )}
         </div>
         <div className='flex flex-col items-start justify-start'>
           <h1 className='capitalize pb-8'>

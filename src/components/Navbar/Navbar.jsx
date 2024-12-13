@@ -9,6 +9,7 @@ import ProfileMenu from './ProfileMenu';
 import { useDispatch, useSelector } from 'react-redux';
 import { setLanguage } from '../../Redux/ToggleLanguage';
 import MessageBox from './MessageBox';
+import { MdMail } from 'react-icons/md';
 
 const Navbar = () => {
   const { profile } = useSelector((state) => state.user);
@@ -186,7 +187,9 @@ const Navbar = () => {
           {profile && (
             <div className='flex gap-4'>
               <CiHeart size='40px' />
-              <CiBellOn size='40px' />
+              <Link to={'/chat'}>
+                <MdMail size='40px' />
+              </Link>
               <MessageBox />
               <main>
                 <div

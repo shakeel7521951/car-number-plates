@@ -9,6 +9,7 @@ import {
 } from '../../Redux/messageRoute/messageApi';
 import { GoDotFill } from 'react-icons/go';
 import { toast } from 'react-toastify';
+import { FaBell } from 'react-icons/fa';
 
 const MessageBox = () => {
   const [isMessageDialogOpen, setIsMessageDialogOpen] = useState(false);
@@ -52,7 +53,7 @@ const MessageBox = () => {
 
   // Use effect to trigger toast notification
   useEffect(() => {
-    if (liveNotification && profile?.name !== liveNotification?.senderName) {
+    if (liveNotification && profile?.email !== liveNotification?.senderEmail) {
       toast.success(
         `You received a message from ${liveNotification?.senderName}`
       );
@@ -93,8 +94,8 @@ const MessageBox = () => {
   return (
     <div className='relative' ref={messageBoxRef}>
       <div className='relative'>
-        <IoMdMail
-          size='40px'
+        <FaBell
+          size='34px'
           onClick={() => setIsMessageDialogOpen(!isMessageDialogOpen)}
           className='cursor-pointer'
         />
@@ -114,7 +115,7 @@ const MessageBox = () => {
             {/* Render combined notifications */}
             {combinedNotifications.map(
               (notification, index) =>
-                profile?.name !== notification?.senderName && ( // Check if profile name is not equal to sender's name
+                profile?.email !== notification?.senderEmail && ( // Check if profile name is not equal to sender's name
                   <Link
                     key={index}
                     to={

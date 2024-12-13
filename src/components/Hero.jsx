@@ -14,7 +14,7 @@ import {
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 function Hero() {
@@ -30,7 +30,7 @@ function Hero() {
       hero_image: hero2,
     },
   ];
-
+  const navigate = useNavigate();
   return (
     <Swiper
       className='custom-swiper w-full mt-4'
@@ -86,9 +86,12 @@ function Hero() {
                     {language === 'eng' ? 'BOOK NOW' : 'احجز الآن'}
                   </span>
                 </Link>
-                <button className='animated-button px-4 bg-white'>
+                <button
+                  className='animated-button px-4 bg-white'
+                  onClick={() => navigate('/explore')}
+                >
                   <span className='button-content text-lg font-semibold'>
-                    {language === 'eng' ? 'CONTACT' : 'اتصل'}
+                    {language === 'eng' ? 'Number Plates' : ' لوحات أرقام'}
                   </span>
                 </button>
               </div>

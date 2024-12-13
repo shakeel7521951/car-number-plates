@@ -3,8 +3,9 @@ import { useSelector } from 'react-redux';
 import {
   useGetMessageQuery,
   useSendMessageMutation,
+  useMessageQueryQuery, // Fetch all users for the sidebar
 } from '../Redux/messageRoute/messageApi';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import io from 'socket.io-client';
 
 const socket = io('http://localhost:5000');
@@ -38,22 +39,35 @@ const Message = ({ message, isOwnMessage }) => {
 const Chat = () => {
   const [inputText, setInputText] = useState('');
   const [messages, setMessages] = useState([]);
+  const [users, setUsers] = useState([]); // State to store users for the sidebar
   const { profile } = useSelector((state) => state.user);
   const location = useLocation();
+  const navigate = useNavigate();
   const messagesEndRef = useRef(null);
   const debounceTimeoutRef = useRef(null);
 
   const sellerIdParam = new URLSearchParams(location.search).get('sellerId');
   const buyerIdParam = new URLSearchParams(location.search).get('buyerId');
 
+  const isChatOpen = sellerIdParam || buyerIdParam;
   const {
     data: initialMessages,
-    isLoading,
-    isError,
-    error,
-  } = useGetMessageQuery({
-    receiverId: profile?.role === 'seller' ? buyerIdParam : sellerIdParam,
-  });
+    isLoading: isMessagesLoading,
+    isError: isMessagesError,
+    error: messagesError,
+  } = useGetMessageQuery(
+    {
+      receiverId: profile?.role === 'seller' ? buyerIdParam : sellerIdParam,
+    },
+    { skip: !isChatOpen }
+  );
+
+  const {
+    data: usersData,
+    isLoading: isUsersLoading,
+    isError: isUsersError,
+    error: usersError,
+  } = useMessageQueryQuery();
 
   const [sendMessage] = useSendMessageMutation();
 
@@ -72,6 +86,13 @@ const Chat = () => {
       socket.off('onMessage');
     };
   }, [initialMessages]);
+
+  useEffect(() => {
+    // Fetch and set users for the sidebar
+    if (usersData && usersData.length > 0) {
+      setUsers(usersData);
+    }
+  }, [usersData]);
 
   useEffect(() => {
     // Scroll to the bottom when messages update
@@ -109,35 +130,95 @@ const Chat = () => {
     }
   };
 
-  if (isLoading) return <p>Loading messages...</p>;
-  if (isError) return <p>Error loading messages: {error.message}</p>;
+  const handleUserClick = (userId) => {
+    // Navigate to the specific chat
+    const param =
+      profile?.role === 'seller' ? `buyerId=${userId}` : `sellerId=${userId}`;
+    navigate(`/chat?${param}`);
+  };
 
   return (
-    <div className='flex flex-col h-screen max-w-md mx-auto bg-white'>
-      <div className='flex-1 overflow-y-auto p-4 space-y-3'>
-        {messages && messages.length > 0 ? (
-          messages.map((msg, index) => (
-            <Message
-              key={index}
-              message={msg}
-              isOwnMessage={msg?.receiver === profile?._id}
-            />
-          ))
-        ) : (
-          <p>No messages yet...</p>
-        )}
-        <div ref={messagesEndRef} />
+    <div className='flex h-screen'>
+      {/* Sidebar */}
+      <div className='w-1/3 bg-gray-50 border-r border-gray-200 h-full p-4'>
+        <h2 className='text-xl font-semibold mb-4'>Users</h2>
+        {isUsersLoading && <p>Loading users...</p>}
+        {isUsersError && <p>Error loading users: {usersError.message}</p>}
+        <ul className='space-y-3'>
+          {users.map((user) => (
+            <li
+              key={user.buyer}
+              className='flex items-center p-3 bg-white shadow rounded-lg cursor-pointer hover:bg-gray-100'
+              onClick={() =>
+                handleUserClick(
+                  profile?.role === 'buyer'
+                    ? user?.seller?._id
+                    : user?.buyer?._id
+                )
+              }
+            >
+              <img
+                className='w-10 h-10 rounded-full mr-3'
+                src={
+                  profile?.role === 'buyer'
+                    ? user?.seller?.imageUrl
+                    : user?.buyer?.imageUrl
+                }
+                alt='User'
+              />
+              <div>
+                <p className='font-semibold'>
+                  {profile?.role === 'buyer'
+                    ? user?.seller?.name
+                    : user?.buyer?.name}
+                </p>
+                <p className='text-sm text-gray-600'>{user.lastMessage}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
       </div>
 
-      <div className='sticky bottom-0 bg-white p-4 shadow-md'>
-        <input
-          type='text'
-          className='w-full p-2 border border-gray-300 rounded-lg focus:outline-none'
-          value={inputText}
-          onChange={handleInputChange}
-          onKeyDown={handleSendMessage}
-          placeholder='Type a message...'
-        />
+      {/* Chat Window */}
+      <div className='flex-1 flex flex-col h-full'>
+        {isMessagesLoading && <p>Loading messages...</p>}
+        {isMessagesError && (
+          <p>Error loading messages: {messagesError.message}</p>
+        )}
+        {!isChatOpen && (
+          <div className='flex items-center justify-center h-full text-gray-500'>
+            <p>Select a user to start chatting.</p>
+          </div>
+        )}
+        {isChatOpen && (
+          <>
+            <div className='flex-1 overflow-y-auto p-4 space-y-3'>
+              {messages && messages.length > 0 ? (
+                messages.map((msg, index) => (
+                  <Message
+                    key={index}
+                    message={msg}
+                    isOwnMessage={msg?.receiver === profile?._id}
+                  />
+                ))
+              ) : (
+                <p>No messages yet...</p>
+              )}
+              <div ref={messagesEndRef} />
+            </div>
+
+            <div className='sticky bottom-0 bg-white p-4 shadow-md'>
+              <input
+                type='text'
+                className='w-full p-2 border border-gray-300 rounded-lg focus:outline-none'
+                value={inputText}
+                onChange={handleInputChange}
+                onKeyDown={handleSendMessage}
+                placeholder='Type a message...'
+              />
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

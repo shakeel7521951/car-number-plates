@@ -51,6 +51,12 @@ export const messageApi = createApi({
       }),
       invalidatesTags: ['Message'],
     }),
+    messageQuery: builder.query({
+      query: () => ({
+        url: '/inbox-chats',
+        method: 'GET',
+      }),
+    }),
   }),
 });
 
@@ -60,4 +66,5 @@ export const {
   useGetMessageQuery,
   useGetNotificationQuery,
   useDeleteNotificationMutation,
+  useMessageQueryQuery,
 } = messageApi;

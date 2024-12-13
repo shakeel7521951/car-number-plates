@@ -38,6 +38,7 @@ import { useGetAllProductsQuery } from './Redux/ProductRoutes/productApi.js';
 import ResetPassword from './Pages/ResetPassword.jsx';
 import MyOrders from './Pages/MyOrders.jsx';
 import VerifySignupOpt from './Pages/VerifySignupOtp.jsx';
+import ErrorPage from './Pages/ErrorPage.jsx';
 
 const MainLayout = () => (
   <>
@@ -64,6 +65,7 @@ const DashboardLayout = () => {
 const router = createBrowserRouter([
   {
     element: <MainLayout />,
+    errorElement: <ErrorPage />,
     children: [
       { path: '/', element: <Home /> },
       { path: '/explore', element: <Explore /> },

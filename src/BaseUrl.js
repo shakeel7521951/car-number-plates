@@ -1,1 +1,2 @@
-export const baseUrl = 'https://backend.lusailnumbers.com/api/';
+export const baseUrl = 'http://localhost:5000';
+export const socketIo = 'http://localhost:5000';
