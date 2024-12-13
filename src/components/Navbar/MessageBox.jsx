@@ -10,6 +10,7 @@ import {
 import { GoDotFill } from 'react-icons/go';
 import { toast } from 'react-toastify';
 import { FaBell } from 'react-icons/fa';
+import { baseUrl } from '../../BaseUrl';
 
 const MessageBox = () => {
   const [isMessageDialogOpen, setIsMessageDialogOpen] = useState(false);
@@ -22,7 +23,7 @@ const MessageBox = () => {
   console.log('notifications data', notificationsData);
 
   useEffect(() => {
-    const socket = io('http://localhost:5000', {
+    const socket = io(baseUrl, {
       transports: ['websocket'], // Ensure WebSocket is being used
     });
 
