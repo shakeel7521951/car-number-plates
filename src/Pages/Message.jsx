@@ -6,8 +6,9 @@ import {
 } from '../Redux/messageRoute/messageApi';
 import { useLocation } from 'react-router-dom';
 import io from 'socket.io-client';
+import { baseUrl } from '../BaseUrl';
 
-const socket = io('http://localhost:5000');
+const socket = io(baseUrl);
 
 // Message component to display each message
 const Message = ({ message, isOwnMessage }) => {
