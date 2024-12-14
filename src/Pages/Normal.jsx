@@ -6,6 +6,7 @@ import { useGetFilterProductMutation } from '../Redux/ProductRoutes/productApi';
 import { useSelector } from 'react-redux';
 import Loader from '../components/Explore/Loader';
 import NoProductFound from '../components/NoProductFound';
+import { Link } from 'react-router-dom';
 
 const Normal = () => {
   const { language } = useSelector((state) => state.language); // Get language from Redux
@@ -52,7 +53,7 @@ const Normal = () => {
         <img
           src={normal}
           alt='Normal Plate'
-          className='rounded h-full w-full object-cover'
+          className='rounded h-full md:h-screen w-full object-cover'
         />
         <div className='absolute inset-0 bg-black bg-opacity-40 flex items-center justify-between p-4 md:px-12 md:py-8'>
           <div>
@@ -76,9 +77,9 @@ const Normal = () => {
             </p>
             <div className='flex items-center gap-4 font-semibold'>
               <button className='px-4 py-1 sm:py-3 animated-button rounded-xl bg-white sm:mt-3'>
-                <span className='button-content text-lg'>
-                  {language === 'eng' ? 'Contact Us' : 'اتصل بنا'}
-                </span>
+                <Link to="/explore" className='button-content text-lg'>
+                  {language === 'eng' ? 'Number Plates' : 'لوحات أرقام'}
+                </Link>
               </button>
               <button className='px-4 py-1 sm:py-3 animated-button rounded-xl bg-white sm:mt-3'>
                 <span className='button-content text-lg'>

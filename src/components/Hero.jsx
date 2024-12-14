@@ -44,7 +44,7 @@ function Hero() {
         <SwiperSlide key={index}>
           {/* Desktop and Mobile View */}
           <div
-            className='flex items-center justify-center w-screen h-screen bg-cover bg-center relative transition-opacity duration-500'
+            className='flex items-center justify-center w-screen h-[65vh] md:h-screen bg-cover bg-center relative transition-opacity duration-500'
             style={{
               backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7)), url(${elem.hero_image})`,
               backgroundSize: 'cover',

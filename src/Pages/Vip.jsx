@@ -1,11 +1,12 @@
-import { useEffect, useState } from 'react';
-import ExploreCard from '../components/Explore/ExploreCard';
-import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
-import normal from '../assets/HomePage2.jpg';
-import { useGetFilterProductMutation } from '../Redux/ProductRoutes/productApi';
-import { useSelector } from 'react-redux';
-import Loader from '../components/Explore/Loader';
-import NoProductFound from '../components/NoProductFound';
+import { useEffect, useState } from "react";
+import ExploreCard from "../components/Explore/ExploreCard";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import normal from "../assets/HomePage2.jpg";
+import { useGetFilterProductMutation } from "../Redux/ProductRoutes/productApi";
+import { useSelector } from "react-redux";
+import Loader from "../components/Explore/Loader";
+import NoProductFound from "../components/NoProductFound";
+import { Link } from "react-router-dom";
 
 const Vip = () => {
   const itemsPerPage = 6;
@@ -15,7 +16,7 @@ const Vip = () => {
   const [getVipProducts, { data: filteredData, isLoading, isError }] =
     useGetFilterProductMutation();
   useEffect(() => {
-    getVipProducts('vip');
+    getVipProducts("vip");
   }, [getVipProducts]);
 
   const totalPages = filteredData
@@ -49,39 +50,39 @@ const Vip = () => {
   if (isError) return <div>Error fetching data. Please try again later.</div>;
 
   return (
-    <main className='px-2 sm:px-6 mt-12'>
-      <div className='relative aspect-video md:aspect-auto rounded overflow-hidden'>
+    <main className="px-2 sm:px-6 mt-12">
+      <div className="relative aspect-video md:aspect-auto rounded overflow-hidden">
         <img
           src={normal}
-          alt='Rectangle'
-          className='rounded h-full w-full object-cover'
+          alt="Rectangle"
+          className="rounded h-full md:h-screen w-full object-cover"
         />
-        <div className='absolute inset-0 bg-black bg-opacity-40 flex items-center justify-between p-4 md:px-12 md:py-8'>
+        <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-between p-4 md:px-12 md:py-8">
           <div>
-            <h1 className='text-white font-bold text-xl sm:text-4xl'>
-              {language === 'eng'
-                ? 'Vip Number Plates'
-                : 'لوحات أرقام كبار الشخصيات'}
+            <h1 className="text-white font-bold text-xl sm:text-4xl">
+              {language === "eng"
+                ? "Vip Number Plates"
+                : "لوحات أرقام كبار الشخصيات"}
             </h1>
-            <p className='text-white mt-3 sm:text-3xl font-semibold'>
-              {language === 'eng' ? 'Qatar 8873' : 'قطر 8873'} <br />{' '}
-              {language === 'eng' ? 'Best Price' : 'أفضل الأسعار'}
+            <p className="text-white mt-3 sm:text-3xl font-semibold">
+              {language === "eng" ? "Qatar 8873" : "قطر 8873"} <br />{" "}
+              {language === "eng" ? "Best Price" : "أفضل الأسعار"}
             </p>
-            <div className='flex items-center gap-4 font-semibold'>
-              <button className='px-4 py-1 sm:py-3 animated-button rounded-xl bg-white sm:mt-3'>
-                <span className='button-content text-lg'>
-                  {language === 'eng' ? 'Contact Us' : 'اتصل بنا'}
-                </span>
+            <div className="flex items-center gap-4 font-semibold">
+              <button className="px-4 py-1 sm:py-3 animated-button rounded-xl bg-white sm:mt-3">
+                <Link to="/explore" className="button-content text-lg">
+                  {language === "eng" ? "Number Plates" : "لوحات أرقام"}
+                </Link>
               </button>
-              <button className='px-4 py-1 sm:py-3 animated-button rounded-xl bg-white sm:mt-3'>
-                <span className='button-content text-lg'>
-                  {language === 'eng' ? 'Book Now' : 'احجز الآن'}
+              <button className="px-4 py-1 sm:py-3 animated-button rounded-xl bg-white sm:mt-3">
+                <span className="button-content text-lg">
+                  {language === "eng" ? "Book Now" : "احجز الآن"}
                 </span>
               </button>
             </div>
           </div>
-          <div className='text-white md:text-2xl text-center font-bold italic hidden lg:block mt-4'>
-            {language === 'eng'
+          <div className="text-white md:text-2xl text-center font-bold italic hidden lg:block mt-4">
+            {language === "eng"
               ? '"Access the best of Lusail Numbers by sharing your details."'
               : '"احصل على أفضل أرقام لوسيل من خلال مشاركة بياناتك."'}
           </div>
@@ -90,22 +91,22 @@ const Vip = () => {
 
       <h1
         className={`font-bold text-black my-4 text-4xl ${
-          language === 'eng' ? 'text-left' : 'text-right'
+          language === "eng" ? "text-left" : "text-right"
         }`}
       >
-        {language === 'eng' ? 'VIP Plates' : 'اللوحات المميزة'}
+        {language === "eng" ? "VIP Plates" : "اللوحات المميزة"}
       </h1>
       <p
         className={`text-black my-4 ${
-          language === 'eng' ? 'text-left' : 'text-right'
+          language === "eng" ? "text-left" : "text-right"
         }`}
       >
-        {language === 'eng' ? 'Number Of Plates:' : 'عدد اللوحات:'}{' '}
+        {language === "eng" ? "Number Of Plates:" : "عدد اللوحات:"}{" "}
         {filteredData?.length || 0}
       </p>
 
       {filteredData?.length > 0 ? (
-        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-between gap-4 max-w-[1500px] mx-auto'>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-between gap-4 max-w-[1500px] mx-auto">
           {currentData.map((plate) => (
             <ExploreCard key={plate._id} {...plate} />
           ))}
@@ -115,13 +116,13 @@ const Vip = () => {
       )}
 
       {filteredData?.length > itemsPerPage && (
-        <div className='flex justify-center items-center mt-10 space-x-2'>
+        <div className="flex justify-center items-center mt-10 space-x-2">
           <button
             onClick={handlePreviousPage}
             disabled={currentPage === 1}
-            className={`px-2 py-1 ${currentPage === 1 ? 'opacity-50' : ''}`}
+            className={`px-2 py-1 ${currentPage === 1 ? "opacity-50" : ""}`}
           >
-            <FaChevronLeft className='text-2xl bg-[#e8fe26] rounded text-black cursor-pointer' />
+            <FaChevronLeft className="text-2xl bg-[#e8fe26] rounded text-black cursor-pointer" />
           </button>
 
           {[...Array(totalPages)].map((_, index) => {
@@ -132,8 +133,8 @@ const Vip = () => {
                 onClick={() => handlePageClick(pageNumber)}
                 className={`px-2 rounded ${
                   currentPage === pageNumber
-                    ? 'bg-[#e8fe26] text-black'
-                    : 'text-white'
+                    ? "bg-[#e8fe26] text-black"
+                    : "text-white"
                 }`}
               >
                 {pageNumber}
@@ -145,10 +146,10 @@ const Vip = () => {
             onClick={handleNextPage}
             disabled={currentPage === totalPages}
             className={`px-2 py-1 ${
-              currentPage === totalPages ? 'opacity-50' : ''
+              currentPage === totalPages ? "opacity-50" : ""
             }`}
           >
-            <FaChevronRight className='text-2xl bg-[#e8fe26] rounded text-black cursor-pointer' />
+            <FaChevronRight className="text-2xl bg-[#e8fe26] rounded text-black cursor-pointer" />
           </button>
         </div>
       )}

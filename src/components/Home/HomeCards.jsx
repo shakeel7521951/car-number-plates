@@ -10,7 +10,7 @@ const HomeCards = () => {
 
   const subData = product?.slice(0, 3);
   return (
-    <div className='mt-5 p-10'>
+    <div className='mt-5 md:p-10'>
       <h1 className='text-white text-center text-[30px] md:text-[40px] font-bold'>
         {language === 'eng' ? 'New Today' : 'جديد اليوم'}
       </h1>
@@ -29,7 +29,7 @@ const HomeCards = () => {
           <div className='w-full max-w-[200px]'>
             <Link
               to='/explore'
-              className='text-lg font-semibold animated-button text-center block w-full p-3 rounded-lg bg-white text-black transition duration-300 hover:bg-gray-200'
+              className='text-lg font-semibold animated-button text-center block w-full p-3 mb-5 rounded-lg bg-white text-black transition duration-300 hover:bg-gray-200'
             >
               <span className='button-content text-xl'>
                 {' '}

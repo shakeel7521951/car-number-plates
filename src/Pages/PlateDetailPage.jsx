@@ -130,7 +130,7 @@ const PlateDetailPage = () => {
       </div>
       {/* plate detail likes section */}
       {product?.length > 0 ? (
-        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-between gap-4 p-14'>
+        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-between gap-4 p-8 md:p-14'>
           {mappingData?.map((data_elem, data_index) => {
             return <ExploreCard {...data_elem} key={data_index} />;
           })}
@@ -139,6 +139,7 @@ const PlateDetailPage = () => {
         <NoProductFound />
       )}
       <div className=' flex items-center justify-center'>
+        {showItems < product?.length &&
         <button
           className={`${
             showItems >= product?.length
@@ -154,6 +155,7 @@ const PlateDetailPage = () => {
             {language === 'eng' ? 'Load More' : 'تحميل المزيد'}
           </span>
         </button>
+        }
       </div>
     </div>
   );

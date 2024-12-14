@@ -37,7 +37,7 @@ const ExploreContent = () => {
 
   return (
     <main>
-      <div className='relative aspect-video md:aspect-auto rounded overflow-hidden'>
+      <div className='relative sm:aspect-video h-[40vh] sm:h-[80vh] md:aspect-auto rounded overflow-hidden'>
         <img
           src={Rectangle_50}
           alt='Rectangle'
