@@ -91,7 +91,6 @@ const MessageBox = () => {
       console.log(error?.message);
     }
   };
-
   return (
     <div className='relative' ref={messageBoxRef}>
       <div className='relative'>
@@ -100,9 +99,11 @@ const MessageBox = () => {
           onClick={() => setIsMessageDialogOpen(!isMessageDialogOpen)}
           className='cursor-pointer'
         />
-        <span className='absolute -top-2 -right-2'>
-          <GoDotFill className='w-full h-full color-[#FFD200]' />
-        </span>
+        {combinedNotifications?.length > 0 && (
+          <span className='absolute -top-2 -right-2'>
+            <GoDotFill className='w-full h-full color-[#FFD200]' />
+          </span>
+        )}
       </div>
 
       {isMessageDialogOpen && (

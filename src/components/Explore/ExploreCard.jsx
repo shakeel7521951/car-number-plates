@@ -172,7 +172,7 @@ const ExploreCard = ({
                 />
               </div>
               <h1 className='text-lg pr-4 font-semibold'>
-                {language === 'eng' ? 'Personal' : 'شخصي'}
+                {language === 'eng' ? 'Message' : 'رسالة'}
               </h1>
             </div>
           )}

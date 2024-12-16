@@ -47,12 +47,9 @@ const Chat = () => {
   const messagesEndRef = useRef(null);
   const debounceTimeoutRef = useRef(null);
 
-  // Extract parameters from URL
   const sellerIdParam = new URLSearchParams(location.search).get('sellerId');
   const buyerIdParam = new URLSearchParams(location.search).get('buyerId');
-
   const activeUserId = profile?.role === 'buyer' ? sellerIdParam : buyerIdParam;
-
   const isChatOpen = sellerIdParam || buyerIdParam;
 
   const {
@@ -61,9 +58,7 @@ const Chat = () => {
     isError: isMessagesError,
     error: messagesError,
   } = useGetMessageQuery(
-    {
-      receiverId: profile?.role === 'seller' ? buyerIdParam : sellerIdParam,
-    },
+    { receiverId: profile?.role === 'seller' ? buyerIdParam : sellerIdParam },
     { skip: !isChatOpen }
   );
 
@@ -73,7 +68,6 @@ const Chat = () => {
     isError: isUsersError,
     error: usersError,
   } = useMessageQueryQuery();
-
   const [sendMessage] = useSendMessageMutation();
 
   useEffect(() => {
@@ -143,7 +137,26 @@ const Chat = () => {
         receiverId: profile?.role === 'seller' ? buyerIdParam : sellerIdParam,
         content: inputText,
       };
+
       debounceSendMessage(newMessage);
+
+      // Update users' last message synchronously when a new message is sent
+      setUsers((prevUsers) =>
+        prevUsers.map((user) => {
+          const userId =
+            profile?.role === 'buyer' ? user?.seller?._id : user?.buyer?._id;
+
+          // Ensure the last message is updated for the correct user
+          if (userId === newMessage.receiverId) {
+            return {
+              ...user,
+              lastMessage: newMessage.content,
+            };
+          }
+
+          return user;
+        })
+      );
     }
   };
 
@@ -154,45 +167,60 @@ const Chat = () => {
   };
 
   return (
-    <div className='flex h-[78vh]'>
+    <div className='flex flex-col md:flex-row h-[78vh]'>
       {/* Sidebar */}
-      <div className='w-1/3 bg-gray-50 border-r border-gray-200 h-full p-4'>
-        <h2 className='text-xl font-semibold mb-4'>Users</h2>
+      <div className='md:w-1/3 w-full bg-gray-50 border-r border-gray-200 h-[40vh] sm:h-auto  p-4'>
+        <h2 className='text-lg md:text-xl font-semibold mb-4'>Users</h2>
         {isUsersLoading && <p>Loading users...</p>}
         {isUsersError && <p>Error loading users: {usersError.message}</p>}
         <ul className='space-y-3'>
-          {users?.map((user) => {
-            const userId =
-              profile?.role === 'buyer' ? user?.seller?._id : user?.buyer?._id;
-            const isActive = userId === activeUserId; // Check if user is active
-            return (
-              <li
-                key={userId}
-                className={`flex items-center p-3 bg-white shadow rounded-lg cursor-pointer hover:bg-gray-100 ${
-                  isActive ? 'bg-blue-100 border-l-4 border-blue-500' : ''
-                }`}
-                onClick={() => handleUserClick(userId)}
-              >
-                <img
-                  className='w-10 h-10 rounded-full mr-3'
-                  src={
-                    profile?.role === 'buyer'
-                      ? user?.seller?.imageUrl
-                      : user?.buyer?.imageUrl
-                  }
-                  alt='User'
-                />
-                <div>
-                  <p className='font-semibold'>
-                    {profile?.role === 'buyer'
-                      ? user?.seller?.name
-                      : user?.buyer?.name}
-                  </p>
-                  <p className='text-sm text-gray-600'>{user.lastMessage}</p>
-                </div>
-              </li>
-            );
-          })}
+          {users.length > 0 ? (
+            users?.map((user) => {
+              const userId =
+                profile?.role === 'buyer'
+                  ? user?.seller?._id
+                  : user?.buyer?._id;
+              const isActive = userId === activeUserId; // Check if user is active
+              return (
+                <li
+                  key={userId}
+                  className={`flex items-center p-3 bg-white shadow rounded-lg cursor-pointer hover:bg-gray-100 ${
+                    isActive ? 'bg-blue-100 border-l-4 border-blue-500' : ''
+                  }`}
+                  onClick={() => handleUserClick(userId)}
+                >
+                  <img
+                    className='w-8 h-8 md:w-10 md:h-10 rounded-full mr-3'
+                    src={
+                      profile?.role === 'buyer'
+                        ? user?.seller?.imageUrl
+                        : user?.buyer?.imageUrl
+                    }
+                    alt='User'
+                  />
+                  <div>
+                    <p className='font-semibold text-sm md:text-base'>
+                      {profile?.role === 'buyer'
+                        ? user?.seller?.name
+                        : user?.buyer?.name}
+                    </p>
+                    <p className='text-xs md:text-sm text-gray-600'>
+                      {`${user?.lastMessage?.slice(0, 10)}...`}
+                    </p>
+                  </div>
+                </li>
+              );
+            })
+          ) : (
+            <div className='flex flex-col items-center justify-center h-full text-center text-gray-600'>
+              <h1 className='text-md md:text-lg font-bold text-gray-800'>
+                Your chats will appear here
+              </h1>
+              <p className='text-xs md:text-sm'>
+                Connect with a user to start a conversation.
+              </p>
+            </div>
+          )}
         </ul>
       </div>
 
@@ -203,13 +231,13 @@ const Chat = () => {
           <p>Error loading messages: {messagesError.message}</p>
         )}
         {!isChatOpen && (
-          <div className='flex items-center justify-center h-full text-gray-500'>
+          <div className='flex items-center justify-center h-full text-gray-500 text-sm md:text-base'>
             <p>Select a user to start chatting.</p>
           </div>
         )}
         {isChatOpen && (
           <>
-            <div className='flex-1 overflow-y-auto p-4 space-y-3'>
+            <div className='flex-1 overflow-y-auto p-3 md:p-4 space-y-2 md:space-y-3'>
               {messages && messages.length > 0 ? (
                 messages.map((msg, index) => (
                   <Message
@@ -224,10 +252,10 @@ const Chat = () => {
               <div ref={messagesEndRef} />
             </div>
 
-            <div className='sticky bottom-0 bg-white p-4 shadow-md flex items-center'>
+            <div className='sticky bottom-0 bg-white p-3 md:p-4 shadow-md flex items-center'>
               <input
                 type='text'
-                className='w-full p-2 border border-gray-300 rounded-lg focus:outline-none'
+                className='w-full p-2 text-xs md:text-sm border border-gray-300 rounded-lg focus:outline-none'
                 value={inputText}
                 onChange={handleInputChange}
                 onKeyDown={handleSendMessage}
@@ -235,9 +263,9 @@ const Chat = () => {
               />
               <button
                 onClick={handleSendMessage}
-                className='ml-2 p-3 bg-[#c19846] text-white rounded-full shadow-md hover:scale-105 transition-all  focus:outline-none flex items-center justify-center'
+                className='ml-2 p-2 md:p-3 bg-[#c19846] text-white rounded-full shadow-md hover:scale-105 transition-all focus:outline-none flex items-center justify-center'
               >
-                <IoSend size={20} />
+                <IoSend size={16} />
               </button>
             </div>
           </>

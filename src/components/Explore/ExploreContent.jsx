@@ -34,7 +34,6 @@ const ExploreContent = () => {
   useEffect(() => {
     window.scroll(0, 0);
   }, [currentPage]);
-
   return (
     <main>
       <div className='relative sm:aspect-video h-[40vh] sm:h-[80vh] md:aspect-auto rounded overflow-hidden'>
