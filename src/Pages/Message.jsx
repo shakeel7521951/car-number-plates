@@ -8,10 +8,10 @@ import {
 import { useLocation, useNavigate } from 'react-router-dom';
 import io from 'socket.io-client';
 import { baseUrl } from '../BaseUrl';
+import { IoSend } from 'react-icons/io5';
 
 const socket = io(baseUrl);
 
-// Message component to display each message
 const Message = ({ message, isOwnMessage }) => {
   const formattedTimestamp = new Date(message.timestamp).toLocaleString();
 
@@ -40,17 +40,21 @@ const Message = ({ message, isOwnMessage }) => {
 const Chat = () => {
   const [inputText, setInputText] = useState('');
   const [messages, setMessages] = useState([]);
-  const [users, setUsers] = useState([]); // State to store users for the sidebar
+  const [users, setUsers] = useState([]);
   const { profile } = useSelector((state) => state.user);
   const location = useLocation();
   const navigate = useNavigate();
   const messagesEndRef = useRef(null);
   const debounceTimeoutRef = useRef(null);
 
+  // Extract parameters from URL
   const sellerIdParam = new URLSearchParams(location.search).get('sellerId');
   const buyerIdParam = new URLSearchParams(location.search).get('buyerId');
 
+  const activeUserId = profile?.role === 'buyer' ? sellerIdParam : buyerIdParam;
+
   const isChatOpen = sellerIdParam || buyerIdParam;
+
   const {
     data: initialMessages,
     isLoading: isMessagesLoading,
@@ -73,30 +77,42 @@ const Chat = () => {
   const [sendMessage] = useSendMessageMutation();
 
   useEffect(() => {
-    // Set initial messages on component mount
     if (initialMessages && initialMessages.length > 0) {
       setMessages(initialMessages);
     }
 
     socket.on('onMessage', (message) => {
-      console.log('Received new message socket:', message);
-      setMessages((prevMessages) => [...prevMessages, message]); // Append new message
+      setMessages((prevMessages) => [...prevMessages, message]);
+
+      // Update the users list with the latest message
+      setUsers((prevUsers) =>
+        prevUsers.map((user) => {
+          const userId =
+            profile?.role === 'buyer' ? user?.seller?._id : user?.buyer?._id;
+
+          if (userId === message.sender || userId === message.receiver) {
+            return {
+              ...user,
+              lastMessage: message.content,
+            };
+          }
+          return user;
+        })
+      );
     });
 
     return () => {
       socket.off('onMessage');
     };
-  }, [initialMessages]);
+  }, [initialMessages, profile?.role]);
 
   useEffect(() => {
-    // Fetch and set users for the sidebar
     if (usersData && usersData.length > 0) {
       setUsers(usersData);
     }
   }, [usersData]);
 
   useEffect(() => {
-    // Scroll to the bottom when messages update
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
     }
@@ -122,7 +138,7 @@ const Chat = () => {
   };
 
   const handleSendMessage = (e) => {
-    if (e.key === 'Enter' && inputText.trim()) {
+    if ((e.key === 'Enter' && inputText.trim()) || e.type === 'click') {
       const newMessage = {
         receiverId: profile?.role === 'seller' ? buyerIdParam : sellerIdParam,
         content: inputText,
@@ -132,51 +148,51 @@ const Chat = () => {
   };
 
   const handleUserClick = (userId) => {
-    // Navigate to the specific chat
     const param =
       profile?.role === 'seller' ? `buyerId=${userId}` : `sellerId=${userId}`;
     navigate(`/chat?${param}`);
   };
 
   return (
-    <div className='flex h-screen'>
+    <div className='flex h-[78vh]'>
       {/* Sidebar */}
       <div className='w-1/3 bg-gray-50 border-r border-gray-200 h-full p-4'>
         <h2 className='text-xl font-semibold mb-4'>Users</h2>
         {isUsersLoading && <p>Loading users...</p>}
         {isUsersError && <p>Error loading users: {usersError.message}</p>}
         <ul className='space-y-3'>
-          {users.map((user) => (
-            <li
-              key={user.buyer}
-              className='flex items-center p-3 bg-white shadow rounded-lg cursor-pointer hover:bg-gray-100'
-              onClick={() =>
-                handleUserClick(
-                  profile?.role === 'buyer'
-                    ? user?.seller?._id
-                    : user?.buyer?._id
-                )
-              }
-            >
-              <img
-                className='w-10 h-10 rounded-full mr-3'
-                src={
-                  profile?.role === 'buyer'
-                    ? user?.seller?.imageUrl
-                    : user?.buyer?.imageUrl
-                }
-                alt='User'
-              />
-              <div>
-                <p className='font-semibold'>
-                  {profile?.role === 'buyer'
-                    ? user?.seller?.name
-                    : user?.buyer?.name}
-                </p>
-                <p className='text-sm text-gray-600'>{user.lastMessage}</p>
-              </div>
-            </li>
-          ))}
+          {users?.map((user) => {
+            const userId =
+              profile?.role === 'buyer' ? user?.seller?._id : user?.buyer?._id;
+            const isActive = userId === activeUserId; // Check if user is active
+            return (
+              <li
+                key={userId}
+                className={`flex items-center p-3 bg-white shadow rounded-lg cursor-pointer hover:bg-gray-100 ${
+                  isActive ? 'bg-blue-100 border-l-4 border-blue-500' : ''
+                }`}
+                onClick={() => handleUserClick(userId)}
+              >
+                <img
+                  className='w-10 h-10 rounded-full mr-3'
+                  src={
+                    profile?.role === 'buyer'
+                      ? user?.seller?.imageUrl
+                      : user?.buyer?.imageUrl
+                  }
+                  alt='User'
+                />
+                <div>
+                  <p className='font-semibold'>
+                    {profile?.role === 'buyer'
+                      ? user?.seller?.name
+                      : user?.buyer?.name}
+                  </p>
+                  <p className='text-sm text-gray-600'>{user.lastMessage}</p>
+                </div>
+              </li>
+            );
+          })}
         </ul>
       </div>
 
@@ -208,7 +224,7 @@ const Chat = () => {
               <div ref={messagesEndRef} />
             </div>
 
-            <div className='sticky bottom-0 bg-white p-4 shadow-md'>
+            <div className='sticky bottom-0 bg-white p-4 shadow-md flex items-center'>
               <input
                 type='text'
                 className='w-full p-2 border border-gray-300 rounded-lg focus:outline-none'
@@ -217,6 +233,12 @@ const Chat = () => {
                 onKeyDown={handleSendMessage}
                 placeholder='Type a message...'
               />
+              <button
+                onClick={handleSendMessage}
+                className='ml-2 p-3 bg-[#c19846] text-white rounded-full shadow-md hover:scale-105 transition-all  focus:outline-none flex items-center justify-center'
+              >
+                <IoSend size={20} />
+              </button>
             </div>
           </>
         )}

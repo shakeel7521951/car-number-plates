@@ -1,6 +1,11 @@
 // App.js
 import React, { useEffect } from 'react';
-import { RouterProvider, createBrowserRouter, Outlet } from 'react-router-dom';
+import {
+  RouterProvider,
+  createBrowserRouter,
+  Outlet,
+  useLocation,
+} from 'react-router-dom';
 import './App.css';
 import Navbar from './components/Navbar/Navbar';
 import Footer from './components/Footer';
@@ -40,13 +45,16 @@ import MyOrders from './Pages/MyOrders.jsx';
 import VerifySignupOpt from './Pages/VerifySignupOtp.jsx';
 import ErrorPage from './Pages/ErrorPage.jsx';
 
-const MainLayout = () => (
-  <>
-    <Navbar />
-    <Outlet />
-    <Footer />
-  </>
-);
+const MainLayout = () => {
+  const location = useLocation();
+  return (
+    <>
+      <Navbar />
+      <Outlet />
+      {location.pathname !== '/chat' && <Footer />}
+    </>
+  );
+};
 
 const DashboardLayout = () => {
   return (
