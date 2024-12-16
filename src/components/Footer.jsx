@@ -1,75 +1,79 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React from "react";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   const { language } = useSelector((state) => state.language);
 
   const footerSections = [
     {
-      title: { eng: 'Resources', arabic: 'الموارد' },
+      title: { eng: "Resources", arabic: "الموارد" },
       items: [
-        { eng: 'Documentation', arabic: 'التوثيق', link: '#' },
-        { eng: 'API', arabic: 'واجهة برمجة التطبيقات', link: '#' },
-        { eng: 'Support', arabic: 'الدعم', link: '#' },
-        { eng: 'FAQ', arabic: 'الأسئلة الشائعة', link: '#' },
+        { eng: "Support", arabic: "الدعم", link: "/faqs" },
+        { eng: "FAQ", arabic: "الأسئلة الشائعة", link: "/faqs" },
       ],
     },
     {
-      title: { eng: 'Help', arabic: 'المساعدة' },
+      title: { eng: "Help", arabic: "المساعدة" },
       items: [
-        { eng: 'Customer Service', arabic: 'خدمة العملاء', link: '#' },
-        { eng: 'Contact Us', arabic: 'اتصل بنا', link: '#' },
-        { eng: 'Order Tracking', arabic: 'تتبع الطلب', link: '#' },
-        { eng: 'Return Policy', arabic: 'سياسة الإرجاع', link: '#' },
-      ],
-    },
-    {
-      title: { eng: 'Company', arabic: 'الشركة' },
-      items: [
-        { eng: 'About Us', arabic: 'معلومات عنا', link: '#' },
-        { eng: 'Careers', arabic: 'الوظائف', link: '#' },
-        { eng: 'Press', arabic: 'الصحافة', link: '#' },
-        { eng: 'Blog', arabic: 'المدونة', link: '#' },
-      ],
-    },
-    {
-      title: { eng: 'Promotion & Discount', arabic: 'العروض والخصومات' },
-      items: [
+        { eng: "Inbox", arabic: "خدمة العملاء", link: "/chat" },
         {
-          eng: 'Sign Up for Deals',
-          arabic: 'اشترك للحصول على العروض',
-          link: '#',
+          eng: "Contact Us",
+          arabic: "اتصل بنا",
+          link: "mailto:info@lusailnumers.com",
         },
-        { eng: 'Student Discounts', arabic: 'خصومات الطلاب', link: '#' },
-        { eng: 'Referral Program', arabic: 'برنامج الإحالة', link: '#' },
-        { eng: 'Seasonal Offers', arabic: 'العروض الموسمية', link: '#' },
+      ],
+    },
+    {
+      title: { eng: "Company", arabic: "الشركة" },
+      items: [
+        { eng: "Home", arabic: "معلومات عنا", link: "/" },
+        { eng: "Sign Up", arabic: "التسجيل", link: "/login" },
+        { eng: "Explore", arabic: "اكتشف", link: "/explore" },
+      ],
+    },
+    {
+      title: { eng: "User", arabic: "المستخدم" },
+      items: [
+        { eng: "Sign Up", arabic: "اشترك", link: "/login" },
+        { eng: "Profile", arabic: "الملف الشخصي", link: "/dashboard" },
+        { eng: "Post Template", arabic: "إنشاء قالب", link: "/createPlate" },
       ],
     },
   ];
-  // console.log('first', footerSections[0]?.title[language]);
+
   return (
     <footer
       className={`text-white py-8 max-w-[90vw] mx-auto ${
-        language === 'arabic' ? 'text-right' : 'text-left'
+        language === "arabic" ? "text-right" : "text-left"
       }`}
     >
-      <div className='container mx-auto border-t border-gray-600 pt-4'>
+      <div className="container pt-4 mx-auto border-t border-gray-600">
         {/* First row with sections */}
-        <div className='grid grid-cols-2 sm:grid-cols-4 gap-8'>
+        <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
           {footerSections.map((section, index) => (
             <div key={index}>
-              <h3 className='text-lg font-bold mb-4'>
+              <h3 className="mb-4 text-lg font-bold">
                 {section?.title[language]}
               </h3>
               <ul>
                 {section?.items?.map((item, idx) => (
                   <li key={idx}>
-                    <a
-                      href={item.link}
-                      className='hover:text-[#dad6d6] transition-all'
-                    >
-                      {item[language]}
-                    </a>
+                    {item.link.startsWith("mailto:") ? (
+                      <a
+                        href={item.link}
+                        className="hover:text-[#dad6d6] transition-all"
+                      >
+                        {item[language]}
+                      </a>
+                    ) : (
+                      <Link
+                        to={item.link}
+                        className="hover:text-[#dad6d6] transition-all"
+                      >
+                        {item[language]}
+                      </Link>
+                    )}
                   </li>
                 ))}
               </ul>
@@ -78,20 +82,26 @@ const Footer = () => {
         </div>
 
         {/* Footer bottom row */}
-        <div className='flex justify-between items-center mt-8 border-t border-gray-600 pt-4'>
-          <p className='text-sm'>
-            {language === 'eng'
-              ? '© 2024 All rights reserved'
-              : '© 2024 جميع الحقوق محفوظة'}
+        <div className="flex items-center justify-between pt-4 mt-8 border-t border-gray-600">
+          <p className="text-sm">
+            {language === "eng"
+              ? "© 2024 All rights reserved"
+              : "© 2024 جميع الحقوق محفوظة"}
           </p>
           <div>
-            <a href='#' className='hover:text-[#dad6d6] transition-all text-sm'>
-              {language === 'eng' ? 'Privacy Policay' : 'سياسة الخصوصية'}
-            </a>
-            <span className='mx-2'>|</span>
-            <a href='#' className='hover:text-[#dad6d6] transition-all text-sm'>
-              {language === 'eng' ? 'Terms of Service' : 'شروط الخدمة'}
-            </a>
+            <Link
+              to="/privacy-policy"
+              className="hover:text-[#dad6d6] transition-all text-sm"
+            >
+              {language === "eng" ? "Privacy Policy" : "سياسة الخصوصية"}
+            </Link>
+            <span className="mx-2">|</span>
+            <Link
+              to="/terms-of-service"
+              className="hover:text-[#dad6d6] transition-all text-sm"
+            >
+              {language === "eng" ? "Terms of Service" : "شروط الخدمة"}
+            </Link>
           </div>
         </div>
       </div>
