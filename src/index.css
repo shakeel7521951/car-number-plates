@@ -72,3 +72,11 @@ body {
 ::-webkit-scrollbar {
   display: none;
 }
+
+/* Hide Swiper navigation buttons on mobile devices */
+@media (max-width: 768px) {
+  .swiper-button-next,
+  .swiper-button-prev {
+    display: none !important;
+  }
+}
