@@ -1,8 +1,9 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 
-const ProtectedRoute = ({ allowedRoles, children }) => {
+const ProtectedChat = ({ allowedRoles, children }) => {
   const { profile } = useSelector((state) => state.user);
 
   if (!profile) {
@@ -13,7 +14,8 @@ const ProtectedRoute = ({ allowedRoles, children }) => {
     return children;
   }
 
-  return <Navigate to='/' replace />;
+  toast.warn(`Only buyers can initiate chat.`);
+  return <Navigate to='/login' replace />;
 };
 
-export default ProtectedRoute;
+export default ProtectedChat;

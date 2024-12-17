@@ -44,6 +44,7 @@ import ResetPassword from './Pages/ResetPassword.jsx';
 import MyOrders from './Pages/MyOrders.jsx';
 import VerifySignupOpt from './Pages/VerifySignupOtp.jsx';
 import ErrorPage from './Pages/ErrorPage.jsx';
+import ProtectedChat from './Pages/ProtectedChat.jsx';
 
 const MainLayout = () => {
   const location = useLocation();
@@ -82,8 +83,18 @@ const router = createBrowserRouter([
       { path: '/gold', element: <Golden /> },
       { path: '/vip', element: <Vip /> },
       { path: '/single-card/:id', element: <PlateDetailPage /> },
-      { path: '/faqs', element: <Chat /> },
-      { path: '/chat', element: <Message /> },
+      {
+        path: '/faqs',
+        element: <Chat />,
+      },
+      {
+        path: '/chat',
+        element: (
+          <ProtectedChat allowedRoles={['seller', 'buyer']}>
+            <Message />
+          </ProtectedChat>
+        ),
+      },
 
       {
         path: '/update-password',
