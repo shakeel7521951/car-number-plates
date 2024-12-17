@@ -23,8 +23,10 @@ const MessageBox = () => {
   console.log('notifications data', notificationsData);
 
   useEffect(() => {
-    const socket = io(baseUrl, {
-      transports: ['websocket'], // Ensure WebSocket is being used
+    const socket = io('https://backend.lusailnumbers.com/api/api/v1', {
+      //change back baseurl
+      transports: ['websocket', 'polling'], // Ensure WebSocket is being used
+      withCredentials: true,
     });
 
     socket.on('connect', () => {

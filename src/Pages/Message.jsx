@@ -7,11 +7,14 @@ import {
 } from '../Redux/messageRoute/messageApi';
 import { useLocation, useNavigate } from 'react-router-dom';
 import io from 'socket.io-client';
-import { baseUrl } from '../BaseUrl';
+// import { baseUrl } from '../BaseUrl';
 import { IoSend } from 'react-icons/io5';
 
-const socket = io(baseUrl);
-
+const socket = io('https://backend.lusailnumbers.com/api/api/v1', {
+  //remove the baseurl
+  transports: ['websocket', 'polling'], // Ensure WebSocket is being used
+  withCredentials: true,
+});
 const Message = ({ message, isOwnMessage }) => {
   const formattedTimestamp = new Date(message.timestamp).toLocaleString();
 
