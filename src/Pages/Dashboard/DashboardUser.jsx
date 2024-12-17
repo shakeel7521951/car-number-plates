@@ -68,7 +68,7 @@ const DashboardUser = () => {
   };
 
   return (
-    <div className='w-[82%] mx-auto'>
+    <div className='w-[100%] md:w-[82%] mx-auto'>
       <h1 className='text-xl font-semibold mb-4 lg:text-left text-center'>
         {language === 'eng' ? 'Users' : 'المستخدمين'}
       </h1>

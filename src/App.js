@@ -62,8 +62,8 @@ const DashboardLayout = () => {
     <div style={{ display: 'flex' }}>
       <DashboardSidebar />
       <div
-        style={{ flex: 1, padding: '20px' }}
-        className='lg:ml-[18%] overflow-x-hidden'
+        style={{ flex: 1 }}
+        className='lg:ml-[18%] overflow-x-hidden p-1 md:p-4 mt-6 md:mt-0'
       >
         <Outlet />
       </div>

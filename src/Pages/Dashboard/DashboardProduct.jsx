@@ -82,7 +82,7 @@ const DashboardProduct = () => {
   };
 
   return (
-    <div className='w-[90%] mx-auto'>
+    <div className='w-[100%] md:w-[90%] mx-auto'>
       <h1 className='text-xl font-semibold mb-4 lg:text-left text-center'>
         {language === 'eng' ? 'Products' : 'منتجات'}
       </h1>
