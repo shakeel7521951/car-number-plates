@@ -48,17 +48,17 @@ const Footer = () => {
         language === "arabic" ? "text-right" : "text-left"
       }`}
     >
-      <div className="container pt-4 mx-auto border-t border-gray-600">
+      <div className="container pt-2 md:pt-4 mx-auto border-t border-gray-600">
         {/* First row with sections */}
-        <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
+        <div className="grid grid-cols-2 gap-2 md:gap-8 sm:grid-cols-4">
           {footerSections.map((section, index) => (
             <div key={index}>
-              <h3 className="mb-4 text-lg font-bold">
+              <h3 className="md:mb-4 text-sm md:text-md font-bold">
                 {section?.title[language]}
               </h3>
               <ul>
                 {section?.items?.map((item, idx) => (
-                  <li key={idx}>
+                  <li key={idx} className="text-[12px] md:text-[15px] font-normal" >
                     {item.link.startsWith("mailto:") ? (
                       <a
                         href={item.link}
@@ -82,7 +82,7 @@ const Footer = () => {
         </div>
 
         {/* Footer bottom row */}
-        <div className="flex items-center justify-between pt-4 mt-8 border-t border-gray-600">
+        <div className="flex items-center justify-between pt-4  mt-8 border-t border-gray-600">
           <p className="text-sm">
             {language === "eng"
               ? "© 2024 All rights reserved"

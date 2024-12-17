@@ -122,9 +122,9 @@ const ExploreCard = ({
   };
 
   return (
-    <main className='bg-[#FFD200] shadow-2xl border-[#EFF312] border-2 px-4 rounded-md text-black transition-transform duration-300 ease-in-out hover:scale-[1.02] hover:shadow-[0_8px_16px_rgba(0,0,0,0.3)]'>
+    <main className='bg-[#FFD200] w-[90%] md:w-full m-auto shadow-2xl border-[#EFF312] border-2 px-4 rounded-md text-black transition-transform duration-300 ease-in-out hover:scale-[1.02] hover:shadow-[0_8px_16px_rgba(0,0,0,0.3)]'>
       <div className='flex items-center justify-between mt-4'>
-        <h1 className='text-lg font-semibold'>
+        <h1 className='text-sm md:text-lg font-semibold'>
           {language === 'eng' ? 'Plate Number' : 'رقم اللوحة'}
         </h1>
         <aside className='flex justify-center items-center gap-4 font-bold'>
@@ -145,14 +145,14 @@ const ExploreCard = ({
         </aside>
       </div>
 
-      <div className='my-6'>
+      <div className='my-2 md:my-6'>
         <Link to={`/single-card/${_id}`} onClick={handleImageClick}>
           <PlateNumber plateNo={plateNo} />
         </Link>
       </div>
       <main className='flex justify-between items-center'>
         <div>
-          <h1 className='text-lg font-semibold'>
+          <h1 className='text-sm md:text-lg font-semibold'>
             {language === 'eng'
               ? `Private Plate ${plateNo}`
               : `اللوحة الخاصة ${plateNo}`}
@@ -171,20 +171,20 @@ const ExploreCard = ({
                   className='w-full h-full rounded-full'
                 />
               </div>
-              <h1 className='text-lg pr-4 font-semibold'>
+              <h1 className='text-sm md:text-lg pr-4 font-semibold'>
                 {language === 'eng' ? 'Message' : 'رسالة'}
               </h1>
             </div>
           )}
         </div>
         <div className='flex flex-col items-start justify-start'>
-          <h1 className='capitalize pb-8'>
+          <h1 className='capitalize pb-8 text-md md:text-lg'>
             {language === 'eng' ? 'Category :' : 'الفئة :'}{' '}
             <span className='text-gray-700'>{changeCategory || category}</span>
           </h1>
           <div className='text-end flex items-center flex-col'>
             <h1 className='text-[#92905F]'>{availabilityStatus}</h1>
-            <p className='text-[10px]'>
+            <p className='text-sm md:text-md'>
               {language === 'eng' ? 'Transfer By Metrash' : 'نقل عبر مترش'}
             </p>
           </div>
@@ -206,9 +206,9 @@ const ExploreCard = ({
 
       <div className='flex items-end justify-end gap-4 my-4'>
         {discountpercent !== 0 && (
-          <h1 className='line-through text-gray-600'>{price} Q.T</h1>
+          <h1 className='line-through text-gray-600 text-md md:text-lg'>{price} Q.T</h1>
         )}
-        <h1 className='text-xl font-bold'>{discountedPrice} Q.T</h1>
+        <h1 className='text-md md:text-lg font-bold'>{discountedPrice} Q.T</h1>
       </div>
     </main>
   );

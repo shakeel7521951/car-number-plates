@@ -7,7 +7,7 @@ const Summary = () => {
   const { language } = useSelector((state) => state.language);
   const { profile } = useSelector((state) => state.user);
   return (
-    <main className='py-12 rounded-2xl shadow-2xl bg-white text-black mx-4'>
+    <main className='py-4 md:py-10 rounded-2xl shadow-2xl bg-white text-black mx-4'>
       <div
         className={`w-full py-2 max-w-[1582px] h-auto px-2 rounded-[25px] sm:px-8 flex flex-col lg:flex-row items-center gap-6 mx-auto ${
           language === 'eng' ? 'lg:text-left' : 'lg:text-right'
@@ -22,14 +22,14 @@ const Summary = () => {
           } gap-4`}
         >
           {/* Main Heading */}
-          <div className="text-3xl sm:text-5xl lg:text-6xl font-normal font-['Katibeh']">
+          <div className="text-2xl sm:text-3xl lg:text-5xl font-normal font-['Katibeh']">
             {language === 'eng'
               ? 'QATAR plates services at your fingertips'
               : 'خدمات لوحات قطر بين يديك'}
           </div>
 
           {/* Description Text */}
-          <div className='sm:text-lg lg:text-xl font-light font-inter'>
+          <div className={`text-[12px] lg:text-[16px] font-light font-inter text-justify px-3 md:px-0 ${language === 'eng'? "md:text-left":"md:text-right"}`}>
             {language === 'eng'
               ? `Welcome to our innovative online platform, where buying and selling
                 exclusive car numbers is made simple and convenient. Whether you're
@@ -55,14 +55,14 @@ const Summary = () => {
         </div>
 
         {/* Image Section */}
-        <div className='flex mt-12 flex-col items-center gap-4 lg:gap-0 lg:items-end relative'>
+        <div className='flex mt-8 md:mt-12 flex-col items-center gap-4 lg:gap-0 lg:items-end relative'>
           <div className='w-max bg-[#9aaea3]/50 rounded-[50px] sm:rounded-[70px] backdrop-blur-[15px] flex flex-col items-center justify-center p-4 sm:p-4 absolute -top-12'>
-            <div className='text-white text-lg sm:text-xl font-bold font-inter'>
+            <div className='text-white text-[12px] sm:text-lg  font-bold font-inter'>
               {language === 'eng'
                 ? 'Best Quality Number plates'
                 : 'أفضل جودة للوحات الأرقام'}
             </div>
-            <div className='text-white text-sm sm:text-base font-medium font-inter'>
+            <div className='text-white text-[12px] sm:text-base font-medium font-inter'>
               {language === 'eng'
                 ? 'With 99% of happy Clients'
                 : 'مع 99% من العملاء السعداء'}
@@ -86,7 +86,7 @@ const Summary = () => {
       >
         {!profile && (
           <div className='bg-[#FFEA01B2] rounded-[15px] flex items-center justify-center cursor-pointer animated-button px-8 py-3'>
-            <Link to={'/login'} className='button-content text-xl'>
+            <Link to={'/login'} className='button-content text-[14px] md:text-xl'>
               {language === 'eng' ? 'Join Now' : 'انضم الآن'}
             </Link>
           </div>

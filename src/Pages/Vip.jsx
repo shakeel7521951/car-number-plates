@@ -59,7 +59,7 @@ const Vip = () => {
         />
         <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-between p-4 md:px-12 md:py-8">
           <div>
-            <h1 className="text-white font-bold text-xl sm:text-4xl">
+            <h1 className="text-white font-bold text-lg md:text-xl sm:text-4xl">
               {language === "eng"
                 ? "Vip Number Plates"
                 : "لوحات أرقام كبار الشخصيات"}
@@ -68,14 +68,14 @@ const Vip = () => {
               {language === "eng" ? "Qatar 8873" : "قطر 8873"} <br />{" "}
               {language === "eng" ? "Best Price" : "أفضل الأسعار"}
             </p>
-            <div className="flex items-center gap-4 font-semibold">
+            <div className="flex items-center gap-4 font-semibold mt-3">
               <button className="px-4 py-1 sm:py-3 animated-button rounded-xl bg-white sm:mt-3">
-                <Link to="/explore" className="button-content text-lg">
+                <Link to="/explore" className="button-content text-md md:text-lg">
                   {language === "eng" ? "Number Plates" : "لوحات أرقام"}
                 </Link>
               </button>
               <button className="px-4 py-1 sm:py-3 animated-button rounded-xl bg-white sm:mt-3">
-                <span className="button-content text-lg">
+                <span className="button-content text-md md:text-lg">
                   {language === "eng" ? "Book Now" : "احجز الآن"}
                 </span>
               </button>
@@ -90,7 +90,7 @@ const Vip = () => {
       </div>
 
       <h1
-        className={`font-bold text-black my-4 text-4xl ${
+        className={`font-bold text-black my-4 text-2xl md:text-4xl ${
           language === "eng" ? "text-left" : "text-right"
         }`}
       >
